@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.adcp.read_bin &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.adcp.read_bin</h1><div class="highlight"><pre>
+<span class="c"># This file reads binary data files.</span>
+<span class="c"># It is mostly for development purposes, to simplify learning a data file&#39;s format.</span>
+<span class="c"># For final use, reading binary data files should minimize the number of calls to struct.unpack and file.read</span>
+<span class="c"># because many calls to these functions (i.e. using the code in this module) are slow.</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">expanduser</span>
+
+<span class="n">ics</span><span class="o">=</span><span class="mi">0</span> <span class="c"># This is a holder for the checksum index</span>
+
+<div class="viewcode-block" id="eofException"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.eofException">[docs]</a><span class="k">class</span> <span class="nc">eofException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="CheckSumError"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.CheckSumError">[docs]</a><span class="k">class</span> <span class="nc">CheckSumError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="checksum"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.checksum">[docs]</a><span class="k">class</span> <span class="nc">checksum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="c"># In that case, it *might* be nice to include functionality for nested checksums, but that seems a bit overkill at this point.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">file</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">error_behavior</span><span class="o">=</span><span class="s">&#39;exception&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Value *val* to initialize the checksum with,</span>
+<span class="sd">        and the *size* of the checksum (in bytes, currently this can only be 1,2,4 or 8).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">=</span><span class="nb">file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">error_behavior</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="checksum.init"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.checksum.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">error_behavior</span><span class="o">=</span><span class="s">&#39;exception&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cs</span><span class="o">=</span><span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="o">=</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frmt</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">&#39;B&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="s">&#39;H&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">:</span><span class="s">&#39;Q&#39;</span><span class="p">}[</span><span class="n">size</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">size</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c">## I&#39;d like to add different behavior for the checksum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_behavior</span><span class="o">=</span><span class="n">error_behavior</span>
+        
+</div>
+<div class="viewcode-block" id="checksum.error"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.checksum.error">[docs]</a>    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">==</span><span class="s">&#39;rem&#39;</span><span class="p">:</span>
+            <span class="n">message</span><span class="o">=</span><span class="s">&#39;A remainder exists in the checksum.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span><span class="o">=</span><span class="s">&#39;Checksum failed at </span><span class="si">%d</span><span class="s">, with a difference of </span><span class="si">%d</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_behavior</span><span class="o">==</span><span class="s">&#39;warning&#39;</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span> <span class="s">&#39;Warning: &#39;</span><span class="o">+</span><span class="n">message</span> <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_behavior</span><span class="o">==</span><span class="s">&#39;silent&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CheckSumError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        
+</div>
+<div class="viewcode-block" id="checksum.__call__"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.checksum.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">remove_val</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare the checksum to *val*.</span>
+<span class="sd">        *remove_val* specifies whether *val* should be removed from self._cs because it was already added to it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;rem&#39;</span><span class="p">)</span>
+        <span class="n">retval</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cs</span><span class="o">-</span><span class="n">val</span><span class="o">*</span><span class="n">remove_val</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span><span class="p">)</span><span class="o">-</span><span class="n">val</span>
+        <span class="k">if</span> <span class="n">retval</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">retval</span> <span class="c"># returns zero if their is no remainder</span>
+</div>
+<div class="viewcode-block" id="checksum.add"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.checksum.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">valcs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the data in *valcs* to the checksum.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="p">:</span> <span class="c"># If the cs remainder is not empty:</span>
+            <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
+            <span class="n">ics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="o">-</span><span class="n">lr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="p">,</span><span class="n">valcs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="o">+</span><span class="n">valcs</span><span class="p">[:</span><span class="n">ics</span><span class="p">],</span><span class="n">valcs</span><span class="p">[</span><span class="n">ics</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">lr</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cs</span><span class="o">+=</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">endian</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_frmt</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">valcs</span><span class="p">:</span> <span class="c"># If valcs is not empty:</span>
+            <span class="n">ics</span><span class="o">=</span><span class="p">(</span><span class="n">valcs</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">endian</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_frmt</span><span class="o">*</span><span class="p">(</span><span class="n">ics</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">),</span><span class="n">valcs</span><span class="p">[:</span><span class="n">ics</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cs</span><span class="o">+=</span><span class="n">v</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rem</span><span class="o">+=</span><span class="n">valcs</span><span class="p">[</span><span class="n">ics</span><span class="p">:]</span>
+</div>
+    <span class="n">__iadd__</span><span class="o">=</span><span class="n">add</span>
+</div>
+<div class="viewcode-block" id="bin_reader"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader">[docs]</a><span class="k">class</span> <span class="nc">bin_reader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c">#### I may want to write this class in C at some point, to speed things up.</span>
+    <span class="n">_size_factor</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;B&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;H&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;h&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s">&#39;d&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">}</span>
+    <span class="n">_frmt</span><span class="o">=</span><span class="p">{</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span><span class="s">&#39;B&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">:</span><span class="s">&#39;b&#39;</span><span class="p">,</span>
+           <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">:</span><span class="s">&#39;H&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">:</span><span class="s">&#39;h&#39;</span><span class="p">,</span>
+           <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">:</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">:</span><span class="s">&#39;l&#39;</span><span class="p">,</span>
+           <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">:</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span><span class="s">&#39;f&#39;</span><span class="p">,</span>
+           <span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">:</span><span class="s">&#39;d&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span><span class="s">&#39;d&#39;</span><span class="p">,</span>
+           <span class="p">}</span>
+           
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="bin_reader.pos"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.pos">[docs]</a>    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fname</span><span class="p">,</span><span class="n">endian</span><span class="o">=</span><span class="s">&#39;&lt;&#39;</span><span class="p">,</span><span class="n">checksum_size</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default to little-endian &#39;&lt;&#39;...</span>
+<span class="sd">        *checksum_size* is in bytes, if it is None or False, this function does not perform checksums.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endian</span><span class="o">=</span><span class="n">endian</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">close</span>
+        <span class="c">#if progbar_size is not None:</span>
+        <span class="c">#    self.progbar=progress_bar(self.fsize,progbar_size)</span>
+        <span class="k">if</span> <span class="n">checksum_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">=</span><span class="n">checksum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">checksum_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">=</span><span class="n">checksum_size</span>
+
+<div class="viewcode-block" id="bin_reader.checksum"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.checksum">[docs]</a>    <span class="k">def</span> <span class="nf">checksum</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The next byte(s) are the expected checksum.  Perform the checksum.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">:</span>
+            <span class="n">cs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">.</span><span class="n">_frmt</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CheckSumError</span><span class="p">(</span><span class="s">&#39;CheckSum not requested for this file&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.tell"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.tell">[docs]</a>    <span class="k">def</span> <span class="nf">tell</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="bin_reader.seek"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.seek">[docs]</a>    <span class="k">def</span> <span class="nf">seek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pos</span><span class="p">,</span><span class="n">rel</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="n">rel</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="bin_reader.reads"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.reads">[docs]</a>    <span class="k">def</span> <span class="nf">reads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read a string of n characters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>
+    </div>
+<div class="viewcode-block" id="bin_reader.read"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">frmt</span><span class="p">):</span>
+        <span class="c">#if frmt.__class__ is type:</span>
+        <span class="c">#    frmt=self._frmt[frmt]</span>
+        <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_size_factor</span><span class="p">[</span><span class="n">frmt</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span> <span class="c"># If val is empty we are at the end of the file.</span>
+            <span class="k">raise</span> <span class="n">eofException</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span><span class="o">+</span><span class="n">frmt</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span><span class="o">+</span><span class="n">frmt</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_ui8"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_ui8">[docs]</a>    <span class="k">def</span> <span class="nf">read_ui8</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;B&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_float"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_float">[docs]</a>    <span class="k">def</span> <span class="nf">read_float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_double"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_double">[docs]</a>    <span class="k">def</span> <span class="nf">read_double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+</div>
+    <span class="n">read_f32</span><span class="o">=</span><span class="n">read_float</span>
+    <span class="n">read_f64</span><span class="o">=</span><span class="n">read_double</span>
+    
+<div class="viewcode-block" id="bin_reader.read_i8"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_i8">[docs]</a>    <span class="k">def</span> <span class="nf">read_i8</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_ui16"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_ui16">[docs]</a>    <span class="k">def</span> <span class="nf">read_ui16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;H&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_i16"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_i16">[docs]</a>    <span class="k">def</span> <span class="nf">read_i16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="bin_reader.read_ui32"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_ui32">[docs]</a>    <span class="k">def</span> <span class="nf">read_ui32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="bin_reader.read_i32"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_i32">[docs]</a>    <span class="k">def</span> <span class="nf">read_i32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="bin_reader.read_nbytes"><a class="viewcode-back" href="../../../api/dolfyn.adcp.html#dolfyn.adcp.read_bin.bin_reader.read_nbytes">[docs]</a>    <span class="k">def</span> <span class="nf">read_nbytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.adv.turbulence &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.adv.turbulence</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..data.velocity</span> <span class="kn">import</span> <span class="n">vel_binner_spec</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">adv_binned</span>
+<span class="kn">from</span> <span class="nn">..tools.misc</span> <span class="kn">import</span> <span class="n">slice1d_along_axis</span>
+<span class="n">kappa</span><span class="o">=</span><span class="mf">0.41</span>
+
+<div class="viewcode-block" id="turb_binner"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner">[docs]</a><span class="k">class</span> <span class="nc">turb_binner</span><span class="p">(</span><span class="n">vel_binner_spec</span><span class="p">):</span>
+
+<div class="viewcode-block" id="turb_binner.__call__"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advr</span><span class="p">,</span><span class="n">out_type</span><span class="o">=</span><span class="n">adv_binned</span><span class="p">,</span><span class="n">omega_range_epsilon</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span><span class="mf">12.57</span><span class="p">],</span><span class="n">Itke_thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a suite of turbulence statistics for the input data advr, and</span>
+<span class="sd">        return a &#39;binned&#39; data object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *advr*                : The raw-adv object.</span>
+<span class="sd">        *omega_range_epsilon* : The radial frequency over which to estimate the</span>
+<span class="sd">                                dissipation rate &#39;epsilon&#39;.</span>
+<span class="sd">        *Itke_thresh*         : The threshold for velocity magnitude for computing</span>
+<span class="sd">                                the turbulence intensity. Values of Itke where</span>
+<span class="sd">                                U_mag &lt; Itke_thresh are set to NaN.  (default: 0).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">vel_binner_spec</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advr</span><span class="p">,</span><span class="n">out_type</span><span class="o">=</span><span class="n">out_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_avg</span><span class="p">(</span><span class="n">advr</span><span class="p">,</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;tke&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_tke</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">_u</span><span class="p">,</span><span class="n">noise</span><span class="o">=</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">),</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;stress&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_stress</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">_u</span><span class="p">),</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;sigma_Uh&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">U_mag</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;Itke_thresh&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Itke_thresh</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spec&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_vel_psd</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">_u</span><span class="p">,</span><span class="n">noise</span><span class="o">=</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">),</span><span class="s">&#39;spec&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;omega&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_omega</span><span class="p">(),</span><span class="s">&#39;_essential&#39;</span><span class="p">)</span>
+        
+        <span class="c">#out.add_data(&#39;epsilon&#39;,self.calc_epsilon_LT83(out.Spec,out.omega,out.U_mag,omega_range=omega_range_epsilon),&#39;main&#39;)</span>
+        <span class="c">#out.add_data(&#39;Acov&#39;,self.calc_acov(advr._u),&#39;corr&#39;)</span>
+        <span class="c">#out.add_data(&#39;Lint&#39;,self.calc_Lint(out.Acov,out.U_mag),&#39;main&#39;)</span>
+        <span class="k">return</span> <span class="n">out</span>
+        </div>
+<div class="viewcode-block" id="turb_binner.calc_epsilon_LT83"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.calc_epsilon_LT83">[docs]</a>    <span class="k">def</span> <span class="nf">calc_epsilon_LT83</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">spec</span><span class="p">,</span><span class="n">omega</span><span class="p">,</span><span class="n">U_mag</span><span class="p">,</span><span class="n">omega_range</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span><span class="mf">12.57</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the simple S(k)=alpha*\epsilon**(2/3)*k**(-5/3) model for estimating dissipation.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inds</span><span class="o">=</span><span class="p">(</span><span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">omega</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">omega</span><span class="o">&lt;</span><span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="n">f_shp</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">[</span><span class="n">inds</span><span class="o">.</span><span class="n">sum</span><span class="p">()]</span>
+        <span class="c"># !!!CHECKTHIS... should U_mag be inside the ()**5/3?</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">inds</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">omega</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">f_shp</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">/</span><span class="n">U_mag</span>
+</div>
+<div class="viewcode-block" id="turb_binner.calc_epsilon_SF"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.calc_epsilon_SF">[docs]</a>    <span class="k">def</span> <span class="nf">calc_epsilon_SF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">veldat</span><span class="p">,</span><span class="n">umag</span><span class="p">,</span><span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">freq_rng</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mf">5.</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate epsilon using the &quot;structure function&quot; (SF) method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *veldat*   : The raw velocity signal (last dimension time) upon which to</span>
+<span class="sd">                     perform the SF technique.</span>
+<span class="sd">        *umag*     : The bin-averaged horizontal velocity magnitude.</span>
+<span class="sd">        *fs*       : The sample rate of *veldat* (hz).</span>
+<span class="sd">        *freq_rng* : The frequency range over which to compute the SF (hz).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_fs</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">veldat</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="n">slice1d_along_axis</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">up</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span>
+            <span class="n">lag</span><span class="o">=</span><span class="n">umag</span><span class="p">[</span><span class="n">slc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">/</span><span class="n">fs</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">up</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">DAA</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="o">*</span><span class="n">lag</span>
+            <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="o">/</span><span class="n">freq_rng</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="o">/</span><span class="n">freq_rng</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="n">DAA</span><span class="p">[</span><span class="n">L</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">up</span><span class="p">[</span><span class="n">L</span><span class="p">:]</span><span class="o">-</span><span class="n">up</span><span class="p">[:</span><span class="o">-</span><span class="n">L</span><span class="p">])</span><span class="o">**</span><span class="mf">2.</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">=</span><span class="n">DAA</span><span class="o">/</span><span class="p">(</span><span class="n">lag</span><span class="o">**</span><span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
+            <span class="n">cv2m</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">cv2</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cv2</span><span class="p">))])</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">=</span><span class="p">(</span><span class="n">cv2m</span><span class="o">/</span><span class="mf">2.1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+    </div>
+<div class="viewcode-block" id="turb_binner.up_angle"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.up_angle">[docs]</a>    <span class="k">def</span> <span class="nf">up_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uh_complex</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the angle of the turbulence fluctuations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Uh_complex  : The complex horizontal velocity (raw/non-binned).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="n">Uh_complex</span><span class="p">)</span>
+        <span class="n">fx</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">imag</span><span class="o">&lt;=</span><span class="mi">0</span>
+        <span class="n">dt</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="turb_binner.CALC_epsilon_TE01"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.CALC_epsilon_TE01">[docs]</a>    <span class="k">def</span> <span class="nf">CALC_epsilon_TE01</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advbin</span><span class="p">,</span><span class="n">advraw</span><span class="p">,</span><span class="n">omega_range</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span><span class="mf">12.57</span><span class="p">]):</span>
+        <span class="n">theta</span><span class="o">=</span><span class="n">advbin</span><span class="o">.</span><span class="n">U_angle</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">up_angle</span><span class="p">(</span><span class="n">advraw</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_epsilon_TE01</span><span class="p">(</span><span class="n">advbin</span><span class="o">.</span><span class="n">Spec</span><span class="p">,</span><span class="n">advbin</span><span class="o">.</span><span class="n">u_mag</span><span class="p">,</span><span class="n">advbin</span><span class="o">.</span><span class="n">Itke</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">advbin</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span><span class="n">omega_range</span><span class="p">)</span>
+        
+        </div>
+<div class="viewcode-block" id="turb_binner.calc_epsilon_TE01"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.calc_epsilon_TE01">[docs]</a>    <span class="k">def</span> <span class="nf">calc_epsilon_TE01</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">spec</span><span class="p">,</span><span class="n">u_mag</span><span class="p">,</span><span class="n">Itke</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">omega</span><span class="p">,</span><span class="n">omega_range</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span><span class="mf">12.57</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate epsilon according to:</span>
+<span class="sd">        Trowbridge, J and Elgar, S, &quot;Turbulence measurements in the Surf Zone&quot; JPO, 2001, 31, 2403-2417.</span>
+<span class="sd">        hereafter referred to as [TE01].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Is the difference between this and epsLT83 due to constant factors???</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">1.5</span>
+        <span class="n">intgrl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calc_epsTE01_int</span><span class="p">(</span><span class="n">Itke</span><span class="p">,</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">inds</span><span class="o">=</span><span class="p">(</span><span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">omega</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">omega</span><span class="o">&lt;</span><span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">out</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="o">...</span><span class="p">,</span><span class="n">inds</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">omega</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">inds</span><span class="p">)]))</span><span class="o">**</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">21.</span><span class="o">/</span><span class="mf">55.</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">intgrl</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">/</span><span class="n">U_mag</span>
+        <span class="n">out</span><span class="o">+=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">velbin</span><span class="o">.</span><span class="n">Sww</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">inds</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">velbin</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">inds</span><span class="p">)]))</span><span class="o">**</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">12.</span><span class="o">/</span><span class="mf">55.</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">intgrl</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">/</span><span class="n">U_mag</span>
+        <span class="n">out</span><span class="o">*=</span><span class="mf">0.5</span> <span class="c"># Average the two estimates.</span>
+        <span class="c">## if ma:</span>
+        <span class="c">##     meta=ma.varMeta(None)</span>
+        <span class="c">##     if advr.u.__class__ is ma.marray and advr.u.meta._units=={&#39;m&#39;:1,&#39;s&#39;:-1}:</span>
+        <span class="c">##         meta=ma.varMeta(r&quot;\epsilon_{%s}&quot;,{&#39;W&#39;:1,&#39;kg&#39;:-1},list(advr.u.meta.dim_names))</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+    <span class="k">def</span> <span class="nf">_calc_epsTE01_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Itke</span><span class="p">,</span><span class="n">theta</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The integral, equation A13, in [TE01].</span>
+
+<span class="sd">        *Itke* (beta in TE01) is the turbulence intensity ratio:</span>
+<span class="sd">            \sigma_u/V</span>
+
+<span class="sd">        *theta* is the angle between the mean flow, and the primary</span>
+<span class="sd">        axis of velocity fluctuations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">1e-2</span><span class="p">)</span> <span class="c"># I think this is a long enough range.</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">b</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">theta</span><span class="o">.</span><span class="n">flatten</span><span class="p">())):</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">cbrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="n">b</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-.</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span><span class="o">**</span><span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
+
+<div class="viewcode-block" id="turb_binner.calc_Lint"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.turb_binner.calc_Lint">[docs]</a>    <span class="k">def</span> <span class="nf">calc_Lint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">corr_vel</span><span class="p">,</span><span class="n">U_mag</span><span class="p">,</span><span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate integral length scales.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *corr_vel*  : The auto-covariance array (i.e. computed using calc_acov).</span>
+<span class="sd">        *U_mag*     : The velocity magnitude for this bin.</span>
+<span class="sd">        *fs*        : The raw sample rate.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        *Lint*      : The integral length scale (Tint*U_mag).</span>
+
+<span class="sd">        The integral time scale (Tint) is the lag-time at which the auto-covariance</span>
+<span class="sd">        falls to 1/e.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_fs</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">U_mag</span><span class="o">/</span><span class="n">fs</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">((</span><span class="n">corr_vel</span><span class="o">/</span><span class="n">corr_vel</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">][</span><span class="o">...</span><span class="p">,</span><span class="bp">None</span><span class="p">])</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">),</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+
+    </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

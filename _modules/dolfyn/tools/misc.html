@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.tools.misc &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.tools.misc</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">date2num</span><span class="p">,</span><span class="n">num2date</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<div class="viewcode-block" id="delta"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta">[docs]</a><span class="k">class</span> <span class="nc">delta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delta objects are for creating boolean &#39;index&#39; arrays. For an input data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="delta.shape"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="n">delta</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creat a delta object for *data* with delta *delta*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="o">=</span><span class="n">delta</span>
+
+<div class="viewcode-block" id="delta.__call__"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the indices of *data* that fall within *val*-delta to *val*+delta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">val</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">&lt;</span><span class="n">val</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="delta.abs"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta.abs">[docs]</a>    <span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">val</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="o">&lt;</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">&lt;</span><span class="n">val</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+        
+</div></div>
+<div class="viewcode-block" id="slice1d_along_axis"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.slice1d_along_axis">[docs]</a><span class="k">def</span> <span class="nf">slice1d_along_axis</span><span class="p">(</span><span class="n">arr_shape</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return an iterator object for looping over 1-D slices, along *axis*, of</span>
+<span class="sd">    an array of shape arr_shape.</span>
+
+<span class="sd">    --- example ---</span>
+<span class="sd">    out=np.empty(replace(arr.shape,0,1))</span>
+<span class="sd">    for slc in slice1d_along_axis(arr.shape,axis=0):</span>
+<span class="sd">        out[slc]=my_1d_function(arr[slc])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr_shape : tuple,list</span>
+<span class="sd">        Shape of the array over which the slices will be made.</span>
+<span class="sd">    axis : integer</span>
+<span class="sd">        Axis along which `arr` is sliced.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Iterator object.</span>
+<span class="sd">    The iterator object returns slice objects which slices arrays of shape arr_shape</span>
+<span class="sd">    into 1-D arrays.</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    apply_over_axis : Apply a function to 1-D slices along the given axis.</span>
+<span class="sd">    apply_over_axes : Apply a function repeatedly over multiple axes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nd</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr_shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">+=</span> <span class="n">nd</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">nd</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nd</span><span class="p">,</span><span class="s">&#39;O&#39;</span><span class="p">)</span>
+    <span class="n">indlist</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">)</span>
+    <span class="n">indlist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">i</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">itr_dims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arr_shape</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indlist</span><span class="p">)</span>
+    <span class="n">Ntot</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">itr_dims</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">indlist</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">Ntot</span><span class="p">:</span>
+        <span class="c"># increment the index</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">itr_dims</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">nd</span><span class="p">)):</span>
+            <span class="n">ind</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">ind</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">indlist</span><span class="p">,</span><span class="n">ind</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">ind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+</div>
+<div class="viewcode-block" id="fillgaps"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.fillgaps">[docs]</a><span class="k">def</span> <span class="nf">fillgaps</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">maxgap</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">extrapFlg</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    out=fillgaps(A,MAXGAP,DIM) Fills gaps in A by linear </span>
+<span class="sd">    interpolation along dimension DIM.  The maximum gap width</span>
+<span class="sd">    to be filled is specified by MAXGAP.</span>
+<span class="sd">    </span>
+<span class="sd">    MAXGAP defualts to fill gaps of any width.</span>
+<span class="sd">    </span>
+<span class="sd">    DIM defaults to 0.&quot;&quot;&quot;</span>
+    
+    <span class="c"># If this is a multi-dimensional array, operate along axis dim.</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">inds</span> <span class="ow">in</span> <span class="n">slice1d_along_axis</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">fillgaps</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">inds</span><span class="p">],</span><span class="n">maxgap</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">extrapFlg</span><span class="p">)</span>
+        <span class="k">return</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">nd</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">+=</span> <span class="n">nd</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dim</span> <span class="o">&gt;=</span> <span class="n">nd</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;dim must be less than a.ndim; dim=</span><span class="si">%d</span><span class="s">, rank=</span><span class="si">%d</span><span class="s">.&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">dim</span><span class="p">,</span><span class="n">nd</span><span class="p">))</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">nd</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nd</span><span class="p">,</span><span class="s">&#39;O&#39;</span><span class="p">)</span>
+    <span class="n">indlist</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">)</span>
+    <span class="n">indlist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">i</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">outshape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indlist</span><span class="p">)</span>
+    <span class="n">Ntot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">outshape</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">indlist</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">gd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c"># Here we extrapolate the ends, if necessary:</span>
+    <span class="k">if</span> <span class="n">extrapFlg</span> <span class="ow">and</span> <span class="n">gd</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">gd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">maxgap</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">[:</span><span class="n">gd</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">gd</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">gd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">a</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="n">gd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">maxgap</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">[</span><span class="n">gd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">gd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    
+    <span class="c"># Here is the main loop</span>
+    <span class="k">if</span> <span class="n">gd</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">inds</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">((</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">gd</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">maxgap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">inds</span><span class="o">.</span><span class="n">__len__</span><span class="p">()):</span>
+            <span class="n">ii</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span> <span class="n">gd</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i2</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gd</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+            <span class="n">a</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">=</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">gd</span><span class="p">[[</span><span class="n">inds</span><span class="p">[</span><span class="n">i2</span><span class="p">],</span> <span class="n">inds</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]])</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">ii</span><span class="o">.</span><span class="n">__len__</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ii</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">gd</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i2</span><span class="p">]]]</span> <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

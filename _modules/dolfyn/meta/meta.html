@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.meta.meta &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.meta.meta</h1><div class="highlight"><pre>
+<span class="c">#from labels import default_labeler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="unitsDict"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.unitsDict">[docs]</a><span class="k">class</span> <span class="nc">unitsDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A dictionary sub-class for tracking units.</span>
+
+<span class="sd">    unitsDict instances support simple math operations (multiply, divide, power)</span>
+
+<span class="sd">    The *key* of unitsDicts objects are the units, the values represent the power</span>
+<span class="sd">    of that unit.  For example:</span>
+<span class="sd">       a unitsDict({&#39;s&#39;:-1,&#39;m&#39;:1}) object represents units of m/s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="unitsDict.copy"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.unitsDict.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a shallow copy of the present object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">unitsDict</span><span class="p">([(</span><span class="n">ky</span><span class="p">,</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">ky</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Multiple the units in this instance by the units in the *other* object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">unitsDict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">+=</span><span class="n">vl</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">vl</span>
+        <span class="k">return</span> <span class="n">out</span>
+    
+    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Raise the units in this object to the power of *other*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">*=</span><span class="n">other</span>
+        <span class="k">return</span> <span class="n">out</span>
+            
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Divide the units in this instance by the units in the *other* object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">unitsDict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">-=</span><span class="n">vl</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=-</span><span class="n">vl</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="varMeta"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta">[docs]</a><span class="k">class</span> <span class="nc">varMeta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for variable metadata.</span>
+
+<span class="sd">    In particular, the units and name of the variable are stored here.</span>
+
+<span class="sd">    *units_style* specifies how to format the units.</span>
+<span class="sd">       0: no fractions (e.g. units of acceleration are: ms^{-2})</span>
+<span class="sd">       1: fractions    (e.g. units of acceleration are: m/s^{2})</span>
+<span class="sd">       ***Currently only units_style=0 is supported.***</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_units_style</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">latex</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">_scale_place</span><span class="o">=</span><span class="s">&#39;top&#39;</span>
+    <span class="n">dim_names</span><span class="o">=</span><span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test for equivalence between varMeta objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">varMeta</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">==</span><span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">==</span><span class="n">other</span><span class="o">.</span><span class="n">_units</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">_units</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;^</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">**</span><span class="n">other</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="o">!=</span><span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;/&#39;</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">/</span><span class="n">other</span><span class="o">.</span><span class="n">_units</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dim_names</span><span class="o">=</span><span class="p">[],</span><span class="n">units_style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">vecnames</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vecnames</span><span class="o">=</span><span class="n">vecnames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim_names</span><span class="o">=</span><span class="n">dim_names</span>
+        <span class="k">if</span> <span class="n">units</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="n">unitsDict</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">units</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">unicode</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="n">unitsDict</span><span class="p">({</span><span class="n">units</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">=</span><span class="n">units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xformat</span><span class="o">=</span><span class="s">r&#39;$</span><span class="si">%s</span><span class="s">/[\mathrm{</span><span class="si">%s</span><span class="s">}]$&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">=</span><span class="n">scale</span>
+        <span class="k">if</span> <span class="n">units_style</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_units_style</span><span class="o">=</span><span class="n">units_style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yformat</span><span class="o">=</span><span class="s">r&#39;$</span><span class="si">%s</span><span class="s">/[\mathrm{</span><span class="si">%s</span><span class="s">}]$&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_copy_rep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A copy method for use in constructing new varMeta objects from a basic type.</span>
+
+<span class="sd">        It behaves as follows:</span>
+<span class="sd">        1) If self.name is None, it return None.</span>
+<span class="sd">        2) If the input is None, it returns a copy of itself.</span>
+<span class="sd">        3) Otherwise, it does a % replace of self.name with the input.</span>
+<span class="sd">           e.g. this is for use such as:</span>
+<span class="sd">           vm=varMeta(r&quot;\overline{%s&#39;%s&#39;}&quot;,{&#39;m&#39;:2,&#39;s&#39;:-2})</span>
+<span class="sd">           vm._copy_rep((&#39;u&#39;,&#39;u&#39;))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">varMeta</span><span class="p">(</span><span class="n">name</span><span class="p">,(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">copy</span><span class="p">()),</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim_names</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">_units_style</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+<div class="viewcode-block" id="varMeta.copy"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a copy of this varMeta object.</span>
+
+<span class="sd">        Optional variable *name* may be used to create a copy of these units, with</span>
+<span class="sd">        a new &#39;name&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">varMeta</span><span class="p">(</span><span class="n">name</span><span class="p">,(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">copy</span><span class="p">()),</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim_names</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">_units_style</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s">&quot;&lt;varMeta for </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">)</span>
+
+<div class="viewcode-block" id="varMeta.get_label"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.get_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">form</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">units_style</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a formatted label for the variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="n">units_style</span><span class="o">=</span><span class="n">units_style</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;$&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">get_numer</span><span class="p">()</span><span class="o">+</span><span class="s">&#39;$&#39;</span>
+        <span class="k">if</span> <span class="n">form</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">=</span><span class="s">r&#39;$</span><span class="si">%s</span><span class="s">/[\mathrm{</span><span class="si">%s</span><span class="s">}]$&#39;</span>
+        <span class="k">return</span> <span class="n">form</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_numer</span><span class="p">(),</span><span class="n">unit</span><span class="p">,)</span>
+</div>
+<div class="viewcode-block" id="varMeta.get_numer"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.get_numer">[docs]</a>    <span class="k">def</span> <span class="nf">get_numer</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">!=</span><span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale_place</span><span class="o">==</span><span class="s">&#39;top&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;10^{</span><span class="si">%d</span><span class="s">}</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        </div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="varMeta.units"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shortcut to the units string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_units</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="varMeta.label"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shortcut to the label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="varMeta.ylabel"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.ylabel">[docs]</a>    <span class="k">def</span> <span class="nf">ylabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shortcut to the ylabel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">yformat</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="varMeta.xlabel"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.xlabel">[docs]</a>    <span class="k">def</span> <span class="nf">xlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shortcut to the xlabel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+</div>
+<div class="viewcode-block" id="varMeta.get_units"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.meta.varMeta.get_units">[docs]</a>    <span class="k">def</span> <span class="nf">get_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">units_style</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the properly formatted units string.  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">!=</span><span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale_place</span><span class="o">!=</span><span class="s">&#39;top&#39;</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">=</span><span class="s">r&#39;10^{</span><span class="si">%d</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="bp">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">units_style</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">units_style</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_units_style</span>
+        <span class="k">if</span> <span class="n">units_style</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">ks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="n">ups</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="n">ks</span><span class="p">[</span><span class="n">ks</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]])[</span><span class="mi">0</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">dns</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="n">ks</span><span class="p">[</span><span class="n">ks</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">st</span><span class="o">=</span><span class="s">r&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">ik</span> <span class="ow">in</span> <span class="n">ups</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ky</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">vl</span><span class="o">==</span><span class="n">ik</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">+=</span><span class="n">ky</span>
+                        <span class="k">if</span> <span class="n">ik</span><span class="o">!=</span><span class="mi">1</span><span class="p">:</span> <span class="c"># If the power is not 1, add an exponent:</span>
+                            <span class="n">st</span><span class="o">+=</span><span class="s">&#39;^{</span><span class="si">%d</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="n">ik</span>
+            <span class="k">for</span> <span class="n">ik</span> <span class="ow">in</span> <span class="n">dns</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ky</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">vl</span><span class="o">==</span><span class="n">ik</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">+=</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">^{</span><span class="si">%d</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ky</span><span class="p">,</span><span class="n">ik</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">st</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

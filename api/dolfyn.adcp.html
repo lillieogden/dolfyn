@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.adcp package &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
+    <link rel="up" title="dolfyn package" href="dolfyn.html" />
+    <link rel="next" title="dolfyn.adv package" href="dolfyn.adv.html" />
+    <link rel="prev" title="dolfyn package" href="dolfyn.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.adv.html" title="dolfyn.adv package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.html" title="dolfyn package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dolfyn-adcp-package">
+<h1>dolfyn.adcp package<a class="headerlink" href="#dolfyn-adcp-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dolfyn-adcp-api-module">
+<h2>dolfyn.adcp.api module<a class="headerlink" href="#dolfyn-adcp-api-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dolfyn-adcp-base-module">
+<h2>dolfyn.adcp.base module<a class="headerlink" href="#dolfyn-adcp-base-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dolfyn-adcp-clean-module">
+<h2>dolfyn.adcp.clean module<a class="headerlink" href="#dolfyn-adcp-clean-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dolfyn-adcp-plot-module">
+<h2>dolfyn.adcp.plot module<a class="headerlink" href="#dolfyn-adcp-plot-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dolfyn.adcp.read_bin">
+<span id="dolfyn-adcp-read-bin-module"></span><h2>dolfyn.adcp.read_bin module<a class="headerlink" href="#module-dolfyn.adcp.read_bin" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="dolfyn.adcp.read_bin.CheckSumError">
+<em class="property">exception </em><tt class="descclassname">dolfyn.adcp.read_bin.</tt><tt class="descname">CheckSumError</tt><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#CheckSumError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.CheckSumError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dolfyn.adcp.read_bin.bin_reader">
+<em class="property">class </em><tt class="descclassname">dolfyn.adcp.read_bin.</tt><tt class="descname">bin_reader</tt><big>(</big><em>fname</em>, <em>endian='&lt;'</em>, <em>checksum_size=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.checksum">
+<tt class="descname">checksum</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.checksum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>The next byte(s) are the expected checksum.  Perform the checksum.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.adcp.read_bin.bin_reader.pos">
+<tt class="descname">pos</tt><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read">
+<tt class="descname">read</tt><big>(</big><em>n</em>, <em>frmt</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_double">
+<tt class="descname">read_double</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_double"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_double" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_f32">
+<tt class="descname">read_f32</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_f32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_f64">
+<tt class="descname">read_f64</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_f64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_float">
+<tt class="descname">read_float</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_i16">
+<tt class="descname">read_i16</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_i16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_i16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_i32">
+<tt class="descname">read_i32</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_i32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_i32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_i8">
+<tt class="descname">read_i8</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_i8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_i8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_nbytes">
+<tt class="descname">read_nbytes</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_nbytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_nbytes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_ui16">
+<tt class="descname">read_ui16</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_ui16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_ui16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_ui32">
+<tt class="descname">read_ui32</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_ui32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_ui32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.read_ui8">
+<tt class="descname">read_ui8</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.read_ui8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.read_ui8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.reads">
+<tt class="descname">reads</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.reads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.reads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a string of n characters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.seek">
+<tt class="descname">seek</tt><big>(</big><em>pos</em>, <em>rel</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.seek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.seek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.bin_reader.tell">
+<tt class="descname">tell</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#bin_reader.tell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.bin_reader.tell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dolfyn.adcp.read_bin.checksum">
+<em class="property">class </em><tt class="descclassname">dolfyn.adcp.read_bin.</tt><tt class="descname">checksum</tt><big>(</big><em>file</em>, <em>val</em>, <em>size</em>, <em>error_behavior='exception'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#checksum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.checksum.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>val</em>, <em>remove_val=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#checksum.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.checksum.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare the checksum to <em>val</em>.
+<em>remove_val</em> specifies whether <em>val</em> should be removed from self._cs because it was already added to it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.checksum.add">
+<tt class="descname">add</tt><big>(</big><em>valcs</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#checksum.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.checksum.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the data in <em>valcs</em> to the checksum.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.checksum.error">
+<tt class="descname">error</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#checksum.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.checksum.error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adcp.read_bin.checksum.init">
+<tt class="descname">init</tt><big>(</big><em>val</em>, <em>size</em>, <em>error_behavior='exception'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#checksum.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.checksum.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="dolfyn.adcp.read_bin.eofException">
+<em class="property">exception </em><tt class="descclassname">dolfyn.adcp.read_bin.</tt><tt class="descname">eofException</tt><a class="reference internal" href="../_modules/dolfyn/adcp/read_bin.html#eofException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adcp.read_bin.eofException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+</div>
+<div class="section" id="dolfyn-adcp-readbin-module">
+<h2>dolfyn.adcp.readbin module<a class="headerlink" href="#dolfyn-adcp-readbin-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dolfyn-adcp-rotate-module">
+<h2>dolfyn.adcp.rotate module<a class="headerlink" href="#dolfyn-adcp-rotate-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dolfyn.adcp">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dolfyn.adcp" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dolfyn.adcp package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-api-module">dolfyn.adcp.api module</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-base-module">dolfyn.adcp.base module</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-clean-module">dolfyn.adcp.clean module</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-plot-module">dolfyn.adcp.plot module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.adcp.read_bin">dolfyn.adcp.read_bin module</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-readbin-module">dolfyn.adcp.readbin module</a></li>
+<li><a class="reference internal" href="#dolfyn-adcp-rotate-module">dolfyn.adcp.rotate module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.adcp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dolfyn.html"
+                        title="previous chapter">dolfyn package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dolfyn.adv.html"
+                        title="next chapter">dolfyn.adv package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/dolfyn.adcp.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.adv.html" title="dolfyn.adv package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.html" title="dolfyn package"
+             >previous</a> |</li>
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

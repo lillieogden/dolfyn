@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.tools package &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
+    <link rel="up" title="dolfyn package" href="dolfyn.html" />
+    <link rel="next" title="Glossary" href="../glossary.html" />
+    <link rel="prev" title="dolfyn.meta package" href="dolfyn.meta.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../glossary.html" title="Glossary"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.meta.html" title="dolfyn.meta package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dolfyn-tools-package">
+<h1>dolfyn.tools package<a class="headerlink" href="#dolfyn-tools-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dolfyn.tools.misc">
+<span id="dolfyn-tools-misc-module"></span><h2>dolfyn.tools.misc module<a class="headerlink" href="#module-dolfyn.tools.misc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dolfyn.tools.misc.delta">
+<em class="property">class </em><tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">delta</tt><big>(</big><em>data</em>, <em>delta</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>delta objects are for creating boolean &#8216;index&#8217; arrays. For an input data.</p>
+<dl class="method">
+<dt id="dolfyn.tools.misc.delta.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the indices of <em>data</em> that fall within <em>val</em>-delta to <a href="#id1"><span class="problematic" id="id2">*</span></a>val*+delta.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.tools.misc.delta.abs">
+<tt class="descname">abs</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.abs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.abs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.tools.misc.delta.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.misc.fillgaps">
+<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">fillgaps</tt><big>(</big><em>a</em>, <em>maxgap=inf</em>, <em>dim=0</em>, <em>extrapFlg=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#fillgaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.fillgaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>out=fillgaps(A,MAXGAP,DIM) Fills gaps in A by linear 
+interpolation along dimension DIM.  The maximum gap width
+to be filled is specified by MAXGAP.</p>
+<p>MAXGAP defualts to fill gaps of any width.</p>
+<p>DIM defaults to 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.misc.slice1d_along_axis">
+<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">slice1d_along_axis</tt><big>(</big><em>arr_shape</em>, <em>axis=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#slice1d_along_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.slice1d_along_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator object for looping over 1-D slices, along <em>axis</em>, of
+an array of shape arr_shape.</p>
+<p>&#8212; example &#8212;
+out=np.empty(replace(arr.shape,0,1))
+for slc in slice1d_along_axis(arr.shape,axis=0):</p>
+<blockquote>
+<div>out[slc]=my_1d_function(arr[slc])</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>arr_shape</strong> : tuple,list</p>
+<blockquote>
+<div><p>Shape of the array over which the slices will be made.</p>
+</div></blockquote>
+<p><strong>axis</strong> : integer</p>
+<blockquote>
+<div><p>Axis along which <cite>arr</cite> is sliced.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Iterator object.</strong> :</p>
+<p><strong>The iterator object returns slice objects which slices arrays of shape arr_shape</strong> :</p>
+<p class="last"><strong>into 1-D arrays.</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">apply_over_axis</span></tt></dt>
+<dd>Apply a function to 1-D slices along the given axis.</dd>
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">apply_over_axes</span></tt></dt>
+<dd>Apply a function repeatedly over multiple axes.</dd>
+</dl>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dolfyn.tools.psd">
+<span id="dolfyn-tools-psd-module"></span><h2>dolfyn.tools.psd module<a class="headerlink" href="#module-dolfyn.tools.psd" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dolfyn.tools.psd.cohere">
+<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cohere</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>window='hann'</em>, <em>debias=True</em>, <em>noise=(0</em>, <em>0)</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cohere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the magnitude-squared coherence of <em>a</em> and <em>b</em>:</p>
+<blockquote>
+<div><blockquote>
+<div><a href="#id3"><span class="problematic" id="id4">|</span></a>S_{ab}|^2</div></blockquote>
+<dl class="docutils">
+<dt>C_{ab} = &#8212;&#8212;&#8212;&#8212;&#8211;</dt>
+<dd>S_aa * S_bb</dd>
+</dl>
+</div></blockquote>
+<p>Here S_xy, S_xx and S_yy are the cross, and auto spectral
+densities of the signal a and b.</p>
+<p><em>debias</em> specify whether to debias the signal (Benignus1969).</p>
+<p>The <em>noise</em> keyword may be used to specify the signals&#8217;
+noise levels (std of noise in a,b). If <em>noise</em> is a two
+element tuple or list, the first and second elements specify
+the noise levels of a and b, respectively.
+default: noise=(0,0)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.psd.cpsd">
+<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cpsd</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cross power spectral density (CPSD) of the signals <em>a</em> and <em>b</em>.</p>
+<p>This performs:
+fft(a)*conj(fft(b))
+Note that this is consistent with the numpy.correlate definition of correlation.
+(The conjugate of D.B. Chelton&#8217;s definition of correlation.)</p>
+<p>The two signals should be the same length, and should both be real.</p>
+<p>See also:
+psd,cohere,numpy.fft</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*a*</strong> : The first signal.</p>
+<p><strong>*b*</strong> : The second signal.</p>
+<p><strong>*nfft*</strong> : The number of points in the fft.</p>
+<p><strong>*fs*</strong> : The sample rate (e.g. sample/second).</p>
+<p><strong>*window*</strong> : The window to use (default: &#8216;hann&#8217;). Valid entries are:</p>
+<blockquote>
+<div><p>None,1               : uses a &#8216;boxcar&#8217; or ones window.
+&#8216;hann&#8217;               : hanning window.
+a length(nfft) array : use this as the window directly.</p>
+</div></blockquote>
+<p><strong>*step*</strong> : Use this to specify the overlap.  For example:</p>
+<blockquote>
+<div><p>step=nfft/2 specifies a 50% overlap.
+step=nfft specifies no overlap.
+step=2*nfft means that half the data will be skipped.
+By default, <em>step</em> is calculated to maximize data use and have
+at least 50% overlap.</p>
+</div></blockquote>
+<p><strong>cpsd removes a linear trend from the data</strong> :</p>
+<p><strong>For computing cpsd&#8217;s of variables of different size, use cpsd_quasisync.</strong> :</p>
+<p class="last"><strong>The units of the spectra is the product of the units of *a* and *b*, divided by the units of fs.</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.psd.cpsd_quasisync">
+<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cpsd_quasisync</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd_quasisync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd_quasisync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cross power spectral density (CPSD) of the signals <em>a</em> and <em>b</em>.</p>
+<p><em>a</em> and <em>b</em> do not need to be &#8216;tightly&#8217; synchronized, and can even be different
+lengths, but the first- and last-index of both series should be synchronized
+(to whatever degree you want unbiased phases).</p>
+<p>This performs:
+fft(a)*conj(fft(b))
+Note that this is consistent with <em>np.correlate</em>&#8216;s definition of correlation.
+(The conjugate of D.B. Chelton&#8217;s definition of correlation.)</p>
+<p>The two signals should be the same length, and should both be real.</p>
+<p>See also:
+psd,cohere,cpsd,numpy.fft</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*a*</strong> : The first signal.</p>
+<p><strong>*b*</strong> : The second signal.</p>
+<p><strong>*nfft*</strong> : The number of points in the fft.</p>
+<p><strong>*fs*</strong> : The sample rate (e.g. sample/second).</p>
+<p><strong>*window*</strong> : The window to use (default: &#8216;hann&#8217;). Valid entries are:</p>
+<blockquote>
+<div><p>None,1               : uses a &#8216;boxcar&#8217; or ones window.
+&#8216;hann&#8217;               : hanning window.
+a length(nfft) array : use this as the window directly.</p>
+</div></blockquote>
+<p><strong>It detrends the data and uses a minimum of 50% overlap for the shorter of *a* and</strong> :</p>
+<p><strong>*b*. For the longer, the overlap depends on the difference in size.</strong> :</p>
+<p><strong>1-(l_short/l_long) data will be underutilized (where l_short and l_long are</strong> :</p>
+<p><strong>the length of the shorter and longer series, respectively).</strong> :</p>
+<p><strong>The units of the spectra is the product of the units of *a* and *b*, divided by</strong> :</p>
+<p class="last"><strong>the units of fs.</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.psd.psd">
+<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">psd</tt><big>(</big><em>a</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the power spectral density (PSD).</p>
+<p>This function computes the one-dimensional <em>n</em>-point PSD.</p>
+<p>The units of the spectra is the product of the units of <em>a</em> and <em>b</em>, divided by the units of fs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*a*</strong> : 1d-array_like, the signal. Currently only supports vectors.</p>
+<p><strong>*nfft*</strong> : The number of points in the fft.</p>
+<p><strong>*fs*</strong> : The sample rate (e.g. sample/second).</p>
+<p><strong>*window*</strong> : The window to use (default: &#8216;hann&#8217;). Valid entries are:</p>
+<blockquote>
+<div><p>None,1               : uses a &#8216;boxcar&#8217; or ones window.
+&#8216;hann&#8217;               : hanning window.
+a length(nfft) array : use this as the window directly.</p>
+</div></blockquote>
+<p><strong>*step*</strong> : Use this to specify the overlap.  For example:</p>
+<blockquote>
+<div><p>step=nfft/2 specifies a 50% overlap.
+step=nfft specifies no overlap.
+step=2*nfft means that half the data will be skipped.
+By default, <em>step</em> is calculated to maximize data use and have
+at least 50% overlap.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pow</strong> : 1d-array</p>
+<p><strong>&#8211;credit: This was copied from JN&#8217;s fast_psd.m routine. &#8211;</strong> :</p>
+<p><strong>See also:</strong> :</p>
+<p class="last"><strong>numpy.fft</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.tools.psd.psd_freq">
+<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">psd_freq</tt><big>(</big><em>nfft</em>, <em>fs</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd_freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd_freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the frequency spectrum for use with psd.
+<em>fs</em> is the sampling frequency.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dolfyn.tools">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dolfyn.tools" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dolfyn.tools package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dolfyn.tools.misc">dolfyn.tools.misc module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.tools.psd">dolfyn.tools.psd module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.tools">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dolfyn.meta.html"
+                        title="previous chapter">dolfyn.meta package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../glossary.html"
+                        title="next chapter">Glossary</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/dolfyn.tools.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../glossary.html" title="Glossary"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dolfyn.meta.html" title="dolfyn.meta package"
+             >previous</a> |</li>
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

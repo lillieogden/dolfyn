@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.adv.rotate &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.adv.rotate</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="kn">as</span> <span class="nn">sig</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">cumtrapz</span>
+
+<span class="n">sin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span>
+<span class="n">cos</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span>
+
+<div class="viewcode-block" id="calcAccelVel"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.calcAccelVel">[docs]</a><span class="k">def</span> <span class="nf">calcAccelVel</span><span class="p">(</span><span class="n">accel</span><span class="p">,</span><span class="n">samp_freq</span><span class="p">,</span><span class="n">filt_freq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First filter the acceleration data.</span>
+<span class="sd">    *samp_freq* is the sampling frequency.</span>
+<span class="sd">    *filt_freq* is the frequency to filter at.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># 8th order butterworth filter.</span>
+    <span class="c">#print float(filt_freq)/(samp_freq/2)</span>
+    <span class="n">filt</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">filt_freq</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">samp_freq</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="c">#hp=np.empty_like(accel)</span>
+    <span class="c">#for idx in range(accel.shape[0]):</span>
+    <span class="c">#    hp[idx]=accel[idx]-sig.filtfilt(filt[0],filt[1],accel[idx])</span>
+    <span class="n">hp</span><span class="o">=</span><span class="n">accel</span>
+    <span class="n">shp</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">accel</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">shp</span><span class="o">+=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dat</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shp</span><span class="p">),</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span><span class="n">dx</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="n">samp_freq</span><span class="p">)),</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">accel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">-</span><span class="n">sig</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">filt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">filt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="c"># NOTE: The minus sign is because the measured induced velocities are in the opposite direction of the head motion.</span>
+    <span class="c">#       i.e. when the head moves one way in stationary flow, it measures a velocity in the other direction.</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">dat</span>
+</div>
+<div class="viewcode-block" id="calcRotationVel"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.calcRotationVel">[docs]</a><span class="k">def</span> <span class="nf">calcRotationVel</span><span class="p">(</span><span class="n">AngRt</span><span class="p">,</span><span class="n">vec_imu2sample</span><span class="p">,</span><span class="n">transMat</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the induced velocity due to rotations of the ADV.</span>
+
+<span class="sd">    This is based on the Angular Rate *AngRt* data and the vector, *vec_imu2sample*.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A tuple of u,v,w velocities induced by the rotations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># This motion of the head due to rotations should be the cross-product of omega (rotation vector) and the vector from the IMU to the ADV sample volume.</span>
+    <span class="c">#           u=dz*omegaY-dy*omegaZ,v=dx*omegaZ-dz*omegaX,w=dy*omegaX-dx*omegaY</span>
+    <span class="c"># where vec_imu2sample=[dx,dy,dz], and AngRt=[omegaX,omegaY,omegaZ]</span>
+    <span class="c"># NOTE: The minus sign is because the measured-induced velocities are in the opposite direction of the head motion.</span>
+    <span class="c">#       i.e. when the head moves one way in stationary flow, it measures a velocity in the opposite direction.</span>
+    <span class="k">if</span> <span class="n">vec_imu2sample</span><span class="o">.</span><span class="n">ndim</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">vec_imu2sample</span><span class="o">=</span><span class="n">vec_imu2sample</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">uerr</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">vec_imu2sample</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">AngRt</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">uerr</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="n">transMat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c"># The columns of vec_imu2sample are the positions of *each* probe, so we can calculate the velocity of each probe separately and recompute the &#39;error&#39; velocity.</span>
+        <span class="c"># np.diagonal returns a matrix with colums that contain diagonal elements (thus the ij,kj-&gt;ik in einsum).</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij,kj-&gt;ik&#39;</span><span class="p">,</span><span class="n">transMat</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij,jkl-&gt;ikl&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">transMat</span><span class="p">),</span><span class="n">uerr</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># Here we drop a dimension because we added one with the &#39;None&#39;s above. </span>
+        <span class="k">return</span> <span class="n">uerr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
+</div>
+<div class="viewcode-block" id="rotate_msadv"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.rotate_msadv">[docs]</a><span class="k">class</span> <span class="nc">rotate_msadv</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;beam&#39;</span><span class="p">,</span><span class="s">&#39;head&#39;</span><span class="p">,</span><span class="s">&#39;inst&#39;</span><span class="p">,</span><span class="s">&#39;earth&#39;</span><span class="p">,</span><span class="s">&#39;pax&#39;</span><span class="p">]</span>
+
+    <span class="c">#def rot_beam (self,obj,inv=False):</span>
+        
+    
+    <span class="c">#def rotate(self,obj,to_frame=&#39;earth&#39;):</span>
+        
+        
+</div>
+<div class="viewcode-block" id="correct_motion"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.correct_motion">[docs]</a><span class="k">class</span> <span class="nc">correct_motion</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This object performs motion correction on an IMU-ADV data</span>
+<span class="sd">    object. The IMU and ADV data should be tightly synchronized and</span>
+<span class="sd">    contained in a single data object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    accel_filtfreq : the frequency at which to high-pass filter the</span>
+<span class="sd">                     acceleration signal to remove low-frequency drift.</span>
+<span class="sd">    vel_filtfreq : a second frequency to high-pass filter the</span>
+<span class="sd">                   integrated acceleration.</span>
+<span class="sd">                   (default: 1/3 of accel_filtfreq)</span>
+<span class="sd">    separate_probes : a flag to perform motion-correction at the probe</span>
+<span class="sd">                      tips, and perform motion correction in</span>
+<span class="sd">                      beam-coordinates, then transform back into</span>
+<span class="sd">                      XYZ/earth coordinates. This correction seems to</span>
+<span class="sd">                      be lower than the noise levels of the ADV, so</span>
+<span class="sd">                      the defualt is to not use it (False).</span>
+
+
+<span class="sd">    Use the &#39;__call__&#39; method of this object to actually perform</span>
+<span class="sd">    motion correction.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accel_filtfreq</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span><span class="n">vel_filtfreq</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">separate_probes</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accel_filtfreq</span> <span class="o">=</span> <span class="n">accel_filtfreq</span>
+        <span class="k">if</span> <span class="n">vel_filtfreq</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">vel_filtfreq</span> <span class="o">=</span> <span class="n">accel_filtfreq</span><span class="o">/</span><span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accelvel_filtfreq</span> <span class="o">=</span> <span class="n">vel_filtfreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separate_probes</span> <span class="o">=</span> <span class="n">separate_probes</span>
+
+    <span class="k">def</span> <span class="nf">_rotateVel2body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">_u</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_rotmat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">_u</span><span class="p">)</span> <span class="c"># The transpose should do head to body.</span>
+
+    <span class="k">def</span> <span class="nf">_calcRotVel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="n">pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calcProbePos</span><span class="p">(</span><span class="n">advo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">separate_probes</span><span class="p">:</span>
+            <span class="n">advo</span><span class="o">.</span><span class="n">urot</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_rotmat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="p">,</span><span class="n">calcRotationVel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_rotmat&#39;</span><span class="p">],</span><span class="n">advo</span><span class="o">.</span><span class="n">AngRt</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_rotmat&#39;</span><span class="p">],</span><span class="n">pos</span><span class="p">),</span><span class="n">advo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;TransMatrix&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">advo</span><span class="o">.</span><span class="n">urot</span><span class="o">=</span><span class="n">calcRotationVel</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">AngRt</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s">&#39;orient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;urot&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calcAccelStable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="c"># Ordering does inst-&gt;earth:</span>
+        <span class="n">acctmp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ijk,ik-&gt;jk&#39;</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">orientmat</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">Accel</span><span class="p">)</span>
+        <span class="n">flt</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">accel_filtfreq</span><span class="o">/</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">acctmp</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">flt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">flt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">acctmp</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="c"># Ordering does earth-inst:</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">AccelStable</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ijk,jk-&gt;ik&#39;</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">orientmat</span><span class="p">,</span><span class="n">acctmp</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s">&#39;orient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;AccelStable&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calcProbePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        !!!Currently this only works for Nortek Vectors!</span>
+
+<span class="sd">        In the future, we could use the transformation matrix (and a probe-length lookup-table?)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># According to the ADV_DataSheet, the probe-length radius is 8.6cm @ 120deg from probe-stem axis.</span>
+        <span class="c"># If I subtract 1cm (!!!checkthis) to get acoustic receiver center, this is 7.6cm.</span>
+        <span class="c"># In the coordinate sys of the center of the probe then, the positions of the centers of the receivers is:</span>
+        <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;inst_make&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span><span class="o">==</span><span class="s">&#39;Nortek&#39;</span> <span class="ow">and</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;inst_model&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span><span class="o">==</span><span class="s">&#39;VECTOR&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">separate_probes</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">=</span><span class="mf">0.076</span>
+            <span class="n">phi</span><span class="o">=-</span><span class="mf">30.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span> <span class="c"># The angle between the x-y plane and the probes</span>
+            <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">120.</span><span class="p">,</span><span class="mf">240.</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span> <span class="c"># The angles of the probes from the x-axis.</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_rotmat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)]))</span><span class="o">+</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">]</span>
+        
+
+    <span class="k">def</span> <span class="nf">_calcAccelVel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">uacc</span><span class="o">=</span><span class="n">calcAccelVel</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">Accel</span><span class="o">-</span><span class="n">advo</span><span class="o">.</span><span class="n">AccelStable</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">accelvel_filtfreq</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s">&#39;orient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;uacc&#39;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="correct_motion.__call__"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.correct_motion.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">advo</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">):</span>
+            <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;_u&#39;</span><span class="p">,</span><span class="s">&#39;urot&#39;</span><span class="p">,</span><span class="s">&#39;uacc&#39;</span><span class="p">,</span><span class="s">&#39;Accel&#39;</span><span class="p">,</span><span class="s">&#39;AccelStable&#39;</span><span class="p">,</span><span class="s">&#39;AngRt&#39;</span><span class="p">,</span><span class="s">&#39;Mag&#39;</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;urot&#39;</span><span class="p">,</span><span class="s">&#39;uacc&#39;</span><span class="p">,</span><span class="s">&#39;AccelStable&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rotateVel2body</span><span class="p">(</span><span class="n">advo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calcRotVel</span><span class="p">(</span><span class="n">advo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calcAccelStable</span><span class="p">(</span><span class="n">advo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calcAccelVel</span><span class="p">(</span><span class="n">advo</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">_u</span><span class="o">-=</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">urot</span><span class="o">+</span><span class="n">advo</span><span class="o">.</span><span class="n">uacc</span><span class="p">)</span>
+        
+</div></div>
+<div class="viewcode-block" id="orient2euler"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.orient2euler">[docs]</a><span class="k">def</span> <span class="nf">orient2euler</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the euler angle orientation of the ADV, calculated from the orientation matrix.</span>
+<span class="sd">      Cite: Microstrain2012a</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    *pitch*,*roll*,*heading* (deg,deg,deg true)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="s">&#39;orientmat&#39;</span><span class="p">):</span>
+        <span class="n">omat</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">orientmat</span>
+    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">omat</span><span class="o">=</span><span class="n">obj</span>
+    <span class="c"># I&#39;m pretty sure the &#39;yaw&#39; is the angle from the east axis, so we correct this for &#39;deg_true&#39;:</span>
+    <span class="c">## return 180/np.pi*np.arcsin(-omat[0,2]),180/np.pi*np.arctan2(omat[1,2],omat[2,2]),(np.pi/2-np.arctan2(omat[0,1],omat[0,0]))*180/np.pi</span>
+    <span class="k">return</span> <span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">omat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="cat4rot"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.cat4rot">[docs]</a><span class="k">def</span> <span class="nf">cat4rot</span><span class="p">(</span><span class="n">tpl</span><span class="p">):</span>
+    <span class="n">tmp</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">vl</span> <span class="ow">in</span> <span class="n">tpl</span><span class="p">:</span>
+        <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vl</span><span class="p">[</span><span class="bp">None</span><span class="p">,:])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="inst2earth"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.inst2earth">[docs]</a><span class="k">def</span> <span class="nf">inst2earth</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="n">reverse</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate data in an ADV object to the earth from the isntrument</span>
+<span class="sd">    frame (or vice-versa). If the </span>
+<span class="sd">    </span>
+<span class="sd">    All data in the advo.props[&#39;rotate_vars&#39;] list will be</span>
+<span class="sd">    rotated by the principal angle, and also if the data objet has an</span>
+<span class="sd">    orientation matrix (orientmat) it will be rotated so that it</span>
+<span class="sd">    represents the orientation of the ADV in the principal</span>
+<span class="sd">    (reverse:earth) frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    advo : The adv object containing the data.</span>
+<span class="sd">    reverse : bool (default: False)</span>
+<span class="sd">           If True, this function performs the inverse rotation</span>
+<span class="sd">           (principal-&gt;earth).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="c"># The transpose of the rotation matrix gives the inverse</span>
+        <span class="c"># rotation, so we simply reverse the order of the einsum:</span>
+        <span class="n">sumstr</span> <span class="o">=</span> <span class="s">&#39;jik,jk-&gt;ik&#39;</span>
+        <span class="n">cs_now</span> <span class="o">=</span> <span class="s">&#39;earth&#39;</span>
+        <span class="n">cs_new</span> <span class="o">=</span> <span class="s">&#39;inst&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sumstr</span> <span class="o">=</span> <span class="s">&#39;ijk,jk-&gt;ik&#39;</span>
+        <span class="n">cs_now</span> <span class="o">=</span> <span class="s">&#39;inst&#39;</span>
+        <span class="n">cs_new</span> <span class="o">=</span> <span class="s">&#39;earth&#39;</span>
+
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cs_new</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Data is already in the &#39;</span><span class="si">%s</span><span class="s">&#39; coordinate system&quot;</span> <span class="o">%</span> <span class="n">cs_new</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cs_now</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Data must be in the &#39;</span><span class="si">%s</span><span class="s">&#39; frame prior to using this function&quot;</span> <span class="o">%</span> <span class="n">cs_now</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="s">&#39;orientmat&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;declination&#39;</span> <span class="ow">in</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;declination_in_orientmat&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">):</span>
+            <span class="c"># Declination is defined as positive if MagN is east of</span>
+            <span class="c"># TrueN. Therefore we must rotate about the z-axis by minus</span>
+            <span class="c"># the declination angle to get from Mag to True.</span>
+            <span class="n">cd</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span> <span class="o">-</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;declination&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span> <span class="p">),</span> <span class="n">sin</span><span class="p">(</span> <span class="o">-</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;declination&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span> <span class="p">)</span>
+            <span class="c"># The ordering is funny here because orientmat is the</span>
+            <span class="c"># transpose of the inst-&gt;earth rotation matrix:</span>
+            <span class="n">advo</span><span class="p">[</span><span class="s">&#39;orientmat&#39;</span><span class="p">][:</span><span class="mi">2</span><span class="p">,:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij,kjl-&gt;ikl&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">cd</span><span class="p">,</span><span class="o">-</span><span class="n">sd</span><span class="p">],[</span><span class="n">sd</span><span class="p">,</span><span class="n">cd</span><span class="p">]]),</span><span class="n">advo</span><span class="p">[</span><span class="s">&#39;orientmat&#39;</span><span class="p">][:</span><span class="mi">2</span><span class="p">,:</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;declination_in_orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="c"># Take the transpose of the orientation to get the inst-&gt;earth rotation matrix.</span>
+        <span class="n">rmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">advo</span><span class="p">[</span><span class="s">&#39;orientmat&#39;</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">advo</span><span class="o">.</span><span class="n">roll</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+        <span class="n">pp</span> <span class="o">=</span> <span class="n">advo</span><span class="o">.</span><span class="n">pitch</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+        <span class="n">hh</span> <span class="o">=</span> <span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">heading</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+        <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">orientation</span><span class="o">==</span><span class="s">&#39;down&#39;</span><span class="p">:</span>
+            <span class="c"># NOTE: For ADVs: &#39;down&#39; configuration means the head was pointing UP!</span>
+            <span class="c">#       check the Nortek coordinate transform matlab script for more info.</span>
+            <span class="c">#       The &#39;up&#39; orientation corresponds to the communication cable begin up.</span>
+            <span class="c">#       This is ridiculous, but apparently a reality.</span>
+            <span class="n">rr</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;declination&#39;</span><span class="p">):</span>
+            <span class="n">hh</span><span class="o">+=</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;declination&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span> <span class="c"># Declination is in degrees East, so we add this to True heading.</span>
+        
+        <span class="n">ch</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">hh</span><span class="p">);</span><span class="n">sh</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">hh</span><span class="p">)</span>
+        <span class="n">cp</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">pp</span><span class="p">);</span><span class="n">sp</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+        <span class="n">cr</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">rr</span><span class="p">);</span><span class="n">sr</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+        
+        <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="n">ch</span><span class="p">,</span>  <span class="n">sh</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="o">-</span><span class="n">sh</span><span class="p">,</span>  <span class="n">ch</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span>  <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="n">cp</span><span class="p">,</span> <span class="o">-</span><span class="n">sp</span><span class="o">*</span><span class="n">sr</span><span class="p">,</span> <span class="o">-</span><span class="n">cr</span><span class="o">*</span><span class="n">sp</span><span class="p">],</span>
+                      <span class="p">[</span>  <span class="mi">0</span><span class="p">,</span>     <span class="n">cr</span><span class="p">,</span>    <span class="o">-</span><span class="n">sr</span><span class="p">],</span>
+                      <span class="p">[</span> <span class="n">sp</span><span class="p">,</span>  <span class="n">sr</span><span class="o">*</span><span class="n">cp</span><span class="p">,</span>  <span class="n">cp</span><span class="o">*</span><span class="n">cr</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">rmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ijl,jkl-&gt;ikl&#39;</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]:</span>
+        <span class="n">advo</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="n">sumstr</span><span class="p">,</span><span class="n">rmat</span><span class="p">,</span><span class="n">advo</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
+
+    <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cs_new</span>
+
+    <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="inst2earth_dep"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.inst2earth_dep">[docs]</a><span class="k">def</span> <span class="nf">inst2earth_dep</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="n">use_mean_rotation</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate the data from the instrument frame to the earth frame.</span>
+
+<span class="sd">    The rotation matrix is computed from heading, pitch, and roll.</span>
+<span class="sd">    Taken from a &quot;Coordinate transformation&quot; script on the nortek</span>
+<span class="sd">    site.</span>
+<span class="sd">    </span>
+<span class="sd">    --References--</span>
+<span class="sd">    http://www.nortek-as.com/en/knowledge-center/forum/software/644656788</span>
+<span class="sd">    http://www.nortek-as.com/en/knowledge-center/forum/software/644656788/resolveuid/af5dec86a5df8e7fd82a2f2aed1bc537</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rr</span><span class="o">=</span><span class="n">advo</span><span class="o">.</span><span class="n">roll</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="n">pp</span><span class="o">=</span><span class="n">advo</span><span class="o">.</span><span class="n">pitch</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="n">hh</span><span class="o">=</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">heading</span><span class="o">-</span><span class="mi">90</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
+    <span class="k">if</span> <span class="n">use_mean_rotation</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
+        <span class="n">rr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span><span class="o">*</span><span class="n">rr</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="n">pp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span><span class="o">*</span><span class="n">pp</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="n">hh</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span><span class="o">*</span><span class="n">hh</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;declination&#39;</span><span class="p">):</span>
+        <span class="n">hh</span><span class="o">+=</span><span class="p">(</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;declination&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span> <span class="c"># Declination is in degrees East, so we add this to True heading.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;No declination in adv object.  Assuming a declination of 0.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;heading_offset&#39;</span><span class="p">):</span>
+        <span class="n">hh</span><span class="o">+=</span><span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;heading_offset&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>  <span class="c"># Offset is in CCW degrees that the case was offset relative to the head.</span>
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">orientation</span><span class="o">==</span><span class="s">&#39;down&#39;</span><span class="p">:</span>
+        <span class="c"># NOTE: For ADVs: &#39;down&#39; configuration means the head was pointing UP!</span>
+        <span class="c">#       check the Nortek coordinate transform matlab script for more info.</span>
+        <span class="c">#       The &#39;up&#39; orientation corresponds to the communication cable begin up.</span>
+        <span class="c">#       This is ridiculous, but apparently a reality.</span>
+        <span class="n">rr</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="c"># I did some of the math, and this is the same as multiplying rows 2 and 3 of the</span>
+        <span class="c"># T matrix by -1 (in the ADV coordinate transform script), and also the same as</span>
+        <span class="c"># multiplying columns 2 and 3 of the heading matrix by -1.  Anyway, I did it</span>
+        <span class="c"># this way to be consistent with the ADCP rotation script, which looks similar.</span>
+        <span class="c">#</span>
+        <span class="c"># The way it is written in the adv CT script is annoying:</span>
+        <span class="c">#    T and T_org, and minusing rows 2+3 of T, which only goes into R, but using T_org</span>
+        <span class="c">#    elsewhere.</span>
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">==</span><span class="s">&#39;XYZ&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="s">&#39;u_inst&#39;</span><span class="p">):</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;u_inst&#39;</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">u</span><span class="p">,</span><span class="s">&#39;inst&#39;</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;v_inst&#39;</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">v</span><span class="p">,</span><span class="s">&#39;inst&#39;</span><span class="p">)</span>
+        <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;w_inst&#39;</span><span class="p">,</span><span class="n">advo</span><span class="o">.</span><span class="n">w</span><span class="p">,</span><span class="s">&#39;inst&#39;</span><span class="p">)</span>
+    <span class="c">#### This is directly from the matlab script:</span>
+    <span class="c">## H=np.zeros(shp)</span>
+    <span class="c">## H[0,0]=cos(hh);  H[0,1]=sin(hh);</span>
+    <span class="c">## H[1,0]=-sin(hh); H[1,1]=cos(hh);</span>
+    <span class="c">## H[2,2]=1</span>
+    <span class="c">## P=np.zeros(shp)</span>
+    <span class="c">## P[0,0]=cos(pp);  P[0,1]=-sin(pp)*sin(rr); P[0,2]=-cos(rr)*sin(pp)</span>
+    <span class="c">## P[1,0]=0;        P[1,1]=cos(rr);          P[1,2]=-sin(rr)</span>
+    <span class="c">## P[2,0]=sin(pp);  P[2,1]=sin(rr)*cos(pp);  P[2,2]=cos(pp)*cos(rr)</span>
+    <span class="c">##</span>
+    <span class="c">#### This is me redoing the math:</span>
+    <span class="n">ch</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">hh</span><span class="p">);</span><span class="n">sh</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">hh</span><span class="p">)</span>
+    <span class="n">cp</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">pp</span><span class="p">);</span><span class="n">sp</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+    <span class="n">cr</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">rr</span><span class="p">);</span><span class="n">sr</span><span class="o">=</span><span class="n">sin</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+    <span class="c">## rotmat=ch*cp,-ch*sp*sr+sh*cr,-ch*cr*sp-sh*sr;</span>
+    <span class="c">##        -sh*cp,sh*sp*sr+ch*cr,sh*cr*sp-ch*sr;</span>
+    <span class="c">##         sp,sr*cp,cp*cr</span>
+    <span class="c">#umat=np.empty((3,len(advo.u_inst)),dtype=&#39;single&#39;)</span>
+    <span class="c">#umat=np.tensordot(rotmat,cat4rot((advo.u_inst,advo.v_inst,advo.w_inst)),axes=(1,0)).astype(&#39;single&#39;)</span>
+    <span class="c">#### This is me actually doing the rotation:</span>
+    <span class="c">#R=np.dot(H,P)</span>
+    <span class="c">#u=</span>
+    <span class="n">u</span><span class="o">=</span><span class="p">((</span><span class="n">ch</span><span class="o">*</span><span class="n">cp</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">u_inst</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="n">ch</span><span class="o">*</span><span class="n">sp</span><span class="o">*</span><span class="n">sr</span><span class="o">+</span><span class="n">sh</span><span class="o">*</span><span class="n">cr</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">v_inst</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="n">ch</span><span class="o">*</span><span class="n">cr</span><span class="o">*</span><span class="n">sp</span><span class="o">-</span><span class="n">sh</span><span class="o">*</span><span class="n">sr</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">w_inst</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;single&#39;</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">=</span><span class="p">((</span><span class="o">-</span><span class="n">sh</span><span class="o">*</span><span class="n">cp</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">u_inst</span><span class="o">+</span><span class="p">(</span><span class="n">sh</span><span class="o">*</span><span class="n">sp</span><span class="o">*</span><span class="n">sr</span><span class="o">+</span><span class="n">ch</span><span class="o">*</span><span class="n">cr</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">v_inst</span><span class="o">+</span><span class="p">(</span><span class="n">sh</span><span class="o">*</span><span class="n">cr</span><span class="o">*</span><span class="n">sp</span><span class="o">-</span><span class="n">ch</span><span class="o">*</span><span class="n">sr</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">w_inst</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;single&#39;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">=</span><span class="p">((</span><span class="n">sp</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">u_inst</span><span class="o">+</span><span class="p">(</span><span class="n">sr</span><span class="o">*</span><span class="n">cp</span><span class="p">)</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">v_inst</span><span class="o">+</span><span class="n">cp</span><span class="o">*</span><span class="n">cr</span><span class="o">*</span><span class="n">advo</span><span class="o">.</span><span class="n">w_inst</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;single&#39;</span><span class="p">)</span>
+    <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+    <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;v&#39;</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+    <span class="n">advo</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="s">&#39;main&#39;</span><span class="p">)</span>
+    <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;earth&#39;</span>
+    
+</div>
+<div class="viewcode-block" id="earth2principal"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.rotate.earth2principal">[docs]</a><span class="k">def</span> <span class="nf">earth2principal</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate data in an ADV object to/from principal axes. If the</span>
+<span class="sd">    principal angle is not yet computed it will be computed.</span>
+
+<span class="sd">    All data in the advo.props[&#39;rotate_vars&#39;] list will be</span>
+<span class="sd">    rotated by the principal angle, and also if the data objet has an</span>
+<span class="sd">    orientation matrix (orientmat) it will be rotated so that it</span>
+<span class="sd">    represents the orientation of the ADV in the principal</span>
+<span class="sd">    (reverse:earth) frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    advo : The adv object containing the data.</span>
+<span class="sd">    reverse : bool (default: False)</span>
+<span class="sd">           If True, this function performs the inverse rotation</span>
+<span class="sd">           (principal-&gt;earth).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="n">ang</span> <span class="o">=</span> <span class="n">advo</span><span class="o">.</span><span class="n">principal_angle</span>
+        <span class="n">cs_now</span> <span class="o">=</span> <span class="s">&#39;principal&#39;</span>
+        <span class="n">cs_new</span> <span class="o">=</span> <span class="s">&#39;earth&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ang</span> <span class="o">=</span> <span class="o">-</span><span class="n">advo</span><span class="o">.</span><span class="n">principal_angle</span>
+        <span class="n">cs_now</span> <span class="o">=</span> <span class="s">&#39;earth&#39;</span>
+        <span class="n">cs_new</span> <span class="o">=</span> <span class="s">&#39;principal&#39;</span>
+    <span class="k">if</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cs_new</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Data is already in the </span><span class="si">%s</span><span class="s"> coordinate system&#39;</span> <span class="o">%</span> <span class="n">cs_new</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cs_now</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Data must be in the </span><span class="si">%s</span><span class="s"> frame prior to using this function&#39;</span> <span class="o">%</span> <span class="n">cs_now</span><span class="p">)</span>
+
+    <span class="c"># Calculate the rotation matrix:</span>
+    <span class="n">cp</span><span class="p">,</span><span class="n">sp</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">ang</span><span class="p">),</span><span class="n">sin</span><span class="p">(</span><span class="n">ang</span><span class="p">)</span>
+    <span class="n">rotmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">cp</span><span class="p">,</span><span class="o">-</span><span class="n">sp</span><span class="p">],</span>
+                       <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="n">cp</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="c"># Perform the rotation:</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">advo</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
+        <span class="n">dat</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij,jk&#39;</span><span class="p">,</span><span class="n">rotmat</span><span class="p">,</span><span class="n">dat</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">advo</span><span class="p">,</span><span class="s">&#39;orientmat&#39;</span><span class="p">):</span>
+        <span class="n">advo</span><span class="p">[</span><span class="s">&#39;orientmat&#39;</span><span class="p">][:</span><span class="mi">2</span><span class="p">,:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij,kjl-&gt;ikl&#39;</span><span class="p">,</span><span class="n">rotmat</span><span class="p">,</span><span class="n">advo</span><span class="p">[</span><span class="s">&#39;orientmat&#39;</span><span class="p">][:</span><span class="mi">2</span><span class="p">,:</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="c"># Finalize the output.</span>
+    <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;coord_sys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cs_new</span>
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

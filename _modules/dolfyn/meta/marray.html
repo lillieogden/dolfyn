@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dolfyn.meta.marray &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.beta.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dolfyn.meta.marray</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">meta</span> <span class="kn">import</span> <span class="n">varMeta</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">marray.py is a module for adding meta data to numpy&#39;s array objects.  In particular, the meta data tracked</span>
+<span class="sd">by this package is:</span>
+<span class="sd">    units     - The units of a variable</span>
+<span class="sd">    dim_names - The names of the dimensions of an array.</span>
+<span class="sd">    name      - A string that is used in labels for the data in the array.  This is a math-mode LaTeX string (dollar signs are added).</span>
+<span class="sd">    vecnames  - A list of strings that are different names for specific indices of an axis.</span>
+<span class="sd">                e.g. for the &#39;xyz&#39; dimension, you could define vecnames={&#39;xyz&#39;=[&#39;u&#39;,&#39;v&#39;,&#39;w&#39;]}</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="marray"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray">[docs]</a><span class="k">class</span> <span class="nc">marray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+
+    <span class="c">## def cat(self,other,axis=0):</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     Catenate two arrays.</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     return marray(np.concatenate((self,other),axis),self.meta)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">slc</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span> <span class="ow">and</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">ndim</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">ndim</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">):</span>
+            <span class="c">#Get data from an array, with care for removing dims from meta.dim_names when this operation reduces the dimension of the array.</span>
+            <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dms</span><span class="o">=</span><span class="p">[]</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slc</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">int</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">dms</span><span class="o">+=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">=</span><span class="n">dms</span>
+            <span class="c">#print( out.ndim,self.ndim,slc # This code causes print statements when the _variable_ is printed because the print statement calls __getitem__. )</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="marray.var"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.var">[docs]</a>    <span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dims</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">)</span>
+            <span class="n">dims</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">marray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span><span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">,</span><span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">),</span><span class="n">varMeta</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">_name</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span><span class="p">),</span><span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">_units</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">dim_names</span><span class="o">=</span><span class="n">dims</span><span class="p">))</span>
+        
+</div>
+<div class="viewcode-block" id="marray.matchdims"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.matchdims">[docs]</a>    <span class="k">def</span> <span class="nf">matchdims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span>
+        <span class="n">dimo</span><span class="o">=</span><span class="n">other</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span>
+        <span class="n">shps</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">dims</span><span class="o">+</span><span class="n">dimo</span><span class="p">))</span>
+        <span class="n">shpo</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">dims</span><span class="o">+</span><span class="n">dimo</span><span class="p">))</span>
+        <span class="n">dmo</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">print</span><span class="p">(</span> <span class="n">dims</span><span class="p">,</span><span class="n">dimo</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dimo</span><span class="p">:</span>
+                <span class="n">ind</span><span class="o">=</span><span class="n">dimo</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+                <span class="n">dmo</span><span class="o">+=</span><span class="n">dimo</span><span class="p">[:</span><span class="n">ind</span><span class="p">]</span>
+                <span class="n">shps</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dmo</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+                <span class="n">shpo</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dmo</span><span class="p">)</span><span class="o">-</span><span class="n">ind</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">dmo</span><span class="p">)]</span><span class="o">=</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span><span class="o">*</span><span class="n">ind</span>
+                <span class="n">dimo</span><span class="o">=</span><span class="n">dimo</span><span class="p">[</span><span class="n">ind</span><span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dmo</span><span class="o">+=</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+                <span class="n">shps</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dmo</span><span class="p">)]</span><span class="o">=</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span>
+        <span class="n">dmo</span><span class="o">+=</span><span class="n">dimo</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dimo</span><span class="p">):</span>
+            <span class="n">shpo</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">dimo</span><span class="p">):]</span><span class="o">=</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dimo</span><span class="p">)</span>
+        <span class="n">shpo</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">shpo</span><span class="p">)</span>
+        <span class="n">shps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">shps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">shps</span><span class="p">],</span><span class="n">other</span><span class="p">[</span><span class="n">shpo</span><span class="p">],</span><span class="n">dmo</span>
+</div>
+<div class="viewcode-block" id="marray.getdim"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.getdim">[docs]</a>    <span class="k">def</span> <span class="nf">getdim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">dflt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the axis number with meta.dim_name *name*.</span>
+
+<span class="sd">        If meta.dim_names does not contain *name*, None is returned.</span>
+<span class="sd">        Use the optional input *dflt* to specify a different output in this case.</span>
+<span class="sd">        if *dflt*==&#39;__error__&#39;, this will raise a ValueError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dflt</span><span class="o">!=</span><span class="s">&#39;__error__&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">dflt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="marray.mean"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        *axis* can be a string indicating the dim_name (in meta.dim_names).</span>
+
+<span class="sd">        If *axis* is a string, and it is not in dim_names, a copy of the array is returned.</span>
+<span class="sd">        </span>
+<span class="sd">        Refer to `numpy.mean` for full documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getdim</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">,)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="n">dtype</span><span class="p">,</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">,)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="marray.std"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.std">[docs]</a>    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The axis along which the mean is taken can be a string indicating the dim_name (in meta.dim_names).</span>
+<span class="sd">        </span>
+<span class="sd">        Refer to `numpy.std` for full documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getdim</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="s">&#39;__error__&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">,)</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="n">dtype</span><span class="p">,</span><span class="n">out</span><span class="p">,</span><span class="n">ddof</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">,)</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span><span class="n">dtype</span><span class="p">,</span><span class="n">out</span><span class="p">,</span><span class="n">ddof</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="o">==</span><span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;marray(</span><span class="si">%s</span><span class="s">, &lt;</span><span class="si">%s</span><span class="s">[</span><span class="si">%s</span><span class="s">], </span><span class="si">%s%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&gt;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;marray(</span><span class="si">%s</span><span class="s">, &lt;</span><span class="si">%s</span><span class="s">[</span><span class="si">%s</span><span class="s">], </span><span class="si">%s%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&gt;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="marray.name"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="marray.unit_label"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.unit_label">[docs]</a>    <span class="k">def</span> <span class="nf">unit_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s">&#39;$\mathrm{[&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">+</span><span class="s">&#39;]}$&#39;</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="marray.units"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.units">[docs]</a>    <span class="k">def</span> <span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">units</span>
+    </div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="marray.label"><a class="viewcode-back" href="../../../api/dolfyn.meta.html#dolfyn.meta.marray.marray.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">label</span>
+</div>
+    <span class="k">def</span> <span class="nf">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__imul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="s">&#39;meta&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">varMeta</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">meta</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">marray</span><span class="p">:</span>
+            <span class="c"># Cast to normal array if the first object is not an marray:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">marray</span><span class="p">:</span>
+            <span class="c"># Cast to normal array if the first object is not an marray:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="c">## if other.__class__ is marray:</span>
+        <span class="c">##     sdat,odat,dims=self.matchdims(other)</span>
+        <span class="c">##     out=super(marray,sdat).__mul__(odat)</span>
+        <span class="c">##     out.meta=self.meta*other.meta</span>
+        <span class="c">##     out.meta.dim_names=dims</span>
+        <span class="c">##     return out</span>
+        <span class="c">## else:</span>
+            <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">marray</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">meta</span>
+            <span class="k">return</span> <span class="n">out</span>
+        
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__div__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="s">&#39;meta&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">varMeta</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">/</span><span class="n">other</span><span class="o">.</span><span class="n">meta</span>
+        <span class="k">return</span> <span class="n">out</span>
+    
+    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="nb">super</span><span class="p">(</span><span class="n">marray</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__pow__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">**</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">varMeta</span><span class="p">(</span><span class="s">&#39;None&#39;</span><span class="p">)):</span>
+        <span class="c"># Input array is an already formed ndarray instance</span>
+        <span class="c"># We first cast it to be our class type</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="c"># add the new attribute to the created instance</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span>
+        <span class="c"># Finally, we must return the newly created object:</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c"># see InfoArray.__array_finalize__ for comments</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&#39;meta&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">varMeta</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">tmp</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
