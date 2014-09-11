@@ -308,10 +308,11 @@ saving to hdf5 files).</p>
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.calc_acov">
 <tt class="descname">calc_acov</tt><big>(</big><em>indat</em>, <em>n_bin=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.calc_acov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.calc_acov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the auto-covariance of the raw-signal <em>indat</em>.</p>
-<p>As opposed to calc_xcov, which returns the full cross-covariance between two
-arrays, this function only returns a quarter of the full auto-covariance. It
-computes the auto-covariance over half of the range, then averages the two
+<dd><p>Calculate the auto-covariance of the raw-signal <cite>indat</cite>.</p>
+<p>As opposed to calc_xcov, which returns the full
+cross-covariance between two arrays, this function only
+returns a quarter of the full auto-covariance. It computes the
+auto-covariance over half of the range, then averages the two
 sides (to return a &#8216;quartered&#8217; covariance).</p>
 <p>This has the advantage that the 0 index is actually zero-lag.</p>
 </dd></dl>
@@ -329,9 +330,12 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*coh*</strong> : Calculate the frequency vector for coherence/cross-spectra (default: False)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fs</strong> : float (optional)</p>
+<p><strong>coh</strong> : bool</p>
 <blockquote class="last">
-<div><p>i.e. use self.n_fft_coh instead of self.n_fft.</p>
+<div><p>Calculate the frequency vector for coherence/cross-spectra
+(default: False) i.e. use self.n_fft_coh instead of
+self.n_fft.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -342,30 +346,58 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.calc_xcov">
 <tt class="descname">calc_xcov</tt><big>(</big><em>indt1</em>, <em>indt2</em>, <em>npt=None</em>, <em>n_bin1=None</em>, <em>n_bin2=None</em>, <em>normed=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.calc_xcov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.calc_xcov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the cross-covariance between arrays indt1 and indt2 for each bin.</p>
+<dd><p>Calculate the cross-covariance between arrays indt1 and indt2
+for each bin.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.cohere">
 <tt class="descname">cohere</tt><big>(</big><em>dat1</em>, <em>dat2</em>, <em>window='hann'</em>, <em>debias=True</em>, <em>noise=(0</em>, <em>0)</em>, <em>n_fft=None</em>, <em>n_bin1=None</em>, <em>n_bin2=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.cohere" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate coherence between <em>dat1</em> and <em>dat2</em>.</p>
+<dd><p>Calculate coherence between <cite>dat1</cite> and <cite>dat2</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.cpsd">
 <tt class="descname">cpsd</tt><big>(</big><em>dat1</em>, <em>dat2</em>, <em>fs=None</em>, <em>window='hann'</em>, <em>n_fft=None</em>, <em>n_bin1=None</em>, <em>n_bin2=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.cpsd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.cpsd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the &#8216;cross power spectral density&#8217; of <cite>dat</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dat1</strong> : np.ndarray</p>
+<blockquote>
+<div><p>The first raw-data array of which to calculate the cpsd.</p>
+</div></blockquote>
+<p><strong>dat2</strong> : np.ndarray</p>
+<blockquote>
+<div><p>The second raw-data array of which to calculate the cpsd.</p>
+</div></blockquote>
+<p><strong>window</strong> : string</p>
+<blockquote>
+<div><p>String indicating the window function to use (default: &#8216;hanning&#8217;).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : np.ndarray</p>
+<blockquote class="last">
+<div><p>The cross-spectral density of <cite>dat1</cite> and <cite>dat2</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.demean">
 <tt class="descname">demean</tt><big>(</big><em>dat</em>, <em>n_pad=0</em>, <em>n_bin=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.demean" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reshape the array <em>dat</em> and remove the mean from each ensemble.</p>
+<dd><p>Reshape the array <cite>dat</cite> and remove the mean from each ensemble.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.detrend">
 <tt class="descname">detrend</tt><big>(</big><em>dat</em>, <em>n_pad=0</em>, <em>n_bin=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.detrend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.detrend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reshape the array <em>dat</em> and remove the best-fit trend line.</p>
+<dd><p>Reshape the array <cite>dat</cite> and remove the best-fit trend line.</p>
 <p>... Need to fix this to deal with NaNs...</p>
 </dd></dl>
 
@@ -376,10 +408,19 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*rawdat*: The raw data structure to be binned (if None, a basic time_bindat class is created).</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rawdat</strong> : raw_data_object</p>
+<blockquote>
+<div><p>The raw data structure to be binned (if None, a basic
+time_bindat class is created).</p>
+</div></blockquote>
+<p><strong>outdat</strong> : avg_data_object</p>
+<blockquote>
+<div><p>The bin&#8217;d (output) data object to which averaged data is added.</p>
+</div></blockquote>
+<p><strong>names</strong> : list of strings</p>
 <blockquote class="last">
-<div><p><em>outdat</em>: The bin&#8217;d (output) data object to which averaged data is added.
-<em>names</em> : The names of variables to be averaged.  If <em>names</em> is None, all data in <em>rawdat</em> will be binned.</p>
+<div><p>The names of variables to be averaged.  If <cite>names</cite> is None,
+all data in <cite>rawdat</cite> will be binned.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -390,14 +431,24 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.do_var">
 <tt class="descname">do_var</tt><big>(</big><em>rawdat</em>, <em>outdat</em>, <em>names=None</em>, <em>suffix='_var'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.do_var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.do_var" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Calculate the variance of data attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*rawdat*: The raw data structure to be binned (if None, a basic time_bindat class is created).</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rawdat</strong> : raw_data_object</p>
+<blockquote>
+<div><p>The raw data structure to be binned (if None, a basic
+time_bindat class is created).</p>
+</div></blockquote>
+<p><strong>outdat</strong> : avg_data_object</p>
+<blockquote>
+<div><p>The bin&#8217;d (output) data object to which variance data is added.</p>
+</div></blockquote>
+<p><strong>names</strong> : list of strings</p>
 <blockquote class="last">
-<div><p><em>outdat</em>: The bin&#8217;d (output) data object to which averaged data is added.
-<em>names</em> : The names of variables to be averaged.  If <em>names</em> is None, all data in <em>rawdat</em> will be binned.</p>
+<div><p>The names of variables of which to calculate variance.  If
+<cite>names</cite> is None, all data in <cite>rawdat</cite> will be binned.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -413,14 +464,24 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.psd">
 <tt class="descname">psd</tt><big>(</big><em>dat</em>, <em>fs=None</em>, <em>window='hann'</em>, <em>noise=0</em>, <em>n_bin=None</em>, <em>n_fft=None</em>, <em>step=None</em>, <em>n_pad=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.psd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate &#8216;power spectral density&#8217; of <em>dat</em>.</p>
+<dd><p>Calculate &#8216;power spectral density&#8217; of <cite>dat</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*dat*</strong> : The raw-data array of which to calculate the psd.</p>
-<p><strong>*window*</strong> : The window function to use (default: hanning).</p>
-<p class="last"><strong>*noise*</strong> : The white-noise level of the measurement (in the same units as <em>dat</em>).</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dat</strong> : data_object</p>
+<blockquote>
+<div><p>The raw-data array of which to calculate the psd.</p>
+</div></blockquote>
+<p><strong>window</strong> : string</p>
+<blockquote>
+<div><p>String indicating the window function to use (default: &#8216;hanning&#8217;).</p>
+</div></blockquote>
+<p><strong>noise</strong> : float</p>
+<blockquote class="last">
+<div><p>The white-noise level of the measurement (in the same units
+as <cite>dat</cite>).</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -430,20 +491,39 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <dl class="method">
 <dt id="dolfyn.data.binned.time_binner.reshape">
 <tt class="descname">reshape</tt><big>(</big><em>arr</em>, <em>n_pad=0</em>, <em>n_bin=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/binned.html#time_binner.reshape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.binned.time_binner.reshape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reshape the array <em>arr</em> to shape (...,n,n_bin+n_pad).</p>
-<p>n_bin is specified in the adv_binned object.  Create a different adv_binned object to use a different n_bin.
-n is fix(len(arr)/n_bin)</p>
-<p><em>n_pad</em> may be used to add <em>n_pad</em>/2 points from the end of the previous ensemble
-to the top of the current, and <em>n_pad</em>/2 points from the top of the next ensemble
-to the bottom of the current.  Zeros are padded in the upper-left and lower-right
-corners of the matrix (beginning/end of timeseries).
-In this case, the array shape will be (...,*n*,*n_pad*+*n_bin*)</p>
-<p><em>n_bin</em> can be non-integer, in which case the output array size will have size
-<em>n_pad*+*n_bin</em>, and the decimal will cause skipping of some data points in <em>arr</em>.
-In particular, every mod(n_bin,1) bins will have a skipped point. For example:</p>
+<dd><p>Reshape the array <cite>arr</cite> to shape (...,n,n_bin+n_pad).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>arr</strong> : np.ndarray</p>
+<p><strong>n_pad</strong> : int</p>
 <blockquote>
-<div>for n_bin=2048.2 every 1/5 bins will have a skipped point.
-for n_bin=4096.9 every 9/10 bins will have a skipped point.</div></blockquote>
+<div><p>Is used to add <cite>n_pad</cite>/2 points from the end of the previous
+ensemble to the top of the current, and <cite>n_pad</cite>/2 points
+from the top of the next ensemble to the bottom of the
+current.  Zeros are padded in the upper-left and lower-right
+corners of the matrix (beginning/end of timeseries).  In
+this case, the array shape will be (...,`n`,`n_pad`+`n_bin`)</p>
+</div></blockquote>
+<p><strong>n_bin</strong> : float, int (optional)</p>
+<blockquote class="last">
+<div><p>n_bin is specified in the adv_binned object.  Create a
+different adv_binned object to use a different n_bin.  n is
+fix(len(arr)/n_bin)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p><cite>n_bin</cite> can be non-integer, in which case the output array
+size will be <cite>n_pad`+`n_bin</cite>, and the decimal will
+cause skipping of some data points in <cite>arr</cite>.  In particular,
+every mod(<cite>n_bin</cite>,1) bins will have a skipped point. For
+example:
+- for n_bin=2048.2 every 1/5 bins will have a skipped point.
+- for n_bin=4096.9 every 9/10 bins will have a skipped point.</p>
 </dd></dl>
 
 <dl class="method">
@@ -559,9 +639,13 @@ ind_specobj</p>
 </div>
 <div class="section" id="module-dolfyn.data.time">
 <span id="dolfyn-data-time-module"></span><h2>dolfyn.data.time module<a class="headerlink" href="#module-dolfyn.data.time" title="Permalink to this headline">¶</a></h2>
-<p>This modules is a reimplemntation of the &#8216;mpltime&#8217; format (ordinal + fractional time).</p>
-<p>This is an independent implementation of that format so that the DOLfYN module does not depend on matplotlib (&gt;30MB).</p>
-<p>In the future I&#8217;d like to move away from this to np.datetime64 once that comes online, but apparently it has several issues so I&#8217;m going to simply use this for now.</p>
+<p>This modules is a reimplemntation of the &#8216;mpltime&#8217; format (ordinal +
+fractional time).</p>
+<p>This is an independent implementation of that format so that the
+DOLfYN module does not depend on matplotlib (&gt;30MB).</p>
+<p>In the future I&#8217;d like to move away from this to np.datetime64 once
+that comes online, but apparently it has several issues so I&#8217;m going
+to simply use this for now.</p>
 <dl class="function">
 <dt id="dolfyn.data.time.date2num">
 <tt class="descclassname">dolfyn.data.time.</tt><tt class="descname">date2num</tt><big>(</big><em>dt</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/time.html#date2num"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.time.date2num" title="Permalink to this definition">¶</a></dt>
@@ -581,7 +665,8 @@ ind_specobj</p>
 <dt id="dolfyn.data.time.time_array">
 <em class="property">class </em><tt class="descclassname">dolfyn.data.time.</tt><tt class="descname">time_array</tt><a class="reference internal" href="../_modules/dolfyn/data/time.html#time_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.time.time_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
-<p>This class uses time in matplotlib&#8217;s mpltime format (ordinal + fractional-day).</p>
+<p>This class uses time in matplotlib&#8217;s mpltime format (ordinal +
+fractional-day).</p>
 <dl class="attribute">
 <dt id="dolfyn.data.time.time_array.datetime">
 <tt class="descname">datetime</tt><a class="reference internal" href="../_modules/dolfyn/data/time.html#time_array.datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.time.time_array.datetime" title="Permalink to this definition">¶</a></dt>
@@ -760,14 +845,14 @@ Ratio of standard deviation of velocity magnitude to velocity magnitude.</p>
 <dt id="dolfyn.data.velocity.vel_binner_tke.calc_stress">
 <tt class="descname">calc_stress</tt><big>(</big><em>veldat</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_binner_tke.calc_stress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_binner_tke.calc_stress" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the stresses (cross-covariances of u,v,w) for the data object
-<em>veldat</em> and place them in <a href="#id1"><span class="problematic" id="id2">*</span></a>outdat.</p>
+<cite>veldat</cite> and place them in <cite>outdat</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.velocity.vel_binner_tke.calc_tke">
 <tt class="descname">calc_tke</tt><big>(</big><em>veldat, noise=[0, 0, 0]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_binner_tke.calc_tke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_binner_tke.calc_tke" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the tke (variances of u,v,w) for the data object
-<em>veldat</em> and place them in <a href="#id3"><span class="problematic" id="id4">*</span></a>outdat.</p>
+<em>veldat</em> and place them in <a href="#id1"><span class="problematic" id="id2">*</span></a>outdat.</p>
 </dd></dl>
 
 </dd></dl>

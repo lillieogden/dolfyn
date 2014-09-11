@@ -60,57 +60,64 @@
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">cbrt</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">..OrderedSet</span> <span class="kn">import</span> <span class="n">OrderedSet</span> <span class="k">as</span> <span class="n">oset</span>
-<span class="c">#import turbulence as turb</span>
-<span class="n">ma</span><span class="o">=</span><span class="n">db</span><span class="o">.</span><span class="n">ma</span>
+<span class="c"># import turbulence as turb</span>
+<span class="n">ma</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">ma</span>
+
 
 <div class="viewcode-block" id="adv_config"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.adv_config">[docs]</a><span class="k">class</span> <span class="nc">adv_config</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">config</span><span class="p">):</span>
     <span class="k">pass</span>
+
 </div>
 <div class="viewcode-block" id="adv_raw"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.adv_raw">[docs]</a><span class="k">class</span> <span class="nc">adv_raw</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">velocity</span><span class="p">):</span>
 
 <div class="viewcode-block" id="adv_raw.has_imu"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.adv_raw.has_imu">[docs]</a>    <span class="k">def</span> <span class="nf">has_imu</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;Accel&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;Veloc&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Veloc&#39;</span><span class="p">)</span>
 </div>
     <span class="k">pass</span>
-    <span class="c">## @property</span>
-    <span class="c">## def rotmat_beam(self,):</span>
-    <span class="c">##     &quot;&quot;&quot;</span>
-    <span class="c">##     Returns the beam rotation matrix.</span>
-    <span class="c">##     (Stored in the adv config.)</span>
-    <span class="c">##     &quot;&quot;&quot;</span>
-    <span class="c">##     return self.config.transformation_matrix</span>
+    <span class="c"># @property</span>
+    <span class="c"># def rotmat_beam(self,):</span>
+    <span class="c"># &quot;&quot;&quot;</span>
+    <span class="c"># Returns the beam rotation matrix.</span>
+    <span class="c"># (Stored in the adv config.)</span>
+    <span class="c"># &quot;&quot;&quot;</span>
+    <span class="c"># return self.config.transformation_matrix</span>
+
 </div>
 <div class="viewcode-block" id="msadv_raw"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.msadv_raw">[docs]</a><span class="k">class</span> <span class="nc">msadv_raw</span><span class="p">(</span><span class="n">adv_raw</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    IMU-ADV class (i.e. Nortek ADV with a Microstrain inertial chip).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span> <span class="c">#For now this is a place holder.</span>
-    
-</div>
-<div class="viewcode-block" id="adv_binned"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.adv_binned">[docs]</a><span class="k">class</span> <span class="nc">adv_binned</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">vel_bindat_spec</span><span class="p">,</span><span class="n">adv_raw</span><span class="p">):</span>
+    <span class="c"># For now this is a place holder.</span>
     <span class="k">pass</span>
-    <span class="c">## @property</span>
-    <span class="c">## def ustar_eps(self,):</span>
-    <span class="c">##     return (self.epsilon/turb.kappa/self.props[&#39;hab&#39;])**(1./3.)</span>
-
-    <span class="c">## @property</span>
-    <span class="c">## def phi_epsilon(self,):</span>
-    <span class="c">##     return turb.kappa*self.epsilon*10./(self.ustar**3.)</span>
-
-    <span class="c">## @property</span>
-    <span class="c">## def Suu_f(self,):</span>
-    <span class="c">##     return self.Suu*f_fac</span>
-    <span class="c">## @property</span>
-    <span class="c">## def Svv_f(self,):</span>
-    <span class="c">##     return self.Svv*f_fac</span>
-    <span class="c">## @property</span>
-    <span class="c">## def Sww_f(self,):</span>
-    <span class="c">##     return self.Sww*f_fac</span>
 
 </div>
-<span class="n">type_map</span><span class="o">=</span><span class="n">dio</span><span class="o">.</span><span class="n">get_typemap</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span> <span class="c"># Get the data classes in the current namespace.</span>
+<div class="viewcode-block" id="adv_binned"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.adv_binned">[docs]</a><span class="k">class</span> <span class="nc">adv_binned</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">vel_bindat_spec</span><span class="p">,</span> <span class="n">adv_raw</span><span class="p">):</span>
+    <span class="k">pass</span>
+    <span class="c"># @property</span>
+    <span class="c"># def ustar_eps(self,):</span>
+    <span class="c"># return (self.epsilon/turb.kappa/self.props[&#39;hab&#39;])**(1./3.)</span>
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">):</span>
+    <span class="c"># @property</span>
+    <span class="c"># def phi_epsilon(self,):</span>
+    <span class="c"># return turb.kappa*self.epsilon*10./(self.ustar**3.)</span>
+
+    <span class="c"># @property</span>
+    <span class="c"># def Suu_f(self,):</span>
+    <span class="c"># return self.Suu*f_fac</span>
+    <span class="c"># @property</span>
+    <span class="c"># def Svv_f(self,):</span>
+    <span class="c"># return self.Svv*f_fac</span>
+    <span class="c"># @property</span>
+    <span class="c"># def Sww_f(self,):</span>
+    <span class="c"># return self.Sww*f_fac</span>
+
+</div>
+<span class="n">type_map</span> <span class="o">=</span> <span class="n">dio</span><span class="o">.</span><span class="n">get_typemap</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+                           <span class="c"># Get the data classes in the current namespace.</span>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A function for loading ADV objects.</span>
 
@@ -119,11 +126,12 @@
 <span class="sd">        [...] - A list of groups to load (plus &#39;essential&#39; groups, ie those starting with &#39;_&#39;)</span>
 <span class="sd">        &#39;ALL&#39; - Load all groups.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">dio</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">dio</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_groups</span><span class="p">)</span>
+
 </div>
-<div class="viewcode-block" id="mmload"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.mmload">[docs]</a><span class="k">def</span> <span class="nf">mmload</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">dio</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
+<div class="viewcode-block" id="mmload"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.mmload">[docs]</a><span class="k">def</span> <span class="nf">mmload</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">dio</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">mmload</span><span class="p">(</span><span class="n">data_groups</span><span class="p">)</span></div>
 </pre></div>
 

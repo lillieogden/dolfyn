@@ -28,7 +28,7 @@
     <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
     <link rel="up" title="dolfyn package" href="dolfyn.html" />
     <link rel="next" title="dolfyn.buoy package" href="dolfyn.buoy.html" />
-    <link rel="prev" title="dolfyn.adcp package" href="dolfyn.adcp.html" /> 
+    <link rel="prev" title="dolfyn.adp package" href="dolfyn.adp.html" /> 
   </head>
   <body>
     <div class="related">
@@ -47,7 +47,7 @@
           <a href="dolfyn.buoy.html" title="dolfyn.buoy package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="dolfyn.adcp.html" title="dolfyn.adcp package"
+          <a href="dolfyn.adp.html" title="dolfyn.adp package"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
@@ -128,8 +128,9 @@
 <dt id="dolfyn.adv.clean.calcab">
 <tt class="descclassname">dolfyn.adv.clean.</tt><tt class="descname">calcab</tt><big>(</big><em>al</em>, <em>Lu_std_u</em>, <em>Lu_std_d2u</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/clean.html#calcab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.clean.calcab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solve equations 10 and 11 of Goring+Nikora2002.</p>
-<p>I think they have the equation wrong (power of 2 exponents should be -2,except on sin,cos),
-but I&#8217;m not certain, and it doesn&#8217;t appear to make too much difference.</p>
+<p>I think they have the equation wrong (power of 2 exponents should
+be -2,except on sin,cos), but I&#8217;m not certain, and it doesn&#8217;t
+appear to make too much difference.</p>
 </dd></dl>
 
 <dl class="function">
@@ -151,18 +152,22 @@ that the fit occurs over.</p>
 <dl class="function">
 <dt id="dolfyn.adv.clean.group">
 <tt class="descclassname">dolfyn.adv.clean.</tt><tt class="descname">group</tt><big>(</big><em>bl</em>, <em>ends_only=False</em>, <em>min_length=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/clean.html#group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.clean.group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a set of slice objects, which indicate the continuous sections where <em>bl</em> is True.</p>
-<dl class="docutils">
-<dt>ends_only=True will return a set of length 2 lists, which contain the start and endpoints of the regions.</dt>
-<dd>** Note ** : This functionality has funny behavior for single points.  It will return the same two indices for the beginning and end.</dd>
-</dl>
-<p>min_length may be used to specify the minimum number of continuos points that will be returned.</p>
+<dd><p>Returns a set of slice objects, which indicate the continuous
+sections where <em>bl</em> is True.</p>
+<p>ends_only=True will return a set of length 2 lists, which contain
+the start and endpoints of the regions.</p>
+<p>** Note ** : This functionality has funny behavior for single
+points.  It will return the same two indices for the beginning and
+end.</p>
+<p>min_length may be used to specify the minimum number of continuos
+points that will be returned.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="dolfyn.adv.clean.phaseSpaceThresh">
 <tt class="descclassname">dolfyn.adv.clean.</tt><tt class="descname">phaseSpaceThresh</tt><big>(</big><em>u</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/clean.html#phaseSpaceThresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.clean.phaseSpaceThresh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implements the Goring+Nikora2002 despiking method, with Wahl2003 correction.</p>
+<dd><p>Implements the Goring+Nikora2002 despiking method, with Wahl2003
+correction.</p>
 </dd></dl>
 
 <dl class="function">
@@ -175,8 +180,9 @@ values of <em>u</em> are outside of <em>range</em>.</p>
 <dl class="function">
 <dt id="dolfyn.adv.clean.spikeThresh">
 <tt class="descclassname">dolfyn.adv.clean.</tt><tt class="descname">spikeThresh</tt><big>(</big><em>u</em>, <em>thresh</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/clean.html#spikeThresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.clean.spikeThresh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a logical vector where a spike of magnitude greater than <em>thresh</em> occurs.
-&#8216;Negative&#8217; and &#8216;positive&#8217; spikes are both caught.</p>
+<dd><p>Returns a logical vector where a spike of magnitude greater than
+<em>thresh</em> occurs.  &#8216;Negative&#8217; and &#8216;positive&#8217; spikes are both
+caught.</p>
 <p><em>thresh</em> must be positive.</p>
 </dd></dl>
 
@@ -208,187 +214,125 @@ values of <em>u</em> are outside of <em>range</em>.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-dolfyn.adv.read">
-<span id="dolfyn-adv-read-module"></span><h2>dolfyn.adv.read module<a class="headerlink" href="#module-dolfyn.adv.read" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-dolfyn.adv.readascii">
+<span id="dolfyn-adv-readascii-module"></span><h2>dolfyn.adv.readascii module<a class="headerlink" href="#module-dolfyn.adv.readascii" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="dolfyn.adv.read.bcd2char">
-<tt class="descclassname">dolfyn.adv.read.</tt><tt class="descname">bcd2char</tt><big>(</big><em>cBCD</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#bcd2char"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.bcd2char" title="Permalink to this definition">¶</a></dt>
-<dd><p>Taken from the Nortek System Integrator Manual &#8220;Example Program&#8221; Chapter.</p>
+<dt id="dolfyn.adv.readascii.count_burst_lines">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">count_burst_lines</tt><big>(</big><em>direc</em>, <em>sfx='.dat'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#count_burst_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.count_burst_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the total number of lines in the files that end in <em>sfx</em> in
+directory <em>direc</em>.</p>
+<p><em>sfx</em> defualts to &#8216;.dat&#8217;</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="dolfyn.adv.read.bitshift8">
-<tt class="descclassname">dolfyn.adv.read.</tt><tt class="descname">bitshift8</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#bitshift8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.bitshift8" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dolfyn.adv.read.fullyear">
-<tt class="descclassname">dolfyn.adv.read.</tt><tt class="descname">fullyear</tt><big>(</big><em>year</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#fullyear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.fullyear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dolfyn.adv.read.read_nortek">
-<tt class="descclassname">dolfyn.adv.read.</tt><tt class="descname">read_nortek</tt><big>(</big><em>filename</em>, <em>do_checksum=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#read_nortek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.read_nortek" title="Permalink to this definition">¶</a></dt>
-<dd><p>Arguments:
-- <cite>filename</cite>: Name of Nortek formatted file to read.
-- <cite>**kwargs</cite>: keyword arguments to vec_reader class</p>
+<dt id="dolfyn.adv.readascii.count_lines">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">count_lines</tt><big>(</big><em>fd</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#count_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.count_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>!!! This function assumes each line has the same number of bytes!!!</p>
+<p>Counts the lines remaining in the file,
+and returns to the current position.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dolfyn.adv.read.vec_reader">
-<em class="property">class </em><tt class="descclassname">dolfyn.adv.read.</tt><tt class="descname">vec_reader</tt><big>(</big><em>fname</em>, <em>endian=None</em>, <em>debug=False</em>, <em>do_checksum=True</em>, <em>bufsize=100000</em>, <em>npings=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.readascii.header_reader">
+<em class="property">class </em><tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">header_reader</tt><big>(</big><em>filename</em>, <em>col_ind=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This is incomplete.  It should eventually return an adv_config object...</p>
 <dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.checksum">
-<tt class="descname">checksum</tt><big>(</big><em>byts</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.checksum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.checksum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.code_spacing">
-<tt class="descname">code_spacing</tt><big>(</big><em>searchcode</em>, <em>iternum=50</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.code_spacing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.code_spacing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the spacing, in bytes, between a specific hardware code.
-Repeat this <em>iternum</em> times (default 50).
-Returns the average spacing, in bytes, between the code.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.dat2sci">
-<tt class="descname">dat2sci</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.dat2sci"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.dat2sci" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.readascii.header_reader.find_colind">
+<tt class="descname">find_colind</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.find_colind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.find_colind" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="dolfyn.adv.read.vec_reader.filesize">
-<tt class="descname">filesize</tt><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.filesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.filesize" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.readascii.header_reader.names">
+<tt class="descname">names</tt><em class="property"> = {}</em><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.findnext">
-<tt class="descname">findnext</tt><big>(</big><em>do_cs=True</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.findnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.findnext" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the next data block by checking the checksum, and the sync byte (0xa5).</p>
-</dd></dl>
+<dt id="dolfyn.adv.readascii.header_reader.parse_data">
+<tt class="descname">parse_data</tt><big>(</big><em>dt</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.parse_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.parse_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.findnextid">
-<tt class="descname">findnextid</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.findnextid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.findnextid" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.readascii.header_reader.parseline">
+<tt class="descname">parseline</tt><big>(</big><em>ln</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.parseline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.parseline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read">
+<tt class="descname">read</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read_dat">
+<tt class="descname">read_dat</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read_dat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read_dat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read_pck">
+<tt class="descname">read_pck</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read_pck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read_pck" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read_sen">
+<tt class="descname">read_sen</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read_sen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read_sen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read_setup">
+<tt class="descname">read_setup</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read_setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.read_vhd">
+<tt class="descname">read_vhd</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.read_vhd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.read_vhd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.readascii.header_reader.readline">
+<tt class="descname">readline</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#header_reader.readline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.readline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="dolfyn.adv.read.vec_reader.fun_map">
-<tt class="descname">fun_map</tt><em class="property"> = {'0x71': 'read_microstrain', '0x04': 'read_head_cfg', '0x05': 'read_hw_cfg', '0x20': 'read_awac_profile', '0x07': 'read_vec_checkdata', '0x00': 'read_user_cfg', '0x12': 'read_vec_hdr', '0x11': 'read_vec_sysdata', '0x10': 'read_vec_data'}</em><a class="headerlink" href="#dolfyn.adv.read.vec_reader.fun_map" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.readascii.header_reader.section_names">
+<tt class="descname">section_names</tt><em class="property"> = ['User setup', 'Data file format']</em><a class="headerlink" href="#dolfyn.adv.readascii.header_reader.section_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.init_ADV">
-<tt class="descname">init_ADV</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.init_ADV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.init_ADV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.init_AWAC">
-<tt class="descname">init_AWAC</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.init_AWAC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.init_AWAC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.adv.read.vec_reader.pos">
-<tt class="descname">pos</tt><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.pos" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.rd_time">
-<tt class="descname">rd_time</tt><big>(</big><em>strng</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.rd_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.rd_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the time from the first 6bytes of the input string.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_awac_profile">
-<tt class="descname">read_awac_profile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_awac_profile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_head_cfg">
-<tt class="descname">read_head_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_head_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_head_cfg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_hw_cfg">
-<tt class="descname">read_hw_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_hw_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_hw_cfg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_id">
-<tt class="descname">read_id</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the next &#8216;ID&#8217; from the file.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_microstrain">
-<tt class="descname">read_microstrain</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_microstrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read microstrain sensor data.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_user_cfg">
-<tt class="descname">read_user_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_user_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_user_cfg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_vec_checkdata">
-<tt class="descname">read_vec_checkdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_vec_checkdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_vec_checkdata" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_vec_data">
-<tt class="descname">read_vec_data</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_vec_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read vector data.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_vec_hdr">
-<tt class="descname">read_vec_hdr</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_vec_hdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_vec_hdr" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.read_vec_sysdata">
-<tt class="descname">read_vec_sysdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.read_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.read_vec_sysdata" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read vector system data.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.readfile">
-<tt class="descname">readfile</tt><big>(</big><em>nlines=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.readfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.readfile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.readnext">
-<tt class="descname">readnext</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.readnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.readnext" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.sci_awac_profile">
-<tt class="descname">sci_awac_profile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.sci_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.sci_awac_profile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.sci_microstrain">
-<tt class="descname">sci_microstrain</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.sci_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.sci_microstrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotate orientation data into ADV coordinate system.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.sci_vec_data">
-<tt class="descname">sci_vec_data</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.sci_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.sci_vec_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.adv.read.vec_reader.sci_vec_sysdata">
-<tt class="descname">sci_vec_sysdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/read.html#vec_reader.sci_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.read.vec_reader.sci_vec_sysdata" title="Permalink to this definition">¶</a></dt>
-<dd><p>Turn the data in the vec_sysdata structure into scientific units.</p>
-</dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="dolfyn-adv-readascii-module">
-<h2>dolfyn.adv.readascii module<a class="headerlink" href="#dolfyn-adv-readascii-module" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dolfyn.adv.readascii.parseStr">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">parseStr</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#parseStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.parseStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.adv.readascii.read_dat">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">read_dat</tt><big>(</big><em>filename, dat_map=['burst', 'ensemble', 'u', 'v', 'w', 'Amp1', 'Amp2', 'Amp3', 'SNR1', 'SNR2', 'SNR3', 'corr1', 'corr2', 'corr3', 'pressure'], dlm=' ', skip_n_headlines=0, cls=&lt;class 'dolfyn.adv.base.adv_raw'&gt;, nlines=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#read_dat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.read_dat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read ADV ascii file <em>filename</em>, and return a adv_raw object
+containing the data.</p>
+<p><em>dat_map</em> specifies the variable names of the columns of the file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.adv.readascii.read_sen">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">read_sen</tt><big>(</big><em>filename</em>, <em>advd</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#read_sen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.read_sen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.adv.readascii.read_sontek_HorizonTab">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">read_sontek_HorizonTab</tt><big>(</big><em>filename, dat_map=['ensemble', '_time:%m/%d/%Y %I:%M:%S %p;%m/%d/%Y', 'u', 'v', 'w', 'Amp1', 'Amp2', 'Amp3', 'corr1', 'corr2', 'corr3', 'SNR1', 'SNR2', 'SNR3'], dlm='\t'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#read_sontek_HorizonTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.read_sontek_HorizonTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read tabulated ascii data output by Sontek&#8217;s HorizonADV software.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.adv.readascii.read_sontek_winadv">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">read_sontek_winadv</tt><big>(</big><em>filename, dat_map=['mpltime', None, None, 'u', 'v', 'w', 'corr1', 'corr2', 'corr3', 'SNR1', 'SNR2', 'SNR3', 'Amp1', 'Amp2', 'Amp3', None, None, None], dlm=';', skip_n_headlines=9</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#read_sontek_winadv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.read_sontek_winadv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dolfyn.adv.readascii.time_func">
+<tt class="descclassname">dolfyn.adv.readascii.</tt><tt class="descname">time_func</tt><big>(</big><em>date</em>, <em>frmt</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/readascii.html#time_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.readascii.time_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-dolfyn.adv.rotate">
 <span id="dolfyn-adv-rotate-module"></span><h2>dolfyn.adv.rotate module<a class="headerlink" href="#module-dolfyn.adv.rotate" title="Permalink to this headline">¶</a></h2>
@@ -544,9 +488,6 @@ site.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="dolfyn-adv-tmp-module">
-<h2>dolfyn.adv.tmp module<a class="headerlink" href="#dolfyn-adv-tmp-module" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-dolfyn.adv.turbulence">
 <span id="dolfyn-adv-turbulence-module"></span><h2>dolfyn.adv.turbulence module<a class="headerlink" href="#module-dolfyn.adv.turbulence" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -676,10 +617,8 @@ hereafter referred to as [TE01].</p>
 <li><a class="reference internal" href="#module-dolfyn.adv.base">dolfyn.adv.base module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.clean">dolfyn.adv.clean module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.multi">dolfyn.adv.multi module</a></li>
-<li><a class="reference internal" href="#module-dolfyn.adv.read">dolfyn.adv.read module</a></li>
-<li><a class="reference internal" href="#dolfyn-adv-readascii-module">dolfyn.adv.readascii module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.adv.readascii">dolfyn.adv.readascii module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.rotate">dolfyn.adv.rotate module</a></li>
-<li><a class="reference internal" href="#dolfyn-adv-tmp-module">dolfyn.adv.tmp module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.turbulence">dolfyn.adv.turbulence module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv">Module contents</a></li>
 </ul>
@@ -687,8 +626,8 @@ hereafter referred to as [TE01].</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="dolfyn.adcp.html"
-                        title="previous chapter">dolfyn.adcp package</a></p>
+  <p class="topless"><a href="dolfyn.adp.html"
+                        title="previous chapter">dolfyn.adp package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dolfyn.buoy.html"
                         title="next chapter">dolfyn.buoy package</a></p>
@@ -730,7 +669,7 @@ hereafter referred to as [TE01].</p>
           <a href="dolfyn.buoy.html" title="dolfyn.buoy package"
              >next</a> |</li>
         <li class="right" >
-          <a href="dolfyn.adcp.html" title="dolfyn.adcp package"
+          <a href="dolfyn.adp.html" title="dolfyn.adp package"
              >previous</a> |</li>
         <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 

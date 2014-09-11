@@ -54,18 +54,19 @@
   <h1>Source code for dolfyn.tools.psd</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">matplotlib.mlab</span> <span class="kn">import</span> <span class="n">detrend_linear</span> <span class="k">as</span> <span class="n">detrend</span>
-<span class="n">fft</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span>
+<span class="n">fft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span>
 
-<div class="viewcode-block" id="psd_freq"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd_freq">[docs]</a><span class="k">def</span> <span class="nf">psd_freq</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="psd_freq"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd_freq">[docs]</a><span class="k">def</span> <span class="nf">psd_freq</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the frequency spectrum for use with psd.</span>
 <span class="sd">    *fs* is the sampling frequency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fs</span><span class="o">/</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">fs</span><span class="o">/</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="o">/</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">)</span>
 
 </div>
-<span class="k">def</span> <span class="nf">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">nens</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the fft-step size for a length *l* array.</span>
 
@@ -86,72 +87,99 @@
 <span class="sd">    nens    : The number of ensemble ffts to average together.</span>
 <span class="sd">    nfft    : The number of points in the fft (set to l if nfft&gt;l).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">l</span><span class="o">&lt;</span><span class="n">nfft</span><span class="p">:</span>
-        <span class="n">nfft</span><span class="o">=</span><span class="n">l</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">nfft</span><span class="p">:</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="n">l</span>
     <span class="k">if</span> <span class="n">nens</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">step</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">nens</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">l</span><span class="o">/</span><span class="n">nfft</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span><span class="o">-</span><span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nens</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span>
+        <span class="n">nens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">l</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span>
     <span class="k">elif</span> <span class="n">nens</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="p">),</span><span class="nb">int</span><span class="p">((</span><span class="n">l</span><span class="o">-</span><span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">nfft</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="p">),</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nfft</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">nens</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nfft</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span><span class="o">-</span><span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nens</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span>
+        <span class="k">if</span> <span class="n">nens</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span>
 
 
-<div class="viewcode-block" id="cohere"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cohere">[docs]</a><span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="n">debias</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">noise</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the magnitude-squared coherence of *a* and *b*:</span>
-<span class="sd">    </span>
-<span class="sd">                    |S_{ab}|^2</span>
-<span class="sd">         C_{ab} = --------------</span>
-<span class="sd">                   S_aa * S_bb</span>
+<div class="viewcode-block" id="cohere"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cohere">[docs]</a><span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">debias</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Computes the magnitude-squared coherence of `a` and `b`.</span>
 
-<span class="sd">    Here S_xy, S_xx and S_yy are the cross, and auto spectral</span>
-<span class="sd">    densities of the signal a and b.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : np.ndarray</span>
+<span class="sd">      The first array over which to compute coherence.</span>
+<span class="sd">    b : np.ndarray</span>
+<span class="sd">      The second array over which to compute coherence.</span>
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points to use in the fft.</span>
+<span class="sd">    window : string, np.ndarray (default &#39;hann&#39;)</span>
+<span class="sd">      The window to use for ffts.</span>
+<span class="sd">    debias : bool (default: True)</span>
+<span class="sd">      Specify whether to debias the signal according to Benignus1969.</span>
+<span class="sd">    noise : tuple(2), or float</span>
+<span class="sd">      The `noise` keyword may be used to specify the signals&#39;</span>
+<span class="sd">      noise levels (std of noise in a,b). If `noise` is a two</span>
+<span class="sd">      element tuple or list, the first and second elements specify</span>
+<span class="sd">      the noise levels of a and b, respectively.</span>
+<span class="sd">      default: noise=(0,0)</span>
 
-<span class="sd">    *debias* specify whether to debias the signal (Benignus1969).</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 
-<span class="sd">    The *noise* keyword may be used to specify the signals&#39;</span>
-<span class="sd">    noise levels (std of noise in a,b). If *noise* is a two</span>
-<span class="sd">    element tuple or list, the first and second elements specify</span>
-<span class="sd">    the noise levels of a and b, respectively.</span>
-<span class="sd">    default: noise=(0,0)</span>
-<span class="sd">    </span>
+<span class="sd">    Coherence is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      C_{ab} = \frac{|S_{ab}|^2}{S_{aa} * S_bb}</span>
+
+<span class="sd">    Here :math:`S_{ab}`, :math:`S_{aa}` and :math:`S_{bb}` are the cross,</span>
+<span class="sd">    and auto spectral densities of the signal `a` and `b`.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">l</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
-    <span class="n">cross</span><span class="o">=</span><span class="n">cpsd_quasisync</span>
-    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">cross</span><span class="o">=</span><span class="n">cpsd</span>
-    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">a</span>
-        <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">step1</span><span class="p">,</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span><span class="o">=</span><span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="n">step2</span><span class="p">,</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span><span class="o">=</span><span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">nfft</span><span class="p">,</span><span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">noise</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="n">noise</span><span class="o">=</span><span class="p">[</span><span class="n">noise</span><span class="p">,</span><span class="n">noise</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">noise</span><span class="o">=</span><span class="p">[</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-    <span class="k">if</span> <span class="n">nens</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
+    <span class="n">cross</span> <span class="o">=</span> <span class="n">cpsd_quasisync</span>
+    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">cross</span> <span class="o">=</span> <span class="n">cpsd</span>
+    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">step1</span><span class="p">,</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nfft</span><span class="p">)</span>
+    <span class="n">step2</span><span class="p">,</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">noise</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise</span><span class="p">,</span> <span class="n">noise</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Coherence must be computed from a set of ensembles.&quot;</span><span class="p">)</span>
-    <span class="c"># fs=1 is ok because it comes out in the normalization.  (noise normalization depends on this)</span>
-    <span class="n">out</span><span class="o">=</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">psd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="n">step1</span><span class="p">)</span><span class="o">-</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">psd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="n">step2</span><span class="p">)</span><span class="o">-</span><span class="n">noise</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+    <span class="c"># fs=1 is ok because it comes out in the normalization.  (noise</span>
+    <span class="c"># normalization depends on this)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">((</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span>
+           <span class="p">((</span><span class="n">psd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step1</span><span class="p">)</span> <span class="o">-</span> <span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span>
+            <span class="p">(</span><span class="n">psd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step2</span><span class="p">)</span> <span class="o">-</span> <span class="n">noise</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+           <span class="p">)</span>
     <span class="k">if</span> <span class="n">debias</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">out</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mf">1.</span><span class="o">/</span><span class="n">nens</span><span class="p">)</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">nens</span> <span class="c"># This is from Benignus1969, it seems to work (make data with different nens (nfft) agree).</span>
+        <span class="c"># This is from Benignus1969, it seems to work (make data with different</span>
+        <span class="c"># nens (nfft) agree).</span>
+        <span class="k">return</span> <span class="n">out</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">nens</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">nens</span>
     <span class="k">return</span> <span class="n">out</span>
+
 </div>
-<div class="viewcode-block" id="cpsd_quasisync"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cpsd_quasisync">[docs]</a><span class="k">def</span> <span class="nf">cpsd_quasisync</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="cpsd_quasisync"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cpsd_quasisync">[docs]</a><span class="k">def</span> <span class="nf">cpsd_quasisync</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cross power spectral density (CPSD) of the signals *a* and *b*.</span>
-<span class="sd">    </span>
-<span class="sd">    *a* and *b* do not need to be &#39;tightly&#39; synchronized, and can even be different</span>
-<span class="sd">    lengths, but the first- and last-index of both series should be synchronized</span>
-<span class="sd">    (to whatever degree you want unbiased phases).</span>
+
+<span class="sd">    *a* and *b* do not need to be &#39;tightly&#39; synchronized, and can even</span>
+<span class="sd">    be different lengths, but the first- and last-index of both series</span>
+<span class="sd">    should be synchronized (to whatever degree you want unbiased</span>
+<span class="sd">    phases).</span>
 
 <span class="sd">    This performs:</span>
+
 <span class="sd">    fft(a)*conj(fft(b))</span>
-<span class="sd">    Note that this is consistent with *np.correlate*&#39;s definition of correlation.</span>
-<span class="sd">    (The conjugate of D.B. Chelton&#39;s definition of correlation.)</span>
+
+<span class="sd">    Note that this is consistent with *np.correlate*&#39;s definition of</span>
+<span class="sd">    correlation.  (The conjugate of D.B. Chelton&#39;s definition of</span>
+<span class="sd">    correlation.)</span>
 
 <span class="sd">    The two signals should be the same length, and should both be real.</span>
 
@@ -160,57 +188,64 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *a*      : The first signal.</span>
-<span class="sd">    *b*      : The second signal.</span>
-<span class="sd">    *nfft*   : The number of points in the fft.</span>
-<span class="sd">    *fs*     : The sample rate (e.g. sample/second).</span>
-<span class="sd">    *window* : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">    a      : The first signal.</span>
+<span class="sd">    b      : The second signal.</span>
+<span class="sd">    nfft   : The number of points in the fft.</span>
+<span class="sd">    fs     : The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
 <span class="sd">                 None,1               : uses a &#39;boxcar&#39; or ones window.</span>
 <span class="sd">                 &#39;hann&#39;               : hanning window.</span>
 <span class="sd">                 a length(nfft) array : use this as the window directly.</span>
 
-<span class="sd">    It detrends the data and uses a minimum of 50% overlap for the shorter of *a* and</span>
-<span class="sd">    *b*. For the longer, the overlap depends on the difference in size.</span>
-<span class="sd">    1-(l_short/l_long) data will be underutilized (where l_short and l_long are</span>
-<span class="sd">    the length of the shorter and longer series, respectively).</span>
+<span class="sd">    It detrends the data and uses a minimum of 50% overlap for the</span>
+<span class="sd">    shorter of `a` and `b`. For the longer, the overlap depends on the</span>
+<span class="sd">    difference in size.  1-(l_short/l_long) data will be underutilized</span>
+<span class="sd">    (where l_short and l_long are the length of the shorter and longer</span>
+<span class="sd">    series, respectively).</span>
 
-<span class="sd">    The units of the spectra is the product of the units of *a* and *b*, divided by</span>
-<span class="sd">    the units of fs.</span>
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span>
-    <span class="n">l</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">a</span>
-        <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span><span class="o">=</span><span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span><span class="o">=</span><span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">nfft</span><span class="p">,</span><span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
-    <span class="n">fs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">window</span><span class="o">==</span><span class="s">&#39;hann&#39;</span><span class="p">:</span>
-        <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">window</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">window</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="n">fft_inds</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">nfft</span><span class="o">/</span><span class="mf">2.</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">wght</span><span class="o">=</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">window</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">pwr</span><span class="o">=</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">nens</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i1</span><span class="p">,</span><span class="n">i2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">nfft</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">nfft</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
-            <span class="n">pwr</span><span class="o">+=</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i1</span><span class="p">:(</span><span class="n">i1</span><span class="o">+</span><span class="n">nfft</span><span class="p">)])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i2</span><span class="p">:(</span><span class="n">i2</span><span class="o">+</span><span class="n">nfft</span><span class="p">)])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
-    <span class="n">pwr</span><span class="o">*=</span><span class="n">wght</span><span class="o">/</span><span class="n">nens</span><span class="o">/</span><span class="n">fs</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nfft</span><span class="p">)</span>
+    <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="s">&#39;hann&#39;</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">window</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">window</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="n">fft_inds</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">nfft</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">/</span> <span class="p">(</span><span class="n">window</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">pwr</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span> <span class="o">*</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                          <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+            <span class="n">pwr</span> <span class="o">+=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i1</span><span class="p">:(</span><span class="n">i1</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span> <span class="o">*</span> \
+                <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i2</span><span class="p">:(</span><span class="n">i2</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
+    <span class="n">pwr</span> <span class="o">*=</span> <span class="n">wght</span> <span class="o">/</span> <span class="n">nens</span> <span class="o">/</span> <span class="n">fs</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pwr</span><span class="p">)</span>
-    
+
 </div>
-<div class="viewcode-block" id="cpsd"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cpsd">[docs]</a><span class="k">def</span> <span class="nf">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="cpsd"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.cpsd">[docs]</a><span class="k">def</span> <span class="nf">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cross power spectral density (CPSD) of the signals *a* and *b*.</span>
 
 <span class="sd">    This performs:</span>
 <span class="sd">    fft(a)*conj(fft(b))</span>
-<span class="sd">    Note that this is consistent with the numpy.correlate definition of correlation.</span>
-<span class="sd">    (The conjugate of D.B. Chelton&#39;s definition of correlation.)</span>
+
+<span class="sd">    Note that this is consistent with the numpy.correlate definition</span>
+<span class="sd">    of correlation.  (The conjugate of D.B. Chelton&#39;s definition of</span>
+<span class="sd">    correlation.)</span>
 
 <span class="sd">    The two signals should be the same length, and should both be real.</span>
 
@@ -219,97 +254,100 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *a*      : The first signal.</span>
-<span class="sd">    *b*      : The second signal.</span>
-<span class="sd">    *nfft*   : The number of points in the fft.</span>
-<span class="sd">    *fs*     : The sample rate (e.g. sample/second).</span>
-<span class="sd">    *window* : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">    a      : The first signal.</span>
+<span class="sd">    b      : The second signal.</span>
+<span class="sd">    nfft   : The number of points in the fft.</span>
+<span class="sd">    fs     : The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
 <span class="sd">                 None,1               : uses a &#39;boxcar&#39; or ones window.</span>
 <span class="sd">                 &#39;hann&#39;               : hanning window.</span>
 <span class="sd">                 a length(nfft) array : use this as the window directly.</span>
-<span class="sd">    *step*   : Use this to specify the overlap.  For example:</span>
+<span class="sd">    step   : Use this to specify the overlap.  For example:</span>
 <span class="sd">               step=nfft/2 specifies a 50% overlap.</span>
 <span class="sd">               step=nfft specifies no overlap.</span>
 <span class="sd">               step=2*nfft means that half the data will be skipped.</span>
-<span class="sd">               By default, *step* is calculated to maximize data use and have</span>
+<span class="sd">               By default, `step` is calculated to maximize data use and have</span>
 <span class="sd">               at least 50% overlap.</span>
 
 <span class="sd">    cpsd removes a linear trend from the data</span>
 
 <span class="sd">    For computing cpsd&#39;s of variables of different size, use cpsd_quasisync.</span>
 
-<span class="sd">    The units of the spectra is the product of the units of *a* and *b*, divided by the units of fs.</span>
+<span class="sd">    The units of the spectra is the product of the units of `a` and `b`, divided by the units of fs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span>
-    <span class="n">auto_psd</span><span class="o">=</span><span class="bp">False</span>
+    <span class="n">auto_psd</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">:</span>
-        <span class="n">auto_psd</span><span class="o">=</span><span class="bp">True</span>
-    <span class="n">l</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="n">step</span><span class="p">,</span><span class="n">nens</span><span class="p">,</span><span class="n">nfft</span><span class="o">=</span><span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
-    <span class="n">fs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+        <span class="n">auto_psd</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">step</span><span class="p">,</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">window</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;hann&#39;</span><span class="p">):</span>
-        <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">window</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">window</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
-    <span class="n">fft_inds</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="o">/</span><span class="mf">2.</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">wght</span><span class="o">=</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">window</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">s1</span><span class="o">=</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">window</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">window</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="n">fft_inds</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">/</span> <span class="p">(</span><span class="n">window</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span>
-        <span class="n">pwr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">pwr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">pwr</span><span class="o">=</span><span class="n">s1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">nens</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">l</span><span class="o">-</span><span class="n">nfft</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">step</span><span class="p">):</span>
-            <span class="c">#print( (i) )</span>
-            <span class="n">s1</span><span class="o">=</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="n">nfft</span><span class="p">)])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+        <span class="n">pwr</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+            <span class="c"># print( (i) )</span>
+            <span class="n">s1</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">:(</span><span class="n">i</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span>
-                <span class="n">pwr</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">pwr</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">pwr</span><span class="o">+=</span><span class="n">s1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="n">nfft</span><span class="p">)])</span><span class="o">*</span><span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
-    <span class="n">pwr</span><span class="o">*=</span><span class="n">wght</span><span class="o">/</span><span class="n">nens</span><span class="o">/</span><span class="n">fs</span>
-    <span class="c">#print( 1,step,nens,l,nfft,wght,fs )</span>
-    <span class="c">#error</span>
-    <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span><span class="c"># No need to take the abs again.</span>
+                <span class="n">pwr</span> <span class="o">+=</span> <span class="n">s1</span> <span class="o">*</span> \
+                    <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">:(</span><span class="n">i</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
+    <span class="n">pwr</span> <span class="o">*=</span> <span class="n">wght</span> <span class="o">/</span> <span class="n">nens</span> <span class="o">/</span> <span class="n">fs</span>
+    <span class="c"># print( 1,step,nens,l,nfft,wght,fs )</span>
+    <span class="c"># error</span>
+    <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span>  <span class="c"># No need to take the abs again.</span>
         <span class="k">return</span> <span class="n">pwr</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pwr</span><span class="p">)</span>
+
 </div>
-<div class="viewcode-block" id="psd"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd">[docs]</a><span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="psd"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd">[docs]</a><span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the power spectral density (PSD).</span>
-<span class="sd">    </span>
-<span class="sd">    This function computes the one-dimensional *n*-point PSD.</span>
 
-<span class="sd">    The units of the spectra is the product of the units of *a* and *b*, divided by the units of fs.</span>
+<span class="sd">    This function computes the one-dimensional `n`-point PSD.</span>
+
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
 
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *a*      : 1d-array_like, the signal. Currently only supports vectors.</span>
-<span class="sd">    *nfft*   : The number of points in the fft.</span>
-<span class="sd">    *fs*     : The sample rate (e.g. sample/second).</span>
-<span class="sd">    *window* : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">    a      : 1d-array_like, the signal. Currently only supports vectors.</span>
+<span class="sd">    nfft   : The number of points in the fft.</span>
+<span class="sd">    fs     : The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
 <span class="sd">                 None,1               : uses a &#39;boxcar&#39; or ones window.</span>
 <span class="sd">                 &#39;hann&#39;               : hanning window.</span>
 <span class="sd">                 a length(nfft) array : use this as the window directly.</span>
-<span class="sd">    *step*   : Use this to specify the overlap.  For example:</span>
+<span class="sd">    step   : Use this to specify the overlap.  For example:</span>
 <span class="sd">               step=nfft/2 specifies a 50% overlap.</span>
 <span class="sd">               step=nfft specifies no overlap.</span>
 <span class="sd">               step=2*nfft means that half the data will be skipped.</span>
-<span class="sd">               By default, *step* is calculated to maximize data use and have</span>
+<span class="sd">               By default, `step` is calculated to maximize data use and have</span>
 <span class="sd">               at least 50% overlap.</span>
-<span class="sd">             </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pow    : 1d-array</span>
-<span class="sd">    </span>
+
 <span class="sd">    --credit: This was copied from JN&#39;s fast_psd.m routine. --</span>
 
 <span class="sd">    See also:</span>
 <span class="sd">    numpy.fft</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">cpsd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

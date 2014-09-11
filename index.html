@@ -63,9 +63,12 @@ Profiler (ADP/ADCP) data.  If you have a data file of one of these
 formats that is not read by DOLfYN, contact the DOLfYN development
 team.  If you have suggestions of other data-file formats that should
 be added to DOLfYN, contact the development team.</p>
-<p>DOLfYN includes a data abstraction layer that enables saving and
-loading of data after it has been read from the binary files and
-processed.</p>
+<p>DOLfYN includes a data abstraction and input/output layer that enables
+saving and loading of data after it has been read from the binary
+files. This data abstraction layer is designed to allow easy
+input/output (loading/saving) of data along the data processing and
+analysis chain. The data is written to disk in HDF5 format using the
+<a class="reference external" href="www.h5py.org">h5py</a> library. Data can also be written to Matlab<sup>TM</sup> format.</p>
 </div>
 <div class="section" id="table-of-contents">
 <h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
@@ -80,16 +83,21 @@ processed.</p>
 <li class="toctree-l2"><a class="reference internal" href="install.html#dependencies">Dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#working-with-adv-data">Working with ADV data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#reading-adv-data">Reading ADV data</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/dolfyn.html">dolfyn package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/dolfyn.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/dolfyn.adcp.html">dolfyn.adcp package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/dolfyn.adp.html">dolfyn.adp package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/dolfyn.adv.html">dolfyn.adv package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/dolfyn.buoy.html">dolfyn.buoy package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/dolfyn.data.html">dolfyn.data package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/dolfyn.io.html">dolfyn.io package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/dolfyn.meta.html">dolfyn.meta package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/dolfyn.tools.html">dolfyn.tools package</a></li>
 </ul>
 </li>

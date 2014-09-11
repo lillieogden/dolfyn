@@ -25,10 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
-    <link rel="up" title="dolfyn package" href="dolfyn.html" />
-    <link rel="next" title="dolfyn.tools package" href="dolfyn.tools.html" />
-    <link rel="prev" title="dolfyn.io package" href="dolfyn.io.html" /> 
+    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -43,14 +40,7 @@
         <li class="right" >
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.tools.html" title="dolfyn.tools package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.io.html" title="dolfyn.io package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,8 +54,8 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-dolfyn.meta.api">
-<span id="dolfyn-meta-api-module"></span><h2>dolfyn.meta.api module<a class="headerlink" href="#module-dolfyn.meta.api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dolfyn-meta-api-module">
+<h2>dolfyn.meta.api module<a class="headerlink" href="#dolfyn-meta-api-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dolfyn.meta.api_dumb">
 <span id="dolfyn-meta-api-dumb-module"></span><h2>dolfyn.meta.api_dumb module<a class="headerlink" href="#module-dolfyn.meta.api_dumb" title="Permalink to this headline">¶</a></h2>
@@ -117,68 +107,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-dolfyn.meta.marray">
-<span id="dolfyn-meta-marray-module"></span><h2>dolfyn.meta.marray module<a class="headerlink" href="#module-dolfyn.meta.marray" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="dolfyn.meta.marray.marray">
-<em class="property">class </em><tt class="descclassname">dolfyn.meta.marray.</tt><tt class="descname">marray</tt><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
-<dl class="method">
-<dt id="dolfyn.meta.marray.marray.getdim">
-<tt class="descname">getdim</tt><big>(</big><em>name</em>, <em>dflt=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.getdim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.getdim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the axis number with meta.dim_name <em>name</em>.</p>
-<p>If meta.dim_names does not contain <em>name</em>, None is returned.
-Use the optional input <em>dflt</em> to specify a different output in this case.
-if <a href="#id1"><span class="problematic" id="id2">*</span></a>dflt*==&#8217;__error__&#8217;, this will raise a ValueError.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.meta.marray.marray.label">
-<tt class="descname">label</tt><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.meta.marray.marray.matchdims">
-<tt class="descname">matchdims</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.matchdims"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.matchdims" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.meta.marray.marray.mean">
-<tt class="descname">mean</tt><big>(</big><em>axis=None</em>, <em>dtype=None</em>, <em>out=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.mean" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>axis</em> can be a string indicating the dim_name (in meta.dim_names).</p>
-<p>If <em>axis</em> is a string, and it is not in dim_names, a copy of the array is returned.</p>
-<p>Refer to <cite>numpy.mean</cite> for full documentation</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.meta.marray.marray.name">
-<tt class="descname">name</tt><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.meta.marray.marray.std">
-<tt class="descname">std</tt><big>(</big><em>axis=None</em>, <em>dtype=None</em>, <em>out=None</em>, <em>ddof=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.std" title="Permalink to this definition">¶</a></dt>
-<dd><p>The axis along which the mean is taken can be a string indicating the dim_name (in meta.dim_names).</p>
-<p>Refer to <cite>numpy.std</cite> for full documentation</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.meta.marray.marray.unit_label">
-<tt class="descname">unit_label</tt><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.unit_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.unit_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.meta.marray.marray.units">
-<tt class="descname">units</tt><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.units" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dolfyn.meta.marray.marray.var">
-<tt class="descname">var</tt><big>(</big><em>axis=None</em>, <em>dtype=None</em>, <em>out=None</em>, <em>ddof=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/marray.html#marray.var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.marray.marray.var" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="dolfyn-meta-marray-module">
+<h2>dolfyn.meta.marray module<a class="headerlink" href="#dolfyn-meta-marray-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dolfyn.meta.meta">
 <span id="dolfyn-meta-meta-module"></span><h2>dolfyn.meta.meta module<a class="headerlink" href="#module-dolfyn.meta.meta" title="Permalink to this headline">¶</a></h2>
@@ -187,9 +117,10 @@ if <a href="#id1"><span class="problematic" id="id2">*</span></a>dflt*==&#8217;_
 <em class="property">class </em><tt class="descclassname">dolfyn.meta.meta.</tt><tt class="descname">unitsDict</tt><a class="reference internal" href="../_modules/dolfyn/meta/meta.html#unitsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.meta.unitsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></p>
 <p>A dictionary sub-class for tracking units.</p>
-<p>unitsDict instances support simple math operations (multiply, divide, power)</p>
-<p>The <em>key</em> of unitsDicts objects are the units, the values represent the power
-of that unit.  For example:</p>
+<p>unitsDict instances support simple math operations (multiply,
+divide, power)</p>
+<p>The <em>key</em> of unitsDicts objects are the units, the values
+represent the power of that unit.  For example:</p>
 <blockquote>
 <div>a unitsDict({&#8216;s&#8217;:-1,&#8217;m&#8217;:1}) object represents units of m/s.</div></blockquote>
 <dl class="method">
@@ -216,8 +147,8 @@ of that unit.  For example:</p>
 <dt id="dolfyn.meta.meta.varMeta.copy">
 <tt class="descname">copy</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/meta/meta.html#varMeta.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.meta.meta.varMeta.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a copy of this varMeta object.</p>
-<p>Optional variable <em>name</em> may be used to create a copy of these units, with
-a new &#8216;name&#8217;.</p>
+<p>Optional variable <em>name</em> may be used to create a copy of these
+units, with a new &#8216;name&#8217;.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -289,22 +220,16 @@ a new &#8216;name&#8217;.</p>
   <ul>
 <li><a class="reference internal" href="#">dolfyn.meta package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-dolfyn.meta.api">dolfyn.meta.api module</a></li>
+<li><a class="reference internal" href="#dolfyn-meta-api-module">dolfyn.meta.api module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.meta.api_dumb">dolfyn.meta.api_dumb module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.meta.labels">dolfyn.meta.labels module</a></li>
-<li><a class="reference internal" href="#module-dolfyn.meta.marray">dolfyn.meta.marray module</a></li>
+<li><a class="reference internal" href="#dolfyn-meta-marray-module">dolfyn.meta.marray module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.meta.meta">dolfyn.meta.meta module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.meta">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dolfyn.io.html"
-                        title="previous chapter">dolfyn.io package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="dolfyn.tools.html"
-                        title="next chapter">dolfyn.tools package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/dolfyn.meta.txt"
@@ -339,14 +264,7 @@ a new &#8216;name&#8217;.</p>
         <li class="right" >
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.tools.html" title="dolfyn.tools package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.io.html" title="dolfyn.io package"
-             >previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
+        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

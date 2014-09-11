@@ -6,12 +6,11 @@ Subpackages
 
 .. toctree::
 
-    dolfyn.adcp
+    dolfyn.adp
     dolfyn.adv
     dolfyn.buoy
     dolfyn.data
     dolfyn.io
-    dolfyn.meta
     dolfyn.tools
 
 Submodules

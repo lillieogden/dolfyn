@@ -59,7 +59,31 @@
             
   <div class="section" id="usage">
 <span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Need to fill this in...</p>
+<p>DOLfYN is a library of tools for reading, processing, and analyzing data from oceanographic instrumentation such as acoustic Doppler velocimeters (ADVs) and acoustic Doppler profilers (ADPs). It also includes tools for reading buoy data from the <a class="reference external" href="http://www.ndbc.noaa.gov/">National Data Buoy Center</a> (NDBC).</p>
+<p>DOLfYN is organized into subpackages for working with each data type it supports, as well as base packages</p>
+<div class="section" id="working-with-adv-data">
+<h2>Working with ADV data<a class="headerlink" href="#working-with-adv-data" title="Permalink to this headline">¶</a></h2>
+<p>Acoustic Doppler velocimeters (ADVs) make measurements of velocity at a point in space (e.g. the <a class="reference external" href="http://www.sontek.com/productsdetail.php?Argonaut-ADV-6">Sontek Argonaut-ADV</a>, and the <a class="reference external" href="http://www.nortek-as.com/en/products/velocimeters">Nortek Vector</a>).</p>
+<div class="section" id="reading-adv-data">
+<h3>Reading ADV data<a class="headerlink" href="#reading-adv-data" title="Permalink to this headline">¶</a></h3>
+<p>Currently DOLfYN supports reading of binary Nortek Vector, <cite>.vec</cite>, files. Assuming you are working from an interactive prompt, you can read a Vector file like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dolfyn.adv</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">avm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">read_nortek</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">my_vector_file</span><span class="o">.</span><span class="n">vec</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The variable this returns is an <a class="reference internal" href="api/dolfyn.adv.html#dolfyn.adv.base.adv_raw" title="dolfyn.adv.base.adv_raw"><tt class="xref py py-class docutils literal"><span class="pre">adv_raw</span></tt></a> object, which contains the data loaded from the file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span><span class="o">.</span><span class="n">u</span>
+<span class="go">array([-0.92200005, -0.87800002, -0.85400003, ..., -0.88900006,</span>
+<span class="go">       -0.85600007, -0.98100007], dtype=float32)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span><span class="o">.</span><span class="n">mpltime</span>
+<span class="go">time_array([ 734666.50003103,  734666.50003139,  734666.50003175, ...,</span>
+<span class="go">        734666.50973251,  734666.50973287,  734666.50973323])</span>
+</pre></div>
+</div>
+<p>The :class:<a href="#id2"><span class="problematic" id="id3">`</span></a>adv_raw `</p>
+</div>
+</div>
 </div>
 
 
@@ -68,6 +92,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#working-with-adv-data">Working with ADV data</a><ul>
+<li><a class="reference internal" href="#reading-adv-data">Reading ADV data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="install.html"
                         title="previous chapter">Download and Install</a></p>
