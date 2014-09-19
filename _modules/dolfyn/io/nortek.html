@@ -52,6 +52,11 @@
           <div class="body">
             
   <h1>Source code for dolfyn.io.nortek</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides the routines for reading data from Nortek data</span>
+<span class="sd">files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">..adv</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">adv_base</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">adp</span>
@@ -75,7 +80,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    adv_data : :class:`adv_raw`</span>
+<span class="sd">    adv_data : :class:`ADVraw &lt;dolfyn.adv.base.ADVraw&gt;`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">NortekReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">do_checksum</span><span class="o">=</span><span class="n">do_checksum</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">rdr</span><span class="p">:</span>
@@ -168,7 +173,7 @@
         <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;I/O error: The file does not </span><span class="se">\</span>
 <span class="s">                   appear to be a Nortek data file.&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_id</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">read_hw_cfg</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_hw_cfg</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_id</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
@@ -225,11 +230,11 @@
 <span class="sd">          how to initialize each data variable.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">va</span> <span class="ow">in</span> <span class="n">vardict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">va</span> <span class="ow">in</span> <span class="n">vardict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span>
-                                   <span class="n">vardict</span><span class="o">.</span><span class="n">_empty_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span>
-                                   <span class="n">dtype</span><span class="o">=</span><span class="n">vardict</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                                   <span class="n">va</span><span class="o">.</span><span class="n">_empty_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span>
+                                   <span class="n">va</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NortekReader.checksum"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.checksum">[docs]</a>    <span class="k">def</span> <span class="nf">checksum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byts</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -266,7 +271,7 @@
         <span class="c"># ID: &#39;0x00</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading user configuration (0x00)...&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_config</span><span class="p">(</span><span class="s">&#39;USER&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;USER&#39;</span><span class="p">))</span>
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">508</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x5H13H6s4HI8H2x90H180s6H4xH2x2H2xH30x8H&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
@@ -323,7 +328,7 @@
         <span class="c"># ID: &#39;0x04</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading head configuration (0x04)...&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_config</span><span class="p">(</span><span class="s">&#39;HEAD&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;HEAD&#39;</span><span class="p">))</span>
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">220</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x3H12s176s22xH&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -340,7 +345,7 @@
         <span class="c"># ID 0x05</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading hardware configuration (0x05)...&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;hardware&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_config</span><span class="p">(</span><span class="s">&#39;HARDWARE&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;hardware&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;HARDWARE&#39;</span><span class="p">))</span>
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">44</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x14s6H12xI&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hardware</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;serialNum&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">8</span><span class="p">])</span>
@@ -372,7 +377,7 @@
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading vector check data (0x07)...&#39;</span><span class="p">)</span>
         <span class="n">byts0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x2H&#39;</span><span class="p">,</span> <span class="n">byts0</span><span class="p">)</span>  <span class="c"># The first two are size.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;checkdata&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_config</span><span class="p">(</span><span class="s">&#39;CHECKDATA&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;checkdata&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;CHECKDATA&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">checkdata</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Samples&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">checkdata</span><span class="o">.</span><span class="n">Samples</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">checkdata</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;First_samp&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -407,10 +412,7 @@
             <span class="s">&#39;BEAM&#39;</span><span class="p">:</span> <span class="s">&#39;beam&#39;</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">CoordSystem</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;toff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c"># I must be able to calculate this here, right? # !!!TODO!!!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;doppler_noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;u&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-                                            <span class="s">&#39;v&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-                                            <span class="s">&#39;w&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-                                            <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;doppler_noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_vec_data"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_vec_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_vec_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -467,6 +469,18 @@
         <span class="n">tbx</span><span class="o">.</span><span class="n">fillgaps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pitch</span><span class="p">)</span>
         <span class="n">tbx</span><span class="o">.</span><span class="n">fillgaps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">roll</span><span class="p">)</span>
         <span class="n">tbx</span><span class="o">.</span><span class="n">fillgaps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="n">tmpd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">heading</span><span class="p">)</span>
+        <span class="n">tmpd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="c"># The first status bit should be the orientation.</span>
+        <span class="n">tmpd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_sysi</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_sysi</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mi">1</span>
+        <span class="n">tbx</span><span class="o">.</span><span class="n">fillgaps</span><span class="p">(</span><span class="n">tmpd</span><span class="p">,</span> <span class="n">extrapFlg</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
+        <span class="n">tmpd</span><span class="p">[</span><span class="mi">1</span><span class="p">:][</span><span class="n">slope</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">tmpd</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">slope</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;orientation_down&#39;</span><span class="p">,</span>
+                           <span class="n">tmpd</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;bool&#39;</span><span class="p">),</span>
+                           <span class="s">&#39;_essential&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_vec_sysdata"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_vec_sysdata">[docs]</a>    <span class="k">def</span> <span class="nf">read_vec_sysdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -605,7 +619,7 @@
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">38</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;8xH7B21x&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
                      <span class="c"># The first two are size, the next 6 are time.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;data_header&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_config</span><span class="p">(</span><span class="s">&#39;DATA HEADER&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;data_header&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;DATA HEADER&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rd_time</span><span class="p">(</span><span class="n">byts</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;NRecords&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Noise1&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -691,7 +705,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">/</span> <span class="n">iternum</span>
 </div>
 <div class="viewcode-block" id="NortekReader.init_ADV"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.init_ADV">[docs]</a>    <span class="k">def</span> <span class="nf">init_ADV</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">adv_raw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVraw</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Nortek&#39;</span>
@@ -736,7 +750,7 @@
 <span class="sd">        Read the time from the first 6bytes of the input string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s">&#39;BBBBBB&#39;</span><span class="p">,</span> <span class="n">strng</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">tbx</span><span class="o">.</span><span class="n">date2num</span><span class="p">(</span><span class="n">tbx</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">date2num</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
             <span class="n">time</span><span class="o">.</span><span class="n">_fullyear</span><span class="p">(</span><span class="n">_bcd2char</span><span class="p">(</span><span class="n">year</span><span class="p">)),</span>
             <span class="n">_bcd2char</span><span class="p">(</span><span class="n">month</span><span class="p">),</span>
             <span class="n">_bcd2char</span><span class="p">(</span><span class="n">day</span><span class="p">),</span>

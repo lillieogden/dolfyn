@@ -52,16 +52,19 @@
           <div class="body">
             
   <h1>Source code for dolfyn.io.base</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The base module for the io package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">expanduser</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">..data</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">db</span>
 
 
-<div class="viewcode-block" id="data_factory"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.base.data_factory">[docs]</a><span class="k">class</span> <span class="nc">data_factory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DataFactory"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.base.DataFactory">[docs]</a><span class="k">class</span> <span class="nc">DataFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A base class for data factory objects.  data_factory objects save</span>
-<span class="sd">    or load data from files.</span>
+<span class="sd">    An abstract base class for writing :class:`main.Saveable` objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">closefile</span> <span class="o">=</span> <span class="bp">True</span>
 
@@ -86,7 +89,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span>
 
     <span class="nd">@filename.setter</span>
-<div class="viewcode-block" id="data_factory.filename"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.base.data_factory.filename">[docs]</a>    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="DataFactory.filename"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.base.DataFactory.filename">[docs]</a>    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">expanduser</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
 </div></div>
@@ -97,6 +100,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+
 <span class="sd">    dims : (list, optional)</span>
 <span class="sd">        The dimensions of the array other than the &#39;time&#39;</span>
 <span class="sd">        dimension. By default the time dimension is appended to the</span>
@@ -132,6 +136,9 @@
 
 <span class="sd">    dim_names : (list, optional)</span>
 <span class="sd">        A list of names for each dimension of the array\*\*.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 
 <span class="sd">    \*\*: These variables are only used when meta-arrays are being</span>
 <span class="sd">    used by DOLfYN (meta-arrays are currently sidelined).</span>

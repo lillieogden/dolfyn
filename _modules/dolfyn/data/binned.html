@@ -84,6 +84,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        fs : float (optional)</span>
+<span class="sd">          The sample rate (Hz).</span>
 <span class="sd">        coh : bool</span>
 <span class="sd">          Calculate the frequency vector for coherence/cross-spectra</span>
 <span class="sd">          (default: False) i.e. use self.n_fft_coh instead of</span>
@@ -144,9 +145,7 @@
 <span class="sd">          corners of the matrix (beginning/end of timeseries).  In</span>
 <span class="sd">          this case, the array shape will be (...,`n`,`n_pad`+`n_bin`)</span>
 <span class="sd">        n_bin : float, int (optional)</span>
-<span class="sd">          n_bin is specified in the adv_binned object.  Create a</span>
-<span class="sd">          different adv_binned object to use a different n_bin.  n is</span>
-<span class="sd">          fix(len(arr)/n_bin)</span>
+<span class="sd">          Override this binner&#39;s n_bin.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -448,10 +447,12 @@
             <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="n">psd</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">n_fft</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">fs</span><span class="p">,</span>
                            <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ma</span><span class="o">.</span><span class="n">valid</span> <span class="ow">and</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">(</span><span class="n">out</span><span class="p">,</span>
-                            <span class="n">ma</span><span class="o">.</span><span class="n">varMeta</span><span class="p">(</span><span class="s">&#39;S(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                                   <span class="n">ma</span><span class="o">.</span><span class="n">unitsDict</span><span class="p">({</span><span class="s">&#39;s&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">*</span><span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">_units</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
-                                   <span class="n">dim_names</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]))</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">(</span>
+                <span class="n">out</span><span class="p">,</span>
+                <span class="n">ma</span><span class="o">.</span><span class="n">varMeta</span><span class="p">(</span><span class="s">&#39;S(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                           <span class="n">ma</span><span class="o">.</span><span class="n">unitsDict</span><span class="p">({</span><span class="s">&#39;s&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span> <span class="o">*</span> <span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">_units</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                           <span class="n">dim_names</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">])</span>
+                <span class="p">)</span>
             <span class="c"># The dat.meta.dim_names[:-1] drops the &#39;time2&#39; dim_name.</span>
 
         <span class="k">if</span> <span class="n">noise</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>

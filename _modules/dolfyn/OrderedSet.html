@@ -54,10 +54,11 @@
   <h1>Source code for dolfyn.OrderedSet</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">collections</span>
 
+
 <div class="viewcode-block" id="OrderedSet"><a class="viewcode-back" href="../../api/dolfyn.html#dolfyn.OrderedSet.OrderedSet">[docs]</a><span class="k">class</span> <span class="nc">OrderedSet</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">MutableSet</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">=</span> <span class="p">[]</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">end</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span>         <span class="c"># sentinel node for doubly linked list</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>                   <span class="c"># key --&gt; [key, prev, next]</span>
         <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -76,7 +77,7 @@
             <span class="n">curr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="OrderedSet.discard"><a class="viewcode-back" href="../../api/dolfyn.html#dolfyn.OrderedSet.OrderedSet.discard">[docs]</a>    <span class="k">def</span> <span class="nf">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>        
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>
             <span class="n">key</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="nb">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="n">prev</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">next</span>
             <span class="nb">next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">prev</span>
@@ -112,7 +113,7 @@
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-            </div>
+</div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">OrderedSet</span><span class="p">(</span><span class="s">&#39;abracadaba&#39;</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">OrderedSet</span><span class="p">(</span><span class="s">&#39;simsalabim&#39;</span><span class="p">)</span>

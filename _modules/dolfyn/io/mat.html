@@ -53,44 +53,78 @@
             
   <h1>Source code for dolfyn.io.mat</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">io</span> <span class="k">as</span> <span class="n">spio</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">data_factory</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">DataFactory</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 
-<div class="viewcode-block" id="saver"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.saver">[docs]</a><span class="k">class</span> <span class="nc">saver</span><span class="p">(</span><span class="n">data_factory</span><span class="p">):</span>
-    <span class="n">ver</span><span class="o">=</span><span class="mf">1.1</span>
 
-<div class="viewcode-block" id="saver.close"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.saver.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Saver"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.Saver">[docs]</a><span class="k">class</span> <span class="nc">Saver</span><span class="p">(</span><span class="n">DataFactory</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The &#39;matlab&#39; saver data factory writes :class:`main.Saveable`</span>
+<span class="sd">    objects to disk. In general, this should not be used in user</span>
+<span class="sd">    space. Instead, use a data object&#39;s</span>
+<span class="sd">    :meth:`main.Saveable.save_mat` method.</span>
+
+<span class="sd">    This utilizes scipy&#39;s save_mat routine; see it for options.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ver</span> <span class="o">=</span> <span class="mf">1.1</span>
+
+<div class="viewcode-block" id="Saver.close"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.Saver.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 </div>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;5&#39;</span><span class="p">,</span><span class="n">do_compression</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">oned_as</span><span class="o">=</span><span class="s">&#39;row&#39;</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;5&#39;</span><span class="p">,</span>
+                 <span class="n">do_compression</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">oned_as</span><span class="o">=</span><span class="s">&#39;row&#39;</span><span class="p">,):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_mode</span> <span class="o">=</span> <span class="n">mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">format</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_compression</span> <span class="o">=</span> <span class="n">do_compression</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">oned_as</span> <span class="o">=</span> <span class="n">oned_as</span>
 
-
-<div class="viewcode-block" id="saver.obj2todict"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.saver.obj2todict">[docs]</a>    <span class="k">def</span> <span class="nf">obj2todict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">out</span><span class="o">=</span><span class="p">{}</span>
-        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
-            <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="n">dat</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">props</span><span class="p">))</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;doppler_noise&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_obj2todict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the data in obj to a dictionary suitable for scipy&#39;s</span>
+<span class="sd">        save_mat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">props</span><span class="p">))</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;doppler_noise&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="c"># unicodes key-names are not supported</span>
             <span class="k">if</span> <span class="n">nm</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">unicode</span><span class="p">:</span>
-                <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">)]</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">)]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
                 <span class="n">nm</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
             <span class="c"># sets are not supported</span>
             <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
                 <span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;props&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">out</span>
-</div>
-<div class="viewcode-block" id="saver.write"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.saver.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj2todict</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="s">&#39;_pre_mat_save&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Saver.write"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.mat.Saver.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write data in `obj` to disk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        obj : :class:`main.Saveable`</span>
+<span class="sd">          The data object to save</span>
+
+<span class="sd">        groups : {string, list, None,}</span>
+<span class="sd">          A group or list of groups to write to the file. By default</span>
+<span class="sd">          (None), it writes all groups.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj2todict</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&#39;_pre_mat_save&#39;</span><span class="p">):</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">_pre_mat_save</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-        <span class="n">spio</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">do_compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">do_compression</span><span class="p">,</span> <span class="n">oned_as</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oned_as</span><span class="p">)</span></div></div>
+        <span class="n">spio</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                     <span class="n">out</span><span class="p">,</span>
+                     <span class="n">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
+                     <span class="n">do_compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">do_compression</span><span class="p">,</span>
+                     <span class="n">oned_as</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oned_as</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

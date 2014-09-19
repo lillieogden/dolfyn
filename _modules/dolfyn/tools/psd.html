@@ -59,8 +59,23 @@
 
 <div class="viewcode-block" id="psd_freq"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd_freq">[docs]</a><span class="k">def</span> <span class="nf">psd_freq</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the frequency spectrum for use with psd.</span>
-<span class="sd">    *fs* is the sampling frequency.</span>
+<span class="sd">    Compute the frequency for vector for a `nfft` and `fs`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    fs : float</span>
+<span class="sd">      The sampling frequency (e.g. samples/sec)</span>
+
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of samples in a window.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    freq : ndarray</span>
+<span class="sd">      The frequency vector.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">)</span>
@@ -106,16 +121,22 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+
 <span class="sd">    a : np.ndarray</span>
 <span class="sd">      The first array over which to compute coherence.</span>
+
 <span class="sd">    b : np.ndarray</span>
 <span class="sd">      The second array over which to compute coherence.</span>
+
 <span class="sd">    nfft : int</span>
 <span class="sd">      The number of points to use in the fft.</span>
+
 <span class="sd">    window : string, np.ndarray (default &#39;hann&#39;)</span>
 <span class="sd">      The window to use for ffts.</span>
+
 <span class="sd">    debias : bool (default: True)</span>
 <span class="sd">      Specify whether to debias the signal according to Benignus1969.</span>
+
 <span class="sd">    noise : tuple(2), or float</span>
 <span class="sd">      The `noise` keyword may be used to specify the signals&#39;</span>
 <span class="sd">      noise levels (std of noise in a,b). If `noise` is a two</span>
@@ -168,7 +189,45 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cross power spectral density (CPSD) of the signals *a* and *b*.</span>
 
-<span class="sd">    *a* and *b* do not need to be &#39;tightly&#39; synchronized, and can even</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : |np.ndarray|</span>
+<span class="sd">      The first signal.</span>
+
+<span class="sd">    b : |np.ndarray|</span>
+<span class="sd">      The second signal.</span>
+
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points in the fft.</span>
+
+<span class="sd">    fs : float</span>
+<span class="sd">      The sample rate (e.g. sample/second).</span>
+
+<span class="sd">    window : {None, 1, &#39;hann&#39;, |np.ndarray|}</span>
+<span class="sd">      The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">      - None,1               : uses a &#39;boxcar&#39; or ones window.</span>
+<span class="sd">      - &#39;hann&#39;               : hanning window.</span>
+<span class="sd">      - a length(nfft) array : use this as the window directly.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    cpsd : ndarray</span>
+<span class="sd">      The cross-spectral density of `a` and `b`.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    ---------</span>
+<span class="sd">    :func:`psd`,</span>
+<span class="sd">    :func:`cohere`,</span>
+<span class="sd">    :func:`cpsd`,</span>
+<span class="sd">    numpy.fft</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    `a` and `b` do not need to be &#39;tightly&#39; synchronized, and can even</span>
 <span class="sd">    be different lengths, but the first- and last-index of both series</span>
 <span class="sd">    should be synchronized (to whatever degree you want unbiased</span>
 <span class="sd">    phases).</span>
@@ -177,25 +236,7 @@
 
 <span class="sd">    fft(a)*conj(fft(b))</span>
 
-<span class="sd">    Note that this is consistent with *np.correlate*&#39;s definition of</span>
-<span class="sd">    correlation.  (The conjugate of D.B. Chelton&#39;s definition of</span>
-<span class="sd">    correlation.)</span>
-
-<span class="sd">    The two signals should be the same length, and should both be real.</span>
-
-<span class="sd">    See also:</span>
-<span class="sd">    psd,cohere,cpsd,numpy.fft</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    a      : The first signal.</span>
-<span class="sd">    b      : The second signal.</span>
-<span class="sd">    nfft   : The number of points in the fft.</span>
-<span class="sd">    fs     : The sample rate (e.g. sample/second).</span>
-<span class="sd">    window : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
-<span class="sd">                 None,1               : uses a &#39;boxcar&#39; or ones window.</span>
-<span class="sd">                 &#39;hann&#39;               : hanning window.</span>
-<span class="sd">                 a length(nfft) array : use this as the window directly.</span>
+<span class="sd">    Note that this is consistent with :func:`numpy.correlate`.</span>
 
 <span class="sd">    It detrends the data and uses a minimum of 50% overlap for the</span>
 <span class="sd">    shorter of `a` and `b`. For the longer, the overlap depends on the</span>
@@ -243,37 +284,64 @@
 <span class="sd">    This performs:</span>
 <span class="sd">    fft(a)*conj(fft(b))</span>
 
-<span class="sd">    Note that this is consistent with the numpy.correlate definition</span>
-<span class="sd">    of correlation.  (The conjugate of D.B. Chelton&#39;s definition of</span>
-<span class="sd">    correlation.)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : |np.ndarray|</span>
+<span class="sd">      The first signal.</span>
+
+<span class="sd">    b : |np.ndarray|</span>
+<span class="sd">      The second signal.</span>
+
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points in the fft.</span>
+
+<span class="sd">    fs : float</span>
+<span class="sd">      The sample rate (e.g. sample/second).</span>
+
+<span class="sd">    window : {None, 1, &#39;hann&#39;, |np.ndarray|}</span>
+<span class="sd">      The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">      - None,1               : uses a &#39;boxcar&#39; or ones window.</span>
+<span class="sd">      - &#39;hann&#39;               : hanning window.</span>
+<span class="sd">      - a length(nfft) array : use this as the window directly.</span>
+
+<span class="sd">    step : int</span>
+<span class="sd">      Use this to specify the overlap.  For example:</span>
+<span class="sd">      - step : nfft/2 specifies a 50% overlap.</span>
+<span class="sd">      - step : nfft specifies no overlap.</span>
+<span class="sd">      - step=2*nfft means that half the data will be skipped.</span>
+<span class="sd">      By default, `step` is calculated to maximize data use and have</span>
+<span class="sd">      at least 50% overlap.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    cpsd : ndarray</span>
+<span class="sd">      The cross-spectral density of `a` and `b`.</span>
+
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    :func:`psd`</span>
+<span class="sd">    :func:`cohere`</span>
+<span class="sd">    numpy.fft</span>
+<span class="sd">    :func:`cpsd_quasisync`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    cpsd removes a linear trend from the signals.</span>
 
 <span class="sd">    The two signals should be the same length, and should both be real.</span>
 
-<span class="sd">    See also:</span>
-<span class="sd">    psd,cohere,numpy.fft</span>
+<span class="sd">    This implementation is consistent with the numpy.correlate</span>
+<span class="sd">    definition of correlation.  (The conjugate of D.B. Chelton&#39;s</span>
+<span class="sd">    definition of correlation.)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    a      : The first signal.</span>
-<span class="sd">    b      : The second signal.</span>
-<span class="sd">    nfft   : The number of points in the fft.</span>
-<span class="sd">    fs     : The sample rate (e.g. sample/second).</span>
-<span class="sd">    window : The window to use (default: &#39;hann&#39;). Valid entries are:</span>
-<span class="sd">                 None,1               : uses a &#39;boxcar&#39; or ones window.</span>
-<span class="sd">                 &#39;hann&#39;               : hanning window.</span>
-<span class="sd">                 a length(nfft) array : use this as the window directly.</span>
-<span class="sd">    step   : Use this to specify the overlap.  For example:</span>
-<span class="sd">               step=nfft/2 specifies a 50% overlap.</span>
-<span class="sd">               step=nfft specifies no overlap.</span>
-<span class="sd">               step=2*nfft means that half the data will be skipped.</span>
-<span class="sd">               By default, `step` is calculated to maximize data use and have</span>
-<span class="sd">               at least 50% overlap.</span>
-
-<span class="sd">    cpsd removes a linear trend from the data</span>
-
-<span class="sd">    For computing cpsd&#39;s of variables of different size, use cpsd_quasisync.</span>
-
-<span class="sd">    The units of the spectra is the product of the units of `a` and `b`, divided by the units of fs.</span>
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span>

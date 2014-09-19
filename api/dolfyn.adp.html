@@ -126,6 +126,7 @@
 <dt id="dolfyn.adp.base.adcp_raw">
 <em class="property">class </em><tt class="descclassname">dolfyn.adp.base.</tt><tt class="descname">adcp_raw</tt><a class="reference internal" href="../_modules/dolfyn/adp/base.html#adcp_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adp.base.adcp_raw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.velocity" title="dolfyn.data.velocity.velocity"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.velocity</span></tt></a></p>
+<p>The base &#8216;adcp&#8217; class.</p>
 <dl class="attribute">
 <dt id="dolfyn.adp.base.adcp_raw.S2">
 <tt class="descname">S2</tt><a class="reference internal" href="../_modules/dolfyn/adp/base.html#adcp_raw.S2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adp.base.adcp_raw.S2" title="Permalink to this definition">¶</a></dt>
@@ -185,19 +186,12 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adp.base.binner.calc_eps_sfz">
-<tt class="descname">calc_eps_sfz</tt><big>(</big><em>adpr</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adp/base.html#binner.calc_eps_sfz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adp.base.binner.calc_eps_sfz" title="Permalink to this definition">¶</a></dt>
-<dd><p>I&#8217;m not really sure this works.
-It seems that it might work over a couple bins at most, but in general I think the structure functions
-must be done in time (just as in advs), rather than depth.</p>
-<p><strong>* Currently, this function is in a debugging state, and is non-functional. *</strong></p>
-</dd></dl>
-
-<dl class="method">
 <dt id="dolfyn.adp.base.binner.calc_stresses">
 <tt class="descname">calc_stresses</tt><big>(</big><em>beamvel</em>, <em>beamAng</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adp/base.html#binner.calc_stresses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adp.base.binner.calc_stresses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the stresses from, the difference in the beam variances.
-Reference: Stacey, Monosmith and Burau; (1999) JGR [104] &#8220;Measurements of Reynolds stress profiles in unstratified tidal flow&#8221;</p>
+<dd><p>Calculate the stresses from the difference in the beam variances.</p>
+<p>Reference: Stacey, Monosmith and Burau; (1999) JGR [104]
+&#8220;Measurements of Reynolds stress profiles in unstratified
+tidal flow&#8221;</p>
 </dd></dl>
 
 <dl class="method">

@@ -56,10 +56,70 @@
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">medfilt2d</span>
 
 
+<div class="viewcode-block" id="group"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.group">[docs]</a><span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="n">bl</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find continuous segments in a boolean array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bl : np.ndarray(dtype=&#39;bool&#39;)</span>
+<span class="sd">      The input boolean array.</span>
+<span class="sd">    min_length : int (optional)</span>
+<span class="sd">      Specifies the minimum number of continuos points to consider a</span>
+<span class="sd">      `group` (i.e. that will be returned).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : np.ndarray(slices,)</span>
+<span class="sd">      a vector of slice objects, which indicate the continuous</span>
+<span class="sd">      sections where `bl` is True.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function has funny behavior for single points.  It will</span>
+<span class="sd">    return the same two indices for the beginning and end.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">bl</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">vl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bl</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;int&#39;</span><span class="p">))</span>
+    <span class="n">ups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">vl</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">dns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">vl</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">bl</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ups</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ups</span><span class="p">)]))</span>
+    <span class="k">if</span> <span class="n">bl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">bl</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">dns</span><span class="p">,</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">bl</span><span class="p">)]))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dns</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;O&#39;</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ups</span><span class="p">,</span> <span class="n">dns</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">-</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">min_length</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">out</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
+
+</div>
 <div class="viewcode-block" id="delta"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta">[docs]</a><span class="k">class</span> <span class="nc">delta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    delta objects are for creating boolean &#39;index&#39; arrays. For an input data.</span>
+<span class="sd">    delta objects find indices in an input array of `data` that fall</span>
+<span class="sd">    within a distance `delta` from a `value`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">      The data that should be indexed.</span>
+
+<span class="sd">    delta : float</span>
+<span class="sd">      The distance from `val` that the data will be indexed as True.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -68,15 +128,22 @@
 </div>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creat a delta object for *data* with delta *delta*.</span>
+<span class="sd">        Create a delta object for *data* with delta *delta*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
 
 <div class="viewcode-block" id="delta.__call__"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.delta.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the indices of `data` that fall within `val`- delta to</span>
-<span class="sd">        `val` + delta.</span>
+<span class="sd">        Return the indices of `data` that fall within `val`- `delta` to</span>
+<span class="sd">        `val` + `delta`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        val : float</span>
+<span class="sd">          The value at the center of the range.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">val</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
 </div>
@@ -143,13 +210,24 @@
 </div>
 <div class="viewcode-block" id="fillgaps"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.fillgaps">[docs]</a><span class="k">def</span> <span class="nf">fillgaps</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extrapFlg</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    out=fillgaps(A,MAXGAP,DIM) Fills gaps in A by linear</span>
-<span class="sd">    interpolation along dimension DIM.  The maximum gap width</span>
-<span class="sd">    to be filled is specified by MAXGAP.</span>
+<span class="sd">    Linearly fill NaN value in an array.</span>
 
-<span class="sd">    MAXGAP defualts to fill gaps of any width.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : |np.ndarray|</span>
+<span class="sd">      The array to be filled.</span>
 
-<span class="sd">    DIM defaults to 0.&quot;&quot;&quot;</span>
+<span class="sd">    maxgap : |np.ndarray| (optional: inf)</span>
+<span class="sd">      The maximum gap to fill.</span>
+
+<span class="sd">    dim : int (optional: 0)</span>
+<span class="sd">      The dimension to operate along.</span>
+
+<span class="sd">    extrapFlg : bool (optional: False)</span>
+<span class="sd">      Whether to extrapolate if NaNs are found at the ends of the</span>
+<span class="sd">      array.</span>
+
+<span class="sd">      &quot;&quot;&quot;</span>
 
     <span class="c"># If this is a multi-dimensional array, operate along axis dim.</span>
     <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -195,12 +273,26 @@
 </div>
 <div class="viewcode-block" id="medfiltnan"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.medfiltnan">[docs]</a><span class="k">def</span> <span class="nf">medfiltnan</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Do a running median filter of the data.</span>
+<span class="sd">    Do a running median filter of the data that fills NaNs.</span>
 
-<span class="sd">    Regions where more than *thresh* fraction of the points NaN, are</span>
-<span class="sd">    set to NaN.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : |np.ndarray|</span>
+<span class="sd">      The array to filter.</span>
 
-<span class="sd">    Currently only work for vectors.</span>
+<span class="sd">    kernel : int</span>
+<span class="sd">      The length of the median filter.</span>
+
+<span class="sd">    thresh : float (default: 0)</span>
+<span class="sd">      In a region where more than `thresh` fractionf of the values are</span>
+<span class="sd">      NaN, the value at the center is set to NaN.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : |np.ndarray|</span>
+<span class="sd">      The filtered array.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">nans</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span> <span class="o">/</span> <span class="n">kernel</span><span class="p">,</span> <span class="s">&#39;same&#39;</span><span class="p">)</span>
@@ -211,6 +303,10 @@
 
 </div>
 <div class="viewcode-block" id="degN2cartDeg"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.misc.degN2cartDeg">[docs]</a><span class="k">def</span> <span class="nf">degN2cartDeg</span><span class="p">(</span><span class="n">angN</span><span class="p">,):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert degrees True North to &#39;cartesian Degrees&#39;</span>
+<span class="sd">    (counter-clockwise from the East).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">angN</span>
     <span class="n">out</span><span class="p">[</span><span class="n">out</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">360</span>
     <span class="k">return</span> <span class="n">out</span></div>

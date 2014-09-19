@@ -52,40 +52,47 @@
           <div class="body">
             
   <h1>Source code for dolfyn.io.main</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Holds the primary high-level interfaces for the io (read/write)</span>
+<span class="sd">package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">from</span> <span class="nn">..data.base</span> <span class="kn">import</span> <span class="n">Dgroups</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">hdf5</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">mat</span>
+<span class="kn">import</span> <span class="nn">hdf5</span>
+<span class="kn">import</span> <span class="nn">mat</span>
 
 <span class="c"># These define the default.</span>
-<span class="n">loader</span> <span class="o">=</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">loader</span>
-<span class="n">saver</span> <span class="o">=</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">saver</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">Loader</span>
+<span class="n">saver</span> <span class="o">=</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">Saver</span>
 
 
-<div class="viewcode-block" id="saveable"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.saveable">[docs]</a><span class="k">class</span> <span class="nc">saveable</span><span class="p">(</span><span class="n">Dgroups</span><span class="p">):</span>
+<div class="viewcode-block" id="Saveable"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.Saveable">[docs]</a><span class="k">class</span> <span class="nc">Saveable</span><span class="p">(</span><span class="n">Dgroups</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An abstract base class for objects that should be &#39;saveable&#39;.</span>
+<span class="sd">    An abstract base class for writing objects that are &#39;Saveable&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="saveable.save_mat"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.saveable.save_mat">[docs]</a>    <span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">appendmat</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<div class="viewcode-block" id="Saveable.save_mat"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.Saveable.save_mat">[docs]</a>    <span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">appendmat</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                  <span class="n">format</span><span class="o">=</span><span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="n">do_compression</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">oned_as</span><span class="o">=</span><span class="s">&#39;row&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save data in the object, to a matlab file.</span>
-<span class="sd">        #### THIS NEEDS TO BE UPDATED! ####</span>
-<span class="sd">        - for meta arrays</span>
-<span class="sd">        - for properties</span>
-<span class="sd">        - does it even work at all anymore?</span>
+<span class="sd">        Save data in the object to a matlab file.</span>
+
+
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        scipy.io.save_mat</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">mat</span><span class="o">.</span><span class="n">saver</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="n">do_compression</span><span class="o">=</span><span class="n">do_compression</span><span class="p">,</span>
+        <span class="k">with</span> <span class="n">mat</span><span class="o">.</span><span class="n">Saver</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="n">do_compression</span><span class="o">=</span><span class="n">do_compression</span><span class="p">,</span>
                        <span class="n">oned_as</span><span class="o">=</span><span class="n">oned_as</span><span class="p">)</span> <span class="k">as</span> <span class="n">svr</span><span class="p">:</span>
             <span class="n">svr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="saveable.save"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.saveable.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Saveable.save"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.Saveable.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save the data in this object to file *filename* in the pyBODT</span>
-<span class="sd">        hdf5 format.</span>
+<span class="sd">        Save the data in this object to file `filename` in the DOLfYN</span>
+<span class="sd">        HDF5 format.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -102,10 +109,10 @@
 <span class="sd">          the &#39;File&#39; module</span>
 <span class="sd">          the &#39;h5py&#39; module</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">saver</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">svr</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">Saver</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">svr</span><span class="p">:</span>
             <span class="n">svr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="saveable.load"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.saveable.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
+<div class="viewcode-block" id="Saveable.load"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.Saveable.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add data from *groups* in the file *filename*.</span>
 
@@ -128,28 +135,98 @@
 </div></div>
 <div class="viewcode-block" id="get_typemap"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.get_typemap">[docs]</a><span class="k">def</span> <span class="nf">get_typemap</span><span class="p">(</span><span class="n">space</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find the classes in the namespace *space* that have the saveable</span>
-<span class="sd">    class in there heirarchy.  These are data objects that should be</span>
-<span class="sd">    able to be loaded.</span>
+<span class="sd">    Find the classes in the namespace that have :class:`Saveable` in</span>
+<span class="sd">    their class heirarchy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    space : namespace</span>
+<span class="sd">      The namespace in which to find classes that subclass Saveable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    types : list(types)</span>
+<span class="sd">      A list containing the types (classes) that subclass Saveable.</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function is used within a module that defines new data types</span>
+<span class="sd">    for the DOLfYN package to auto-detect which objects in the</span>
+<span class="sd">    namespace are types that can be saved.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">type_map</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">space</span><span class="p">]):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&#39;__mro__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">saveable</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&#39;__mro__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Saveable</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
             <span class="n">type_map</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)]</span> <span class="o">=</span> <span class="n">obj</span>
     <span class="k">return</span> <span class="n">type_map</span>
 
 </div>
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
-    <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load data from `fname` into class `type_map`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    fname : string</span>
+<span class="sd">      The filename to read.</span>
+
+<span class="sd">    type : type or list(types)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_groups</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="mmload"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.mmload">[docs]</a><span class="k">def</span> <span class="nf">mmload</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
+<div class="viewcode-block" id="mmload"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.mmload">[docs]</a><span class="k">def</span> <span class="nf">mmload</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load data from `fname` into class `type_map` as memory mapped</span>
+<span class="sd">    arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    fname : string</span>
+<span class="sd">      The filename to read.</span>
+
+<span class="sd">    type : type or list(types)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : A DOLfYN data type.</span>
+<span class="sd">      The type will match the &#39;_object_type&#39; attribute at the root of</span>
+<span class="sd">      the file. All data in the file will be accessible as</span>
+<span class="sd">      memory-mapped arrays.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">mmload</span><span class="p">(</span><span class="n">data_groups</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">mmload</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="probeFile"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.main.probeFile">[docs]</a><span class="k">def</span> <span class="nf">probeFile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Probe a file to determine what data it contains.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    fname : string</span>
+<span class="sd">      The filename to probe.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    type : string</span>
+<span class="sd">      The type string.</span>
+
+<span class="sd">    groups : dict</span>
+<span class="sd">      A dictionary of the groups, with lists of the data in them.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">with</span> <span class="n">hdf5</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">nd</span><span class="p">,</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">ldr</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">):</span>

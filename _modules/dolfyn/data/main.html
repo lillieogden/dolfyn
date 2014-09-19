@@ -52,28 +52,33 @@
           <div class="body">
             
   <h1>Source code for dolfyn.data.main</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..io</span> <span class="kn">import</span> <span class="n">saveable</span><span class="p">,</span><span class="n">get_typemap</span><span class="p">,</span><span class="n">loader</span>
+<span class="kn">from</span> <span class="nn">..io</span> <span class="kn">import</span> <span class="n">Saveable</span><span class="p">,</span> <span class="n">get_typemap</span><span class="p">,</span> <span class="n">loader</span>
 <span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">Dprops</span>
-<span class="c">#from binned import bindat</span>
+<span class="c"># from binned import bindat</span>
 
-<div class="viewcode-block" id="basic"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.main.basic">[docs]</a><span class="k">class</span> <span class="nc">basic</span><span class="p">(</span><span class="n">saveable</span><span class="p">,</span><span class="n">Dprops</span><span class="p">):</span>
+
+<div class="viewcode-block" id="basic"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.main.basic">[docs]</a><span class="k">class</span> <span class="nc">basic</span><span class="p">(</span><span class="n">Saveable</span><span class="p">,</span> <span class="n">Dprops</span><span class="p">):</span>
+
     <span class="nd">@property</span>
 <div class="viewcode-block" id="basic.shape"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.main.basic.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpltime</span><span class="o">.</span><span class="n">shape</span>
-                
-</div></div>
-<span class="n">type_map</span><span class="o">=</span><span class="n">get_typemap</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span> <span class="c"># Get the data classes in the current namespace.</span>
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.main.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">,</span><span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</div></div>
+<span class="n">type_map</span> <span class="o">=</span> <span class="n">get_typemap</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+                       <span class="c"># Get the data classes in the current namespace.</span>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.main.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="o">=</span><span class="n">type_map</span><span class="p">,</span> <span class="n">data_groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A function for loading basic data objects.</span>
 
 <span class="sd">    &#39;data_groups&#39; specifies which groups to load.  It can be:</span>
 <span class="sd">        None  - Load default groups (those not starting with a &#39;#&#39;)</span>
-<span class="sd">        [...] - A list of groups to load (plus &#39;essential&#39; groups, ie those starting with &#39;_&#39;)</span>
+<span class="sd">        [...] - A list of groups to load (plus &#39;essential&#39; groups, ie</span>
+<span class="sd">        those starting with &#39;_&#39;)</span>
 <span class="sd">        &#39;ALL&#39; - Load all groups.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">loader</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">type_map</span><span class="p">)</span> <span class="k">as</span> <span class="n">ldr</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ldr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_groups</span><span class="p">)</span></div>
 </pre></div>
 

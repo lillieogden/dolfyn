@@ -167,8 +167,9 @@
         <span class="k">if</span> <span class="nb">dict</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
             <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;main&#39;</span><span class="p">:</span> <span class="n">oset</span><span class="p">([]),</span> <span class="s">&#39;_essential&#39;</span><span class="p">:</span> <span class="n">oset</span><span class="p">([])},</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;main&#39;</span><span class="p">:</span> <span class="n">oset</span><span class="p">([]),</span>
+                                 <span class="s">&#39;_essential&#39;</span><span class="p">:</span> <span class="n">oset</span><span class="p">([])},</span>
+                          <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;{&#39;</span>
@@ -246,15 +247,16 @@
 <div class="viewcode-block" id="Dgroups"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups">[docs]</a><span class="k">class</span> <span class="nc">Dgroups</span><span class="p">(</span><span class="n">Dbase</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class implements &#39;data groups&#39; which are used to organize datasets.</span>
-<span class="sd">    (also, the io package uses them for loading and saving subsets of a data object).</span>
+<span class="sd">    This class implements &#39;data groups&#39; which are used to organize</span>
+<span class="sd">    datasets.  (also, the io package uses them for loading and saving</span>
+<span class="sd">    subsets of a data object).</span>
 
 <span class="sd">    The critical attribute is the &#39;data_groups&#39; property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Dgroups.data_attrs"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.data_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">data_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="n">dat</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">data_names</span>
+<div class="viewcode-block" id="Dgroups.data_names"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.data_names">[docs]</a>    <span class="k">def</span> <span class="nf">data_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">data_names</span>
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
@@ -322,16 +324,16 @@
 <span class="sd">        This does not update props or meta.</span>
 
 <span class="sd">        *nan_joint* is a logical flag that specifies whether to</span>
-<span class="sd">        insert a NaN between the datasets.</span>
+<span class="sd">        insert a slice of NaN between the datasets.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">:</span>
-            <span class="n">error</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Classes must match to join objects.&#39;</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">dat</span><span class="p">),</span> <span class="p">(</span><span class="n">onm</span><span class="p">,</span> <span class="n">odat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
             <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_dim</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">nan_joint</span><span class="p">:</span>
                 <span class="n">shp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-                <span class="n">shp</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">shp</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="n">dtmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">odat</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">dtmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">odat</span><span class="p">)</span>
@@ -349,7 +351,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a copy of the data, subsetted by *inds*.</span>
 
-<span class="sd">        *inds* defaults to return all of the data (used to get a copy of the data).</span>
+<span class="sd">        *inds* defaults to return all of the data (used to get a copy</span>
+<span class="sd">         of the data).</span>
 
 <span class="sd">        *group* may be specified to load only some of the variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -359,7 +362,8 @@
         <span class="k">for</span> <span class="n">grp</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
                 <span class="n">dt</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">nm</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">inds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="s">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">inds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="s">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span>
+                     <span class="n">dt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
                     <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">inds</span><span class="p">]</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">grp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
@@ -391,7 +395,8 @@
 </div>
     <span class="k">def</span> <span class="nf">__preload__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This is called just after object creation, and just prior to data being loaded from disk.</span>
+<span class="sd">        This is called just after object creation, and just prior to</span>
+<span class="sd">        data being loaded from disk.</span>
 
 <span class="sd">        It is a placeholder for modifying data types at load time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

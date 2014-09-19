@@ -83,8 +83,9 @@
 <dt id="dolfyn.data.base.Dgroups">
 <em class="property">class </em><tt class="descclassname">dolfyn.data.base.</tt><tt class="descname">Dgroups</tt><a class="reference internal" href="../_modules/dolfyn/data/base.html#Dgroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.base.Dgroups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dolfyn.data.base.Dbase" title="dolfyn.data.base.Dbase"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.Dbase</span></tt></a></p>
-<p>This class implements &#8216;data groups&#8217; which are used to organize datasets.
-(also, the io package uses them for loading and saving subsets of a data object).</p>
+<p>This class implements &#8216;data groups&#8217; which are used to organize
+datasets.  (also, the io package uses them for loading and saving
+subsets of a data object).</p>
 <p>The critical attribute is the &#8216;data_groups&#8217; property.</p>
 <dl class="method">
 <dt id="dolfyn.data.base.Dgroups.add_data">
@@ -99,7 +100,7 @@
 i.e.:
 This does not update props or meta.</p>
 <p><em>nan_joint</em> is a logical flag that specifies whether to
-insert a NaN between the datasets.</p>
+insert a slice of NaN between the datasets.</p>
 </dd></dl>
 
 <dl class="method">
@@ -108,8 +109,8 @@ insert a NaN between the datasets.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="dolfyn.data.base.Dgroups.data_attrs">
-<tt class="descname">data_attrs</tt><a class="reference internal" href="../_modules/dolfyn/data/base.html#Dgroups.data_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.base.Dgroups.data_attrs" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.data.base.Dgroups.data_names">
+<tt class="descname">data_names</tt><a class="reference internal" href="../_modules/dolfyn/data/base.html#Dgroups.data_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.base.Dgroups.data_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -183,7 +184,10 @@ saving to hdf5 files).</p>
 <dt id="dolfyn.data.base.Dgroups.subset">
 <tt class="descname">subset</tt><big>(</big><em>inds=slice(None</em>, <em>None</em>, <em>None)</em>, <em>group=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/base.html#Dgroups.subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.base.Dgroups.subset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a copy of the data, subsetted by <em>inds</em>.</p>
-<p><em>inds</em> defaults to return all of the data (used to get a copy of the data).</p>
+<dl class="docutils">
+<dt><em>inds</em> defaults to return all of the data (used to get a copy</dt>
+<dd>of the data).</dd>
+</dl>
 <p><em>group</em> may be specified to load only some of the variables.</p>
 </dd></dl>
 
@@ -331,6 +335,9 @@ sides (to return a &#8216;quartered&#8217; covariance).</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fs</strong> : float (optional)</p>
+<blockquote>
+<div><p>The sample rate (Hz).</p>
+</div></blockquote>
 <p><strong>coh</strong> : bool</p>
 <blockquote class="last">
 <div><p>Calculate the frequency vector for coherence/cross-spectra
@@ -508,9 +515,7 @@ this case, the array shape will be (...,`n`,`n_pad`+`n_bin`)</p>
 </div></blockquote>
 <p><strong>n_bin</strong> : float, int (optional)</p>
 <blockquote class="last">
-<div><p>n_bin is specified in the adv_binned object.  Create a
-different adv_binned object to use a different n_bin.  n is
-fix(len(arr)/n_bin)</p>
+<div><p>Override this binner&#8217;s n_bin.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -539,7 +544,7 @@ example:
 <dl class="class">
 <dt id="dolfyn.data.main.basic">
 <em class="property">class </em><tt class="descclassname">dolfyn.data.main.</tt><tt class="descname">basic</tt><a class="reference internal" href="../_modules/dolfyn/data/main.html#basic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.main.basic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dolfyn.io.html#dolfyn.io.main.saveable" title="dolfyn.io.main.saveable"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.main.saveable</span></tt></a>, <a class="reference internal" href="#dolfyn.data.base.Dprops" title="dolfyn.data.base.Dprops"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.Dprops</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="dolfyn.io.html#dolfyn.io.main.Saveable" title="dolfyn.io.main.Saveable"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.main.Saveable</span></tt></a>, <a class="reference internal" href="#dolfyn.data.base.Dprops" title="dolfyn.data.base.Dprops"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.Dprops</span></tt></a></p>
 <dl class="attribute">
 <dt id="dolfyn.data.main.basic.shape">
 <tt class="descname">shape</tt><a class="reference internal" href="../_modules/dolfyn/data/main.html#basic.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.main.basic.shape" title="Permalink to this definition">¶</a></dt>
@@ -549,12 +554,13 @@ example:
 
 <dl class="function">
 <dt id="dolfyn.data.main.load">
-<tt class="descclassname">dolfyn.data.main.</tt><tt class="descname">load</tt><big>(</big><em>fname</em>, <em>type_map={&quot;&lt;class 'dolfyn.io.main.saveable'&gt;&quot;: &lt;class 'dolfyn.io.main.saveable'&gt;</em>, <em>&quot;&lt;class 'dolfyn.data.main.basic'&gt;&quot;: &lt;class 'dolfyn.data.main.basic'&gt;}</em>, <em>data_groups=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/main.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.main.load" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">dolfyn.data.main.</tt><tt class="descname">load</tt><big>(</big><em>fname</em>, <em>type_map={&quot;&lt;class 'dolfyn.io.main.Saveable'&gt;&quot;: &lt;class 'dolfyn.io.main.Saveable'&gt;</em>, <em>&quot;&lt;class 'dolfyn.data.main.basic'&gt;&quot;: &lt;class 'dolfyn.data.main.basic'&gt;}</em>, <em>data_groups=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/main.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.main.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>A function for loading basic data objects.</p>
 <dl class="docutils">
 <dt>&#8216;data_groups&#8217; specifies which groups to load.  It can be:</dt>
 <dd>None  - Load default groups (those not starting with a &#8216;#&#8217;)
-[...] - A list of groups to load (plus &#8216;essential&#8217; groups, ie those starting with &#8216;_&#8217;)
+[...] - A list of groups to load (plus &#8216;essential&#8217; groups, ie
+those starting with &#8216;_&#8217;)
 &#8216;ALL&#8217; - Load all groups.</dd>
 </dl>
 </dd></dl>
@@ -719,37 +725,49 @@ fractional-day).</p>
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Suu">
 <tt class="descname">Suu</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Suu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Suu" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>u-component spectrum [m^2/s]</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Suu_hz">
 <tt class="descname">Suu_hz</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Suu_hz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Suu_hz" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>u-component spectrum [m^2/s^2/Hz]</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Svv">
 <tt class="descname">Svv</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Svv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Svv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>v-component spectrum [m^2/s]</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Svv_hz">
 <tt class="descname">Svv_hz</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Svv_hz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Svv_hz" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>v-component spectrum [m^2/s^2/Hz]</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Sww">
 <tt class="descname">Sww</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Sww"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Sww" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>w-component spectrum [m^2/s]</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.Sww_hz">
 <tt class="descname">Sww_hz</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.Sww_hz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.Sww_hz" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>w-component spectrum [m^2/s^2/Hz]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.data.velocity.vel_bindat_spec.freq">
+<tt class="descname">freq</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frequency [Hz].</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_spec.k">
 <tt class="descname">k</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_spec.k"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_spec.k" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wavenumber.</p>
+<dd><p>Wavenumber [1/m].</p>
 </dd></dl>
 
 </dd></dl>
@@ -761,51 +779,58 @@ fractional-day).</p>
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.Ecoh">
 <tt class="descname">Ecoh</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.Ecoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.Ecoh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Niel Kelley&#8217;s &#8220;coherent energy&#8221;, i.e. the rms of the stresses.
-Why did he do it this way, instead of the sum of the magnitude of the stresses?</p>
+<dd><p>Niel Kelley&#8217;s &#8220;coherent energy&#8221;, i.e. the rms of the stresses.</p>
 </dd></dl>
-
-<dl class="attribute">
-<dt id="dolfyn.data.velocity.vel_bindat_tke.Etke">
-<tt class="descname">Etke</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.Etke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.Etke" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.Itke">
 <tt class="descname">Itke</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.Itke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.Itke" title="Permalink to this definition">¶</a></dt>
-<dd><p>Turbulence intensity.
-Ratio of standard deviation of velocity magnitude to velocity magnitude.</p>
+<dd><p>Turbulence intensity.</p>
+<p>Ratio of standard deviation of velocity magnitude to velocity
+magnitude.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.data.velocity.vel_bindat_tke.tke">
+<tt class="descname">tke</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.tke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.tke" title="Permalink to this definition">¶</a></dt>
+<dd><p>The turbulent kinetic energy (sum of the three components).</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.upup_">
 <tt class="descname">upup_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.upup_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.upup_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>u&#8217;u&#8217; component of the tke.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.upvp_">
 <tt class="descname">upvp_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.upvp_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.upvp_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>u&#8217;v&#8217; Reynolds stress</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.upwp_">
 <tt class="descname">upwp_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.upwp_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.upwp_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>u&#8217;w&#8217; Reynolds stress</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.vpvp_">
 <tt class="descname">vpvp_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.vpvp_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.vpvp_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>v&#8217;v&#8217; component of the tke.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.vpwp_">
 <tt class="descname">vpwp_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.vpwp_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.vpwp_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>v&#8217;w&#8217; Reynolds stress</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.vel_bindat_tke.wpwp_">
 <tt class="descname">wpwp_</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_bindat_tke.wpwp_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_bindat_tke.wpwp_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>w&#8217;w&#8217; component of the tke.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -816,19 +841,33 @@ Ratio of standard deviation of velocity magnitude to velocity magnitude.</p>
 <dl class="method">
 <dt id="dolfyn.data.velocity.vel_binner_spec.calc_vel_psd">
 <tt class="descname">calc_vel_psd</tt><big>(</big><em>veldat, fs=None, rotate_u=False, noise=[0, 0, 0], n_pad=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#vel_binner_spec.calc_vel_psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.vel_binner_spec.calc_vel_psd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the psd of <em>veldat</em>&#8216;s velocity and place it in <em>outdat</em>.</p>
+<dd><p>Calculate the psd of velocity.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*veldat*</strong> : The raw data object that contains velocity data.</p>
-<p><strong>*outdat*</strong> : The bin&#8217;d data object where data will be stored.</p>
-<p><strong>*rotate_u*</strong> : (optional) If True, each &#8216;bin&#8217; of horizontal velocity is</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>veldat</strong> : np.ndarray</p>
 <blockquote>
-<div><p>rotated into its principal axis prior to calculating the psd.
-(default: False).</p>
+<div><p>The raw velocity data.</p>
 </div></blockquote>
-<p class="last"><strong>*noise*</strong> : Noise level of each component&#8217;s velocity measurement (default to 0).</p>
+<p><strong>fs</strong> : float (optional)</p>
+<blockquote>
+<div><p>The sample rate (default: from the binner).</p>
+</div></blockquote>
+<p><strong>rotate_u</strong> : bool (optional)</p>
+<blockquote>
+<div><p>If True, each &#8216;bin&#8217; of horizontal velocity is rotated into
+its principal axis prior to calculating the psd.  (default:
+False).</p>
+</div></blockquote>
+<p><strong>noise</strong> : list(3 floats) (optional)</p>
+<blockquote>
+<div><p>Noise level of each component&#8217;s velocity measurement (default to 0).</p>
+</div></blockquote>
+<p><strong>n_pad</strong> : int</p>
+<blockquote class="last">
+<div><p>The number of values to pad (with zero)</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -860,7 +899,7 @@ Ratio of standard deviation of velocity magnitude to velocity magnitude.</p>
 <dl class="class">
 <dt id="dolfyn.data.velocity.velocity">
 <em class="property">class </em><tt class="descclassname">dolfyn.data.velocity.</tt><tt class="descname">velocity</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.velocity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dolfyn.data.base.time_based" title="dolfyn.data.base.time_based"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.time_based</span></tt></a>, <a class="reference internal" href="dolfyn.io.html#dolfyn.io.main.saveable" title="dolfyn.io.main.saveable"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.main.saveable</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dolfyn.data.base.time_based" title="dolfyn.data.base.time_based"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.time_based</span></tt></a>, <a class="reference internal" href="dolfyn.io.html#dolfyn.io.main.Saveable" title="dolfyn.io.main.Saveable"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.main.Saveable</span></tt></a></p>
 <dl class="attribute">
 <dt id="dolfyn.data.velocity.velocity.U">
 <tt class="descname">U</tt><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#velocity.U"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.velocity.U" title="Permalink to this definition">¶</a></dt>
