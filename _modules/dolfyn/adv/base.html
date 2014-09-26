@@ -72,7 +72,7 @@
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="ADVraw"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVraw">[docs]</a><span class="k">class</span> <span class="nc">ADVraw</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">velocity</span><span class="p">):</span>
+<div class="viewcode-block" id="ADVraw"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVraw">[docs]</a><span class="k">class</span> <span class="nc">ADVraw</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">Velocity</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The base class for ADV data objects.</span>
@@ -86,7 +86,7 @@
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Veloc&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="ADVbinned"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVbinned">[docs]</a><span class="k">class</span> <span class="nc">ADVbinned</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">vel_bindat_spec</span><span class="p">,</span> <span class="n">ADVraw</span><span class="p">):</span>
+<div class="viewcode-block" id="ADVbinned"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVbinned">[docs]</a><span class="k">class</span> <span class="nc">ADVbinned</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">VelBindatSpec</span><span class="p">,</span> <span class="n">ADVraw</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base class for binned ADV objects.</span>

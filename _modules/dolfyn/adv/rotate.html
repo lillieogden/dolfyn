@@ -280,6 +280,9 @@
 <span class="sd">        In the future, we could use the transformation matrix (and a</span>
 <span class="sd">        probe-length lookup-table?)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># This is the body-&gt;imu vector (in body frame)</span>
+        <span class="c"># In inches it is: (0.25, 0.25, 5.9)</span>
+        <span class="n">nortek_body2imu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.14986</span><span class="p">])</span>
         <span class="c"># According to the ADV_DataSheet, the probe-length radius is</span>
         <span class="c"># 8.6cm @ 120deg from probe-stem axis.  If I subtract 1cm</span>
         <span class="c"># (!!!checkthis) to get acoustic receiver center, this is</span>
@@ -297,9 +300,14 @@
                           <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
                                     <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
                                     <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)]))</span> <span class="o">+</span> \
-                <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span>
+                <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">nortek_body2imu</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">]</span>
+            <span class="c"># The nortek_body2imu vector is subtracted because of</span>
+            <span class="c"># vector addition:</span>
+            <span class="c"># body2head = body2imu + imu2head</span>
+            <span class="c"># Thus:</span>
+            <span class="c"># imu2head = body2head - body2imu</span>
+            <span class="k">return</span> <span class="n">advo</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">nortek_body2imu</span>
 
     <span class="k">def</span> <span class="nf">_calcAccelVel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">advo</span><span class="p">):</span>
         <span class="n">advo</span><span class="o">.</span><span class="n">uacc</span> <span class="o">=</span> <span class="n">_calcAccelVel</span><span class="p">(</span>

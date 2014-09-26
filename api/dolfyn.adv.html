@@ -97,7 +97,7 @@ functions for rotating adv data between
 different coordinate systems and for
 performing motion correction.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dolfyn.adv.turbulence.turb_binner" title="dolfyn.adv.turbulence.turb_binner"><tt class="xref py py-class docutils literal"><span class="pre">turb_binner</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#dolfyn.adv.turbulence.TurbBinner" title="dolfyn.adv.turbulence.TurbBinner"><tt class="xref py py-class docutils literal"><span class="pre">TurbBinner</span></tt></a></td>
 <td>A class for breaking ADV data into
 &#8216;bins&#8217;, averaging it and estimating
 various turbulence statistics.</td>
@@ -122,7 +122,7 @@ various turbulence statistics.</td>
 <span class="n">adv</span><span class="o">.</span><span class="n">rotate</span><span class="o">.</span><span class="n">earth2principal</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
 
 <span class="c"># Define an averaging object, and create an &#39;averaged&#39; data set:</span>
-<span class="n">binner</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">turb_binner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">4096</span><span class="p">)</span>
+<span class="n">binner</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">TurbBinner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">4096</span><span class="p">)</span>
 <span class="n">dat_bin</span> <span class="o">=</span> <span class="n">binner</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
 
 <span class="c"># At any point you can save the data:</span>
@@ -140,7 +140,7 @@ various turbulence statistics.</td>
 <dl class="class">
 <dt id="dolfyn.adv.base.ADVbinned">
 <em class="property">class </em><tt class="descclassname">dolfyn.adv.base.</tt><tt class="descname">ADVbinned</tt><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVbinned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVbinned" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec" title="dolfyn.data.velocity.vel_bindat_spec"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.vel_bindat_spec</span></tt></a>, <a class="reference internal" href="#dolfyn.adv.base.ADVraw" title="dolfyn.adv.base.ADVraw"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.adv.base.ADVraw</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec" title="dolfyn.data.velocity.VelBindatSpec"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.VelBindatSpec</span></tt></a>, <a class="reference internal" href="#dolfyn.adv.base.ADVraw" title="dolfyn.adv.base.ADVraw"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.adv.base.ADVraw</span></tt></a></p>
 <p>A base class for binned ADV objects.</p>
 </dd></dl>
 
@@ -154,7 +154,7 @@ various turbulence statistics.</td>
 <dl class="class">
 <dt id="dolfyn.adv.base.ADVraw">
 <em class="property">class </em><tt class="descclassname">dolfyn.adv.base.</tt><tt class="descname">ADVraw</tt><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVraw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.velocity" title="dolfyn.data.velocity.velocity"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.velocity</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.Velocity" title="dolfyn.data.velocity.Velocity"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.Velocity</span></tt></a></p>
 <p>The base class for ADV data objects.</p>
 <dl class="method">
 <dt id="dolfyn.adv.base.ADVraw.has_imu">
@@ -513,26 +513,46 @@ Communications Protocol&#8221;, (Rev 15).</p>
 <div class="section" id="module-dolfyn.adv.turbulence">
 <span id="dolfyn-adv-turbulence-module"></span><h2>dolfyn.adv.turbulence module<a class="headerlink" href="#module-dolfyn.adv.turbulence" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="dolfyn.adv.turbulence.turb_binner">
-<em class="property">class </em><tt class="descclassname">dolfyn.adv.turbulence.</tt><tt class="descname">turb_binner</tt><big>(</big><em>n_bin</em>, <em>fs</em>, <em>n_fft=None</em>, <em>n_fft_coh=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_binner_spec" title="dolfyn.data.velocity.vel_binner_spec"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.vel_binner_spec</span></tt></a></p>
+<dt id="dolfyn.adv.turbulence.TurbBinner">
+<em class="property">class </em><tt class="descclassname">dolfyn.adv.turbulence.</tt><tt class="descname">TurbBinner</tt><big>(</big><em>n_bin</em>, <em>fs</em>, <em>n_fft=None</em>, <em>n_fft_coh=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBinnerSpec" title="dolfyn.data.velocity.VelBinnerSpec"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.VelBinnerSpec</span></tt></a></p>
+<p>Computes various averages and turbulence statistics from cleaned
+ADV data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_bin</strong> : int</p>
+<blockquote>
+<div><p>The length of <cite>bin</cite> s, in number of points, for this averaging
+operator.</p>
+</div></blockquote>
+<p><strong>n_fft</strong> : int (optional, default: n_fft = n_bin)</p>
+<blockquote class="last">
+<div><p>The length of the FFT for computing spectra (must be &lt; n_bin)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>advr, out_type=&lt;class 'dolfyn.adv.base.ADVbinned'&gt;, omega_range_epsilon=[6.28, 12.57], Itke_thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>advr, out_type=&lt;class 'dolfyn.adv.base.ADVbinned'&gt;, omega_range_epsilon=[6.28, 12.57], Itke_thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a suite of turbulence statistics for the input data
-advr, and return a &#8216;binned&#8217; data object.</p>
+advr, and return a <cite>binned</cite> data object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>advr</strong> : <tt class="xref py py-class docutils literal"><span class="pre">ADVraw</span></tt></p>
 <blockquote>
-<div><p>The raw-adv object.</p>
+<div><p>The raw adv data-object to <cite>bin</cite>, average and compute
+turbulence statistics of.</p>
 </div></blockquote>
 <p><strong>omega_range_epsilon</strong> : iterable(2)</p>
 <blockquote>
 <div><p>The frequency range (low, high) over which to estimate the
-dissipation rate &#8216;epsilon&#8217; [rad/s].</p>
+dissipation rate <cite>epsilon</cite> [rad/s].</p>
 </div></blockquote>
 <p><strong>Itke_thresh</strong> : The threshold for velocity magnitude for</p>
 <blockquote>
@@ -550,26 +570,26 @@ those chunks:</p>
 <ul class="simple">
 <li>_tke : The energy in each component (components are also
 accessible as
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.upup_" title="dolfyn.data.velocity.vel_bindat_tke.upup_"><tt class="xref py py-attr docutils literal"><span class="pre">upup_</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.vpvp_" title="dolfyn.data.velocity.vel_bindat_tke.vpvp_"><tt class="xref py py-attr docutils literal"><span class="pre">vpvp_</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.wpwp_" title="dolfyn.data.velocity.vel_bindat_tke.wpwp_"><tt class="xref py py-attr docutils literal"><span class="pre">wpwp_</span></tt></a>)</li>
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.upup_" title="dolfyn.data.velocity.VelBindatTke.upup_"><tt class="xref py py-attr docutils literal"><span class="pre">upup_</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.vpvp_" title="dolfyn.data.velocity.VelBindatTke.vpvp_"><tt class="xref py py-attr docutils literal"><span class="pre">vpvp_</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.wpwp_" title="dolfyn.data.velocity.VelBindatTke.wpwp_"><tt class="xref py py-attr docutils literal"><span class="pre">wpwp_</span></tt></a>)</li>
 <li>stress : The Reynolds stresses (each component is
 accessible as
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.upwp_" title="dolfyn.data.velocity.vel_bindat_tke.upwp_"><tt class="xref py py-attr docutils literal"><span class="pre">upwp_</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.vpwp_" title="dolfyn.data.velocity.vel_bindat_tke.vpwp_"><tt class="xref py py-attr docutils literal"><span class="pre">vpwp_</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_tke.upvp_" title="dolfyn.data.velocity.vel_bindat_tke.upvp_"><tt class="xref py py-attr docutils literal"><span class="pre">upvp_</span></tt></a>)</li>
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.upwp_" title="dolfyn.data.velocity.VelBindatTke.upwp_"><tt class="xref py py-attr docutils literal"><span class="pre">upwp_</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.vpwp_" title="dolfyn.data.velocity.VelBindatTke.vpwp_"><tt class="xref py py-attr docutils literal"><span class="pre">vpwp_</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatTke.upvp_" title="dolfyn.data.velocity.VelBindatTke.upvp_"><tt class="xref py py-attr docutils literal"><span class="pre">upvp_</span></tt></a>)</li>
 <li>sigma_Uh : The standard deviation of the horizontal
 velocity.</li>
 <li>Spec : The spectra of the velocity in radial frequency
 units (each component is available as:
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Suu" title="dolfyn.data.velocity.vel_bindat_spec.Suu"><tt class="xref py py-attr docutils literal"><span class="pre">Suu</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Svv" title="dolfyn.data.velocity.vel_bindat_spec.Svv"><tt class="xref py py-attr docutils literal"><span class="pre">Svv</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Sww" title="dolfyn.data.velocity.vel_bindat_spec.Sww"><tt class="xref py py-attr docutils literal"><span class="pre">Sww</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Suu" title="dolfyn.data.velocity.VelBindatSpec.Suu"><tt class="xref py py-attr docutils literal"><span class="pre">Suu</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Svv" title="dolfyn.data.velocity.VelBindatSpec.Svv"><tt class="xref py py-attr docutils literal"><span class="pre">Svv</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Sww" title="dolfyn.data.velocity.VelBindatSpec.Sww"><tt class="xref py py-attr docutils literal"><span class="pre">Sww</span></tt></a>,
 or in Hz units as:
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Suu_hz" title="dolfyn.data.velocity.vel_bindat_spec.Suu_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Suu_hz</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Svv_hz" title="dolfyn.data.velocity.vel_bindat_spec.Svv_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Svv_hz</span></tt></a>,
-<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.Sww_hz" title="dolfyn.data.velocity.vel_bindat_spec.Sww_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Sww_hz</span></tt></a>)</li>
-<li>omega : The radial frequency [rad/s] (also see the <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.vel_bindat_spec.freq" title="dolfyn.data.velocity.vel_bindat_spec.freq"><tt class="xref py py-attr docutils literal"><span class="pre">freq</span></tt></a> attribute).</li>
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Suu_hz" title="dolfyn.data.velocity.VelBindatSpec.Suu_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Suu_hz</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Svv_hz" title="dolfyn.data.velocity.VelBindatSpec.Svv_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Svv_hz</span></tt></a>,
+<a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.Sww_hz" title="dolfyn.data.velocity.VelBindatSpec.Sww_hz"><tt class="xref py py-attr docutils literal"><span class="pre">Sww_hz</span></tt></a>)</li>
+<li>omega : The radial frequency [rad/s] (also see the <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.VelBindatSpec.freq" title="dolfyn.data.velocity.VelBindatSpec.freq"><tt class="xref py py-attr docutils literal"><span class="pre">freq</span></tt></a> attribute).</li>
 </ul>
 </div></blockquote>
 </td>
@@ -579,8 +599,8 @@ or in Hz units as:
 </dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.calc_Lint">
-<tt class="descname">calc_Lint</tt><big>(</big><em>corr_vel</em>, <em>U_mag</em>, <em>fs=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.calc_Lint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.calc_Lint" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.calc_Lint">
+<tt class="descname">calc_Lint</tt><big>(</big><em>corr_vel</em>, <em>U_mag</em>, <em>fs=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.calc_Lint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.calc_Lint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate integral length scales.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -614,8 +634,8 @@ auto-covariance falls to 1/e.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.calc_epsilon_LT83">
-<tt class="descname">calc_epsilon_LT83</tt><big>(</big><em>spec, omega, U_mag, omega_range=[6.28, 12.57]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.calc_epsilon_LT83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.calc_epsilon_LT83" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.calc_epsilon_LT83">
+<tt class="descname">calc_epsilon_LT83</tt><big>(</big><em>spec, omega, U_mag, omega_range=[6.28, 12.57]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.calc_epsilon_LT83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.calc_epsilon_LT83" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the dissipation rate from the spectrum.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -656,8 +676,8 @@ the turbulent kinetic energy spectrum.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.calc_epsilon_SF">
-<tt class="descname">calc_epsilon_SF</tt><big>(</big><em>veldat, umag, fs=None, freq_rng=[0.5, 5.0]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.calc_epsilon_SF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.calc_epsilon_SF" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.calc_epsilon_SF">
+<tt class="descname">calc_epsilon_SF</tt><big>(</big><em>veldat, umag, fs=None, freq_rng=[0.5, 5.0]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.calc_epsilon_SF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.calc_epsilon_SF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate epsilon using the &#8220;structure function&#8221; (SF) method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -693,8 +713,8 @@ perform the SF technique.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.calc_epsilon_TE01">
-<tt class="descname">calc_epsilon_TE01</tt><big>(</big><em>advbin, advraw, omega_range=[6.28, 12.57]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.calc_epsilon_TE01"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.calc_epsilon_TE01" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.calc_epsilon_TE01">
+<tt class="descname">calc_epsilon_TE01</tt><big>(</big><em>advbin, advraw, omega_range=[6.28, 12.57]</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.calc_epsilon_TE01"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.calc_epsilon_TE01" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the dissipation according to TE01.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -721,8 +741,8 @@ turbulence statistics must already be computed.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dolfyn.adv.turbulence.turb_binner.up_angle">
-<tt class="descname">up_angle</tt><big>(</big><em>Uh_complex</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#turb_binner.up_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.turb_binner.up_angle" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.turbulence.TurbBinner.up_angle">
+<tt class="descname">up_angle</tt><big>(</big><em>Uh_complex</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.up_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.up_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the angle of the turbulence fluctuations.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

@@ -56,11 +56,11 @@
 <span class="kn">from</span> <span class="nn">..tools.psd</span> <span class="kn">import</span> <span class="n">psd_freq</span><span class="p">,</span> <span class="n">cohere</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">cpsd_quasisync</span>
 <span class="kn">from</span> <span class="nn">..tools.misc</span> <span class="kn">import</span> <span class="n">slice1d_along_axis</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">detrend</span>
-<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">ma</span><span class="p">,</span> <span class="n">rad_hz</span><span class="p">,</span> <span class="n">time_based</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">ma</span><span class="p">,</span> <span class="n">rad_hz</span><span class="p">,</span> <span class="n">TimeBased</span>
 <span class="kn">from</span> <span class="nn">h5py._hl.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span>
 
 
-<div class="viewcode-block" id="time_bindat"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_bindat">[docs]</a><span class="k">class</span> <span class="nc">time_bindat</span><span class="p">(</span><span class="n">time_based</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBindat"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBindat">[docs]</a><span class="k">class</span> <span class="nc">TimeBindat</span><span class="p">(</span><span class="n">TimeBased</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base, abstract class for binned data.</span>
@@ -71,13 +71,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">[:]</span> <span class="o">/</span> <span class="n">rad_hz</span>
 
     <span class="nd">@freq.setter</span>
-<div class="viewcode-block" id="time_bindat.freq"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_bindat.freq">[docs]</a>    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBindat.freq"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBindat.freq">[docs]</a>    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">val</span><span class="o">*</span><span class="n">rad_hz</span>
 
 </div></div>
-<div class="viewcode-block" id="time_binner"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner">[docs]</a><span class="k">class</span> <span class="nc">time_binner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner">[docs]</a><span class="k">class</span> <span class="nc">TimeBinner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-<div class="viewcode-block" id="time_binner.calc_omega"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.calc_omega">[docs]</a>    <span class="k">def</span> <span class="nf">calc_omega</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.calc_omega"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.calc_omega">[docs]</a>    <span class="k">def</span> <span class="nf">calc_omega</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the radial-frequency vector for the psd&#39;s.</span>
 
@@ -130,7 +130,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_fft</span>
         <span class="k">return</span> <span class="n">n_fft</span>
 
-<div class="viewcode-block" id="time_binner.reshape"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.reshape"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reshape the array `arr` to shape (...,n,n_bin+n_pad).</span>
 
@@ -182,7 +182,7 @@
             <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">dim_names</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&#39;time2&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span>
 </div>
-<div class="viewcode-block" id="time_binner.detrend"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.detrend">[docs]</a>    <span class="k">def</span> <span class="nf">detrend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.detrend"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.detrend">[docs]</a>    <span class="k">def</span> <span class="nf">detrend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reshape the array `dat` and remove the best-fit trend line.</span>
 
@@ -192,20 +192,20 @@
                        <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                        <span class="nb">type</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="time_binner.demean"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.demean">[docs]</a>    <span class="k">def</span> <span class="nf">demean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.demean"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.demean">[docs]</a>    <span class="k">def</span> <span class="nf">demean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reshape the array `dat` and remove the mean from each ensemble.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="n">n_pad</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dt</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="bp">None</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="time_binner.mean"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.mean"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="time_binner.std"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.std">[docs]</a>    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.std"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.std">[docs]</a>    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="time_binner.calc_acov"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.calc_acov">[docs]</a>    <span class="k">def</span> <span class="nf">calc_acov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.calc_acov"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.calc_acov">[docs]</a>    <span class="k">def</span> <span class="nf">calc_acov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the auto-covariance of the raw-signal `indat`.</span>
 
@@ -241,7 +241,7 @@
                 <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">se</span><span class="p">]</span><span class="o">+</span><span class="n">tmp</span><span class="p">[</span><span class="n">sb</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
         <span class="k">return</span> <span class="n">out</span>
 </div>
-<div class="viewcode-block" id="time_binner.calc_lag"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.calc_lag">[docs]</a>    <span class="k">def</span> <span class="nf">calc_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">one_sided</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.calc_lag"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.calc_lag">[docs]</a>    <span class="k">def</span> <span class="nf">calc_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">one_sided</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">npt</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">npt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span>
         <span class="k">if</span> <span class="n">one_sided</span><span class="p">:</span>
@@ -249,7 +249,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npt</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-</span> <span class="n">npt</span><span class="o">/</span><span class="mi">2</span>
 </div>
-<div class="viewcode-block" id="time_binner.calc_xcov"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.calc_xcov">[docs]</a>    <span class="k">def</span> <span class="nf">calc_xcov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indt1</span><span class="p">,</span> <span class="n">indt2</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="TimeBinner.calc_xcov"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.calc_xcov">[docs]</a>    <span class="k">def</span> <span class="nf">calc_xcov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indt1</span><span class="p">,</span> <span class="n">indt2</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                   <span class="n">n_bin1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_bin2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the cross-covariance between arrays indt1 and indt2</span>
@@ -275,14 +275,14 @@
                     <span class="n">n_bin2</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span>
 </div>
-<div class="viewcode-block" id="time_binner.do_avg"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.do_avg">[docs]</a>    <span class="k">def</span> <span class="nf">do_avg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">outdat</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.do_avg"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.do_avg">[docs]</a>    <span class="k">def</span> <span class="nf">do_avg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">outdat</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        rawdat : raw_data_object</span>
 <span class="sd">           The raw data structure to be binned (if None, a basic</span>
-<span class="sd">           time_bindat class is created).</span>
+<span class="sd">           TimeBindat class is created).</span>
 <span class="sd">        outdat : avg_data_object</span>
 <span class="sd">           The bin&#39;d (output) data object to which averaged data is added.</span>
 <span class="sd">        names : list of strings</span>
@@ -298,14 +298,14 @@
                   <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">)):</span>
                 <span class="n">outdat</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">grp</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="time_binner.do_var"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.do_var">[docs]</a>    <span class="k">def</span> <span class="nf">do_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">outdat</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s">&#39;_var&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.do_var"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.do_var">[docs]</a>    <span class="k">def</span> <span class="nf">do_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">outdat</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s">&#39;_var&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the variance of data attributes.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        rawdat : raw_data_object</span>
 <span class="sd">           The raw data structure to be binned (if None, a basic</span>
-<span class="sd">           time_bindat class is created).</span>
+<span class="sd">           TimeBindat class is created).</span>
 
 <span class="sd">        outdat : avg_data_object</span>
 <span class="sd">           The bin&#39;d (output) data object to which variance data is added.</span>
@@ -355,7 +355,7 @@
             <span class="k">print</span><span class="p">(</span><span class="s">&quot;n_fft_coh &gt;= n_bin doesn&#39;t make sense, </span><span class="se">\</span>
 <span class="s">            setting n_fft_coh=n_bin/6&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="time_binner.__call__"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">time_bindat</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeBinner.__call__"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdat</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">TimeBindat</span><span class="p">):</span>
         <span class="n">outdat</span> <span class="o">=</span> <span class="n">out_type</span><span class="p">()</span>
         <span class="n">outdat</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;n_bin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span>
         <span class="n">outdat</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;n_fft&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_fft</span>
@@ -363,7 +363,7 @@
         <span class="n">outdat</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rawdat</span><span class="o">.</span><span class="n">props</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">outdat</span>
 </div>
-<div class="viewcode-block" id="time_binner.cohere"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.cohere">[docs]</a>    <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">dat2</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">debias</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<div class="viewcode-block" id="TimeBinner.cohere"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.cohere">[docs]</a>    <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">dat2</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">debias</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                <span class="n">noise</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">n_fft</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_bin1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_bin2</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate coherence between `dat1` and `dat2`.</span>
@@ -383,7 +383,7 @@
                               <span class="n">n_fft</span><span class="p">,</span> <span class="n">debias</span><span class="o">=</span><span class="n">debias</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="n">noise</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 </div>
-<div class="viewcode-block" id="time_binner.cpsd"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.cpsd">[docs]</a>    <span class="k">def</span> <span class="nf">cpsd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">dat2</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="TimeBinner.cpsd"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.cpsd">[docs]</a>    <span class="k">def</span> <span class="nf">cpsd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">dat2</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span>
              <span class="n">n_fft</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_bin1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_bin2</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the &#39;cross power spectral density&#39; of `dat`.</span>
@@ -419,7 +419,7 @@
             <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpsd_quasisync</span><span class="p">(</span><span class="n">dat1</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">dat2</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">n_fft</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">fs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 </div>
-<div class="viewcode-block" id="time_binner.psd"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.time_binner.psd">[docs]</a>    <span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<div class="viewcode-block" id="TimeBinner.psd"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.binned.TimeBinner.psd">[docs]</a>    <span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">n_bin</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate &#39;power spectral density&#39; of `dat`.</span>
