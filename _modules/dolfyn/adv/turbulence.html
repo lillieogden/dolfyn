@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.adv.turbulence &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>dolfyn.adv.turbulence &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -79,7 +79,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TurbBinner.__call__"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.turbulence.TurbBinner.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">advr</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">ADVbinned</span><span class="p">,</span>
-                 <span class="n">omega_range_epsilon</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span> <span class="mf">12.57</span><span class="p">],</span> <span class="n">Itke_thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+                 <span class="n">omega_range_epsilon</span><span class="o">=</span><span class="p">[</span><span class="mf">6.28</span><span class="p">,</span> <span class="mf">12.57</span><span class="p">],</span>
+                 <span class="n">Itke_thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s">&#39;hann&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute a suite of turbulence statistics for the input data</span>
 <span class="sd">        advr, and return a `binned` data object.</span>
@@ -98,6 +99,9 @@
 <span class="sd">        Itke_thresh : The threshold for velocity magnitude for</span>
 <span class="sd">          computing the turbulence intensity. Values of Itke where</span>
 <span class="sd">          U_mag &lt; Itke_thresh are set to NaN.  (default: 0).</span>
+
+<span class="sd">        window : 1, None, &#39;hann&#39;</span>
+<span class="sd">          The window to use for psds.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -144,8 +148,11 @@
                      <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">U_mag</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
                      <span class="o">-</span> <span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;main&#39;</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;Itke_thresh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Itke_thresh</span>
-        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spec&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_vel_psd</span><span class="p">(</span>
-            <span class="n">advr</span><span class="o">.</span><span class="n">_u</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">),</span> <span class="s">&#39;spec&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spec&#39;</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">calc_vel_psd</span><span class="p">(</span><span class="n">advr</span><span class="o">.</span><span class="n">_u</span><span class="p">,</span>
+                                       <span class="n">noise</span><span class="o">=</span><span class="n">advr</span><span class="o">.</span><span class="n">noise</span><span class="p">,</span>
+                                       <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">),</span>
+                     <span class="s">&#39;spec&#39;</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;omega&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_omega</span><span class="p">(),</span> <span class="s">&#39;_essential&#39;</span><span class="p">)</span>
 
         <span class="c"># out.add_data(&#39;epsilon&#39;,self.calc_epsilon_LT83(out.Spec,out.omega,</span>
@@ -401,7 +408,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.adv package &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>dolfyn.adv package &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="../index.html" />
     <link rel="up" title="dolfyn package" href="dolfyn.html" />
     <link rel="next" title="dolfyn.buoy package" href="dolfyn.buoy.html" />
     <link rel="prev" title="dolfyn.adp package" href="dolfyn.adp.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="dolfyn.adp.html" title="dolfyn.adp package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -94,10 +94,14 @@ files.</td>
 <tr class="row-odd"><td><a class="reference internal" href="#module-dolfyn.adv.rotate" title="dolfyn.adv.rotate"><tt class="xref py py-mod docutils literal"><span class="pre">rotate</span></tt></a></td>
 <td>A module containing classes and
 functions for rotating adv data between
-different coordinate systems and for
-performing motion correction.</td>
+different coordinate systems</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dolfyn.adv.turbulence.TurbBinner" title="dolfyn.adv.turbulence.TurbBinner"><tt class="xref py py-class docutils literal"><span class="pre">TurbBinner</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#module-dolfyn.adv.rotate" title="dolfyn.adv.rotate"><tt class="xref py py-mod docutils literal"><span class="pre">motion</span></tt></a></td>
+<td>A module containing classes and
+functions for performing motion
+correction.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#dolfyn.adv.turbulence.TurbBinner" title="dolfyn.adv.turbulence.TurbBinner"><tt class="xref py py-class docutils literal"><span class="pre">TurbBinner</span></tt></a></td>
 <td>A class for breaking ADV data into
 &#8216;bins&#8217;, averaging it and estimating
 various turbulence statistics.</td>
@@ -156,12 +160,22 @@ various turbulence statistics.</td>
 <em class="property">class </em><tt class="descclassname">dolfyn.adv.base.</tt><tt class="descname">ADVraw</tt><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.velocity.Velocity" title="dolfyn.data.velocity.Velocity"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.Velocity</span></tt></a></p>
 <p>The base class for ADV data objects.</p>
+<dl class="attribute">
+<dt id="dolfyn.adv.base.ADVraw.body2imu_vec">
+<tt class="descname">body2imu_vec</tt><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVraw.body2imu_vec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVraw.body2imu_vec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="dolfyn.adv.base.ADVraw.has_imu">
 <tt class="descname">has_imu</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVraw.has_imu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVraw.has_imu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test whether this data object contains Inertial Motion Unit
 (IMU) data.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.adv.base.ADVraw.make_model">
+<tt class="descname">make_model</tt><a class="reference internal" href="../_modules/dolfyn/adv/base.html#ADVraw.make_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.base.ADVraw.make_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -318,11 +332,128 @@ values of <cite>u</cite> are outside of <cite>range</cite>.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-dolfyn.adv.rotate">
-<span id="dolfyn-adv-rotate-module"></span><h2>dolfyn.adv.rotate module<a class="headerlink" href="#module-dolfyn.adv.rotate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-dolfyn.adv.motion">
+<span id="dolfyn-adv-motion-module"></span><h2>dolfyn.adv.motion module<a class="headerlink" href="#module-dolfyn.adv.motion" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="dolfyn.adv.rotate.CorrectMotion">
-<em class="property">class </em><tt class="descclassname">dolfyn.adv.rotate.</tt><tt class="descname">CorrectMotion</tt><big>(</big><em>accel_filtfreq=0.03333333333333333</em>, <em>vel_filtfreq=None</em>, <em>separate_probes=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/rotate.html#CorrectMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.rotate.CorrectMotion" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.motion.CalcMotion">
+<em class="property">class </em><tt class="descclassname">dolfyn.adv.motion.</tt><tt class="descname">CalcMotion</tt><big>(</big><em>advo</em>, <em>accel_filtfreq=0.03333333333333333</em>, <em>vel_filtfreq=None</em>, <em>to_earth=True</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CalcMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CalcMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A &#8216;calculator&#8217; for computing the velocity of points that are
+rigidly connected to an ADV-body with an IMU.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>advo</strong> : <cite>adv_raw&lt;dolfyn.adv.base.adv_raw&gt;</cite></p>
+<blockquote>
+<div><p>The IMU-adv object that will be used to compute motion.</p>
+</div></blockquote>
+<p><strong>accel_filtfreq</strong> : float</p>
+<blockquote>
+<div><p>the frequency at which to high-pass filter the acceleration
+signal to remove low-frequency drift.</p>
+</div></blockquote>
+<p><strong>vel_filtfreq</strong> : float (optional)</p>
+<blockquote class="last">
+<div><p>a second frequency to high-pass filter the integrated
+acceleration.  (default: 1/3 of accel_filtfreq)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dolfyn.adv</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">avm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dolfyn.adv</span> <span class="kn">import</span> <span class="n">motion</span> <span class="k">as</span> <span class="n">avmot</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span> <span class="o">=</span> <span class="n">avm</span><span class="o">.</span><span class="n">read_nortek</span><span class="p">(</span><span class="s">&#39;my_data_file.vec&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mcalc</span> <span class="o">=</span> <span class="n">avmot</span><span class="o">.</span><span class="n">CalcMotion</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p># Calculate the motion of a point that is (.3, .1, .06) meters
+# from the adv-body origin:
+&gt;&gt;&gt; mot = mcalc([.3, .1, .06])</p>
+<dl class="method">
+<dt id="dolfyn.adv.motion.CalcMotion.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>vec</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CalcMotion.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CalcMotion.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the motion of the point specified by vec (in meters,
+in the adv-body coordinate system).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vec</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (len(3) or 3 x M)</p>
+<blockquote>
+<div><p>The vector in meters (or set of vectors) from the
+body-origin (center of head end-cap) to the point of
+interest (in the body coord-sys).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>umot</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (3 x M x N_time)</p>
+<blockquote class="last">
+<div><p>The motion (velocity) array (3, n_time).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.motion.CalcMotion.calc_uacc">
+<tt class="descname">calc_uacc</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CalcMotion.calc_uacc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CalcMotion.calc_uacc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the translational velocity from the acceleration
+signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>uacc</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (3 x n_time)</p>
+<blockquote class="last">
+<div><p>The acceleration-induced velocity array (3, n_time).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dolfyn.adv.motion.CalcMotion.calc_urot">
+<tt class="descname">calc_urot</tt><big>(</big><em>vec</em>, <em>to_earth=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CalcMotion.calc_urot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CalcMotion.calc_urot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the induced velocity due to rotations of the instrument
+about the IMU center.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vec</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (len(3) or 3 x M)</p>
+<blockquote>
+<div><p>The vector in meters (or vectors) from the body-origin
+(center of head end-cap) to the point of interest (in the
+body coord-sys).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>urot</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (3 x M x N_time)</p>
+<blockquote class="last">
+<div><p>The rotation-induced velocity array (3, n_time).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dolfyn.adv.motion.CorrectMotion">
+<em class="property">class </em><tt class="descclassname">dolfyn.adv.motion.</tt><tt class="descname">CorrectMotion</tt><big>(</big><em>accel_filtfreq=0.03333333333333333</em>, <em>vel_filtfreq=None</em>, <em>separate_probes=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CorrectMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CorrectMotion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>This object performs motion correction on an IMU-ADV data
 object. The IMU and ADV data should be tightly synchronized and
@@ -392,15 +523,15 @@ yet.</p>
 </pre></div>
 </div>
 <dl class="method">
-<dt id="dolfyn.adv.rotate.CorrectMotion.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>advo</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/rotate.html#CorrectMotion.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.rotate.CorrectMotion.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="dolfyn.adv.motion.CorrectMotion.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>advo</em>, <em>to_earth=True</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/motion.html#CorrectMotion.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.motion.CorrectMotion.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform motion correction on an IMU-equipped ADV object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>advo</strong> : <tt class="xref py py-class docutils literal"><span class="pre">ADVraw</span></tt></p>
-<blockquote class="last">
+<blockquote>
 <div><p>The adv object on which to perform motion correction.
 It must contain the following data attributes:</p>
 <ul class="simple">
@@ -408,7 +539,14 @@ It must contain the following data attributes:</p>
 <li>Accel : The translational acceleration array.</li>
 <li>AngRt : The rotation-rate array.</li>
 <li>orientmat : The orientation matrix.</li>
+<li>props : a dictionary that has &#8216;body2head_vec&#8217;,
+&#8216;body2head_rotmat&#8217; and &#8216;coord_sys&#8217;.</li>
 </ul>
+</div></blockquote>
+<p><strong>to_earth</strong> : bool (optional, default: True)</p>
+<blockquote class="last">
+<div><p>A boolean that specifies whether the data should be
+rotated into the earth frame.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -421,6 +559,9 @@ It must contain the following data attributes:</p>
 
 </dd></dl>
 
+</div>
+<div class="section" id="module-dolfyn.adv.rotate">
+<span id="dolfyn-adv-rotate-module"></span><h2>dolfyn.adv.rotate module<a class="headerlink" href="#module-dolfyn.adv.rotate" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="dolfyn.adv.rotate.earth2principal">
 <tt class="descclassname">dolfyn.adv.rotate.</tt><tt class="descname">earth2principal</tt><big>(</big><em>advo</em>, <em>reverse=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/rotate.html#earth2principal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.rotate.earth2principal" title="Permalink to this definition">¶</a></dt>
@@ -449,23 +590,27 @@ represents the orientation of the ADV in the principal
 
 <dl class="function">
 <dt id="dolfyn.adv.rotate.inst2earth">
-<tt class="descclassname">dolfyn.adv.rotate.</tt><tt class="descname">inst2earth</tt><big>(</big><em>advo</em>, <em>reverse=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/rotate.html#inst2earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.rotate.inst2earth" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">dolfyn.adv.rotate.</tt><tt class="descname">inst2earth</tt><big>(</big><em>advo</em>, <em>reverse=False</em>, <em>rotate_vars=None</em>, <em>force=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/rotate.html#inst2earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.rotate.inst2earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate data in an ADV object to the earth from the isntrument
 frame (or vice-versa). If the</p>
-<p>All data in the advo.props[&#8216;rotate_vars&#8217;] list will be
-rotated by the principal angle, and also if the data objet has an
-orientation matrix (orientmat) it will be rotated so that it
-represents the orientation of the ADV in the principal
-(reverse:earth) frame.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>advo</strong> : The adv object containing the data.</p>
 <p><strong>reverse</strong> : bool (default: False)</p>
-<blockquote class="last">
+<blockquote>
 <div><p>If True, this function performs the inverse rotation
 (principal-&gt;earth).</p>
+</div></blockquote>
+<p><strong>rotate_vars</strong> : iterable</p>
+<blockquote>
+<div><p>The list of variables to rotate. By default this is taken from
+advo.props[&#8216;rotate_vars&#8217;].</p>
+</div></blockquote>
+<p><strong>force</strong> : Do not check which frame the data is in prior to</p>
+<blockquote class="last">
+<div><p>performing this rotation.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -537,7 +682,7 @@ operator.</p>
 </table>
 <dl class="method">
 <dt id="dolfyn.adv.turbulence.TurbBinner.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>advr, out_type=&lt;class 'dolfyn.adv.base.ADVbinned'&gt;, omega_range_epsilon=[6.28, 12.57], Itke_thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.__call__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__call__</tt><big>(</big><em>advr, out_type=&lt;class 'dolfyn.adv.base.ADVbinned'&gt;, omega_range_epsilon=[6.28, 12.57], Itke_thresh=0, window='hann'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/adv/turbulence.html#TurbBinner.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.adv.turbulence.TurbBinner.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a suite of turbulence statistics for the input data
 advr, and return a <cite>binned</cite> data object.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -558,6 +703,10 @@ dissipation rate <cite>epsilon</cite> [rad/s].</p>
 <blockquote>
 <div><p>computing the turbulence intensity. Values of Itke where
 U_mag &lt; Itke_thresh are set to NaN.  (default: 0).</p>
+</div></blockquote>
+<p><strong>window</strong> : 1, None, &#8216;hann&#8217;</p>
+<blockquote>
+<div><p>The window to use for psds.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -795,6 +944,7 @@ To start, import the <tt class="xref py py-mod docutils literal"><span class="pr
 </li>
 <li><a class="reference internal" href="#module-dolfyn.adv.base">dolfyn.adv.base module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.clean">dolfyn.adv.clean module</a></li>
+<li><a class="reference internal" href="#module-dolfyn.adv.motion">dolfyn.adv.motion module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.rotate">dolfyn.adv.rotate module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv.turbulence">dolfyn.adv.turbulence module</a></li>
 <li><a class="reference internal" href="#module-dolfyn.adv">Module contents</a></li>
@@ -848,7 +998,7 @@ To start, import the <tt class="xref py py-mod docutils literal"><span class="pr
         <li class="right" >
           <a href="dolfyn.adp.html" title="dolfyn.adp package"
              >previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
       </ul>
     </div>

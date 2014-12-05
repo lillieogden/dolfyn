@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.data package &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>dolfyn.data package &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="../index.html" />
     <link rel="up" title="dolfyn package" href="dolfyn.html" />
     <link rel="next" title="dolfyn.io package" href="dolfyn.io.html" />
     <link rel="prev" title="dolfyn.buoy package" href="dolfyn.buoy.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="dolfyn.buoy.html" title="dolfyn.buoy package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -783,8 +783,16 @@ fractional-day).</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="dolfyn.data.velocity.VelBindatTke.I">
+<tt class="descname">I</tt><big>(</big><em>thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#VelBindatTke.I"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.VelBindatTke.I" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turbulence intensity.</p>
+<p>Ratio of standard deviation of velocity magnitude to velocity
+magnitude.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="dolfyn.data.velocity.VelBindatTke.Itke">
-<tt class="descname">Itke</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#VelBindatTke.Itke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.VelBindatTke.Itke" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">Itke</tt><big>(</big><em>thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#VelBindatTke.Itke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.VelBindatTke.Itke" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turbulence intensity.</p>
 <p>Ratio of standard deviation of velocity magnitude to velocity
 magnitude.</p>
@@ -840,7 +848,7 @@ magnitude.</p>
 <dd><p>Bases: <a class="reference internal" href="#dolfyn.data.velocity.VelBinnerTke" title="dolfyn.data.velocity.VelBinnerTke"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.velocity.VelBinnerTke</span></tt></a></p>
 <dl class="method">
 <dt id="dolfyn.data.velocity.VelBinnerSpec.calc_vel_psd">
-<tt class="descname">calc_vel_psd</tt><big>(</big><em>veldat, fs=None, rotate_u=False, noise=[0, 0, 0], n_pad=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#VelBinnerSpec.calc_vel_psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.VelBinnerSpec.calc_vel_psd" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">calc_vel_psd</tt><big>(</big><em>veldat, fs=None, rotate_u=False, noise=[0, 0, 0], n_pad=None, window='hann'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/data/velocity.html#VelBinnerSpec.calc_vel_psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.data.velocity.VelBinnerSpec.calc_vel_psd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the psd of velocity.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1072,7 +1080,7 @@ False).</p>
         <li class="right" >
           <a href="dolfyn.buoy.html" title="dolfyn.buoy package"
              >previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
       </ul>
     </div>

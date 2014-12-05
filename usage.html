@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>Usage &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="index.html" />
-    <link rel="next" title="Plotting Tools" href="plotting-tools.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="index.html" />
+    <link rel="next" title="Usage - Specific Cases" href="usage-specific.html" />
     <link rel="prev" title="Download and Install" href="install.html" /> 
   </head>
   <body>
@@ -43,12 +43,12 @@
           <a href="np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plotting-tools.html" title="Plotting Tools"
+          <a href="usage-specific.html" title="Usage - Specific Cases"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="install.html" title="Download and Install"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">DOLfYN 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -66,6 +66,9 @@ includes tools for reading buoy data from the <a class="reference external" href
 Center</a> (NDBC).</p>
 <p>DOLfYN is organized into subpackages for working with each data type
 it supports, as well as base packages</p>
+<p>This page documents general and basic usage of the DOLfYN package, for
+detailed information on more specific uses of the package see the
+[usage-specific] page.</p>
 <div class="section" id="working-with-adv-data">
 <h2>Working with ADV data<a class="headerlink" href="#working-with-adv-data" title="Permalink to this headline">¶</a></h2>
 <p>Acoustic Doppler velocimeters (ADVs) make measurements of velocity at
@@ -80,7 +83,7 @@ read a Vector file like this:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">read_nortek</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">my_vector_file</span><span class="o">.</span><span class="n">vec</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This returns a <tt class="xref py py-class docutils literal"><span class="pre">ADVraw</span></tt> object, which contains
+<p>This returns a <a class="reference internal" href="api/dolfyn.adv.html#dolfyn.adv.base.ADVraw" title="dolfyn.adv.base.ADVraw"><tt class="xref py py-class docutils literal"><span class="pre">ADVraw</span></tt></a> object, which contains
 the data loaded from the file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dat</span><span class="o">.</span><span class="n">u</span>
 <span class="go">array([-0.92200005, -0.87800002, -0.85400003, ..., -0.88900006,</span>
@@ -92,11 +95,11 @@ the data loaded from the file:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id2">
-<h3>Working with ADV data<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Working with ADV data<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>DOLfYN has several tools for performing useful and common operations
 on ADV data. Most of these are available via the ADV
-<tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt>. For example:</p>
+<a class="reference internal" href="api/dolfyn.adv.html#module-dolfyn.adv.api" title="dolfyn.adv.api"><tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt></a>. For example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># To use this module, import it:</span>
 <span class="kn">from</span> <span class="nn">dolfyn.adv</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">adv</span>
 
@@ -138,7 +141,7 @@ on ADV data. Most of these are available via the ADV
 <li><a class="reference internal" href="#">Usage</a><ul>
 <li><a class="reference internal" href="#working-with-adv-data">Working with ADV data</a><ul>
 <li><a class="reference internal" href="#reading-adv-data">Reading ADV data</a></li>
-<li><a class="reference internal" href="#id2">Working with ADV data</a></li>
+<li><a class="reference internal" href="#id3">Working with ADV data</a></li>
 </ul>
 </li>
 </ul>
@@ -149,8 +152,8 @@ on ADV data. Most of these are available via the ADV
   <p class="topless"><a href="install.html"
                         title="previous chapter">Download and Install</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="plotting-tools.html"
-                        title="next chapter">Plotting Tools</a></p>
+  <p class="topless"><a href="usage-specific.html"
+                        title="next chapter">Usage - Specific Cases</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/usage.txt"
@@ -186,12 +189,12 @@ on ADV data. Most of these are available via the ADV
           <a href="np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plotting-tools.html" title="Plotting Tools"
+          <a href="usage-specific.html" title="Usage - Specific Cases"
              >next</a> |</li>
         <li class="right" >
           <a href="install.html" title="Download and Install"
              >previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">DOLfYN 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

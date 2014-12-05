@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.adv.base &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>dolfyn.adv.base &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,8 +59,13 @@
 <span class="kn">from</span> <span class="nn">..data</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">db</span>
 <span class="kn">from</span> <span class="nn">..io</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">dio</span>
 <span class="kn">from</span> <span class="nn">..data</span> <span class="kn">import</span> <span class="n">velocity</span> <span class="k">as</span> <span class="n">dbvel</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="c"># import turbulence as turb</span>
 <span class="n">ma</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">ma</span>
+
+<span class="c"># This is the body-&gt;imu vector (in body frame)</span>
+<span class="c"># In inches it is: (0.25, 0.25, 5.9)</span>
+<span class="n">body2imu</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Nortek VECTOR&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.14986</span><span class="p">])}</span>
 
 
 <div class="viewcode-block" id="ADVconfig"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVconfig">[docs]</a><span class="k">class</span> <span class="nc">ADVconfig</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">config</span><span class="p">):</span>
@@ -78,6 +83,15 @@
 <span class="sd">    The base class for ADV data objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ADVraw.make_model"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVraw.make_model">[docs]</a>    <span class="k">def</span> <span class="nf">make_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;inst_model&#39;</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ADVraw.body2imu_vec"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVraw.body2imu_vec">[docs]</a>    <span class="k">def</span> <span class="nf">body2imu_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="c"># Currently only the Nortek VECTOR has an IMU.</span>
+        <span class="k">return</span> <span class="n">body2imu</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_model</span><span class="p">]</span>
+</div>
 <div class="viewcode-block" id="ADVraw.has_imu"><a class="viewcode-back" href="../../../api/dolfyn.adv.html#dolfyn.adv.base.ADVraw.has_imu">[docs]</a>    <span class="k">def</span> <span class="nf">has_imu</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test whether this data object contains Inertial Motion Unit</span>
@@ -180,7 +194,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

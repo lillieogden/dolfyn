@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Download and Install &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>Download and Install &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="index.html" />
     <link rel="next" title="Usage" href="usage.html" />
     <link rel="prev" title="About" href="about.html" /> 
   </head>
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="about.html" title="About"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">DOLfYN 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -59,7 +59,15 @@
             
   <div class="section" id="download-and-install">
 <span id="install"></span><h1>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h1>
-<p>DOLfYN can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download DOLfYN from the repository (<a class="reference external" href="http://github.com/lkilcher/dolfyn">http://github.com/lkilcher/dolfyn</a>). For example, if git is installed, you can:</p>
+<p>DOLfYN can be installed in several different ways depending on your
+system.  On Windows I recommend getting PythonXY, because it comes
+with a functioning pip installation.</p>
+<p>If you are on a system with a working version of Python that includes
+pip, you can simply do:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install dolfyn
+</pre></div>
+</div>
+<p>For systems that do not include pip you will need to install the <em class="xref std std-ref">dependencies</em> manually. From that point onward you can download DOLfYN from the repository (<a class="reference external" href="http://github.com/lkilcher/dolfyn">http://github.com/lkilcher/dolfyn</a>). For example, if git is installed, you can:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ git clone http://github.com/lkilcher/dolfyn &lt;download_location&gt;
 </pre></div>
 </div>
@@ -78,7 +86,7 @@ $ python setup.py install
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>DOLfYN is known to work with Python 2.7 and numpy 1.6.</li>
+<li>DOLfYN is known to work with Python 2.7 and <a class="reference external" href="http://www.numpy.org">Numpy</a> &gt;=1.6.</li>
 <li>DOLfYN requires <a class="reference external" href="www.h5py.org">h5py</a>, and <a class="reference external" href="http://www.scipy.org">SciPy</a>.</li>
 </ul>
 </div>
@@ -144,7 +152,7 @@ $ python setup.py install
         <li class="right" >
           <a href="about.html" title="About"
              >previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">DOLfYN 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

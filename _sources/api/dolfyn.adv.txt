@@ -28,6 +28,14 @@ dolfyn.adv.clean module
     :undoc-members:
     :show-inheritance:
 
+dolfyn.adv.motion module
+------------------------
+
+.. automodule:: dolfyn.adv.motion
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 dolfyn.adv.rotate module
 ------------------------
 

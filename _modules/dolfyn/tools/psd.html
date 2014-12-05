@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.tools.psd &mdash; DOLfYN 0.2.beta.3 documentation</title>
+    <title>dolfyn.tools.psd &mdash; DOLfYN 0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.beta.3',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.2.beta.3 documentation" href="../../../index.html" />
+    <link rel="top" title="DOLfYN 0.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -53,8 +53,24 @@
             
   <h1>Source code for dolfyn.tools.psd</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib.mlab</span> <span class="kn">import</span> <span class="n">detrend_linear</span> <span class="k">as</span> <span class="n">detrend</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">detrend</span>
 <span class="n">fft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span>
+
+<span class="c">## class FFTobj(np.ndarray):</span>
+
+<span class="c">##     @property</span>
+<span class="c">##     def Spec(self,):</span>
+<span class="c">##         return np.abs(self) ** 2</span>
+
+<span class="c">##     def __new__(cls, input_array, info=None):</span>
+<span class="c">##         obj = np.asarray(input_array).view(cls)</span>
+<span class="c">##         obj.info = info</span>
+<span class="c">##         return obj</span>
+
+<span class="c">##     def __array_finalize__(self, obj):</span>
+<span class="c">##         if obj is None:</span>
+<span class="c">##             return</span>
+<span class="c">##         self.info = getattr(obj, &#39;info&#39;, None)</span>
 
 
 <div class="viewcode-block" id="psd_freq"><a class="viewcode-back" href="../../../api/dolfyn.tools.html#dolfyn.tools.psd.psd_freq">[docs]</a><span class="k">def</span> <span class="nf">psd_freq</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
@@ -105,6 +121,8 @@
     <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">nfft</span><span class="p">:</span>
         <span class="n">nfft</span> <span class="o">=</span> <span class="n">l</span>
     <span class="k">if</span> <span class="n">nens</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">step</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="n">nfft</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span>
         <span class="n">nens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">l</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span>
     <span class="k">elif</span> <span class="n">nens</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -452,7 +470,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.2.beta.3 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">DOLfYN 0.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
