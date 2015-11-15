@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.data.base &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.data.base &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,39 +23,29 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for dolfyn.data.base</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">..OrderedSet</span> <span class="kn">import</span> <span class="n">OrderedSet</span> <span class="k">as</span> <span class="n">oset</span>
 <span class="kn">from</span> <span class="nn">..meta</span> <span class="kn">import</span> <span class="n">api_dumb</span> <span class="k">as</span> <span class="n">ma</span>
+<span class="kn">import</span> <span class="nn">numpy.testing</span> <span class="kn">as</span> <span class="nn">nptest</span>
+<span class="c">#from ..OrderedSet import OrderedSet as oset</span>
+<span class="n">oset</span> <span class="o">=</span> <span class="nb">set</span>
 
 
 <div class="viewcode-block" id="DataError"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.DataError">[docs]</a><span class="k">class</span> <span class="nc">DataError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -74,12 +64,35 @@
     <span class="k">return</span> <span class="n">out</span>
 
 </div>
+<span class="k">def</span> <span class="nf">_equiv_dict</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">d1</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">d1</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
+                    <span class="n">nptest</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">],</span> <span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">assert</span> <span class="n">_equiv_dict</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">],</span> <span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+
 <div class="viewcode-block" id="Dbase"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dbase">[docs]</a><span class="k">class</span> <span class="nc">Dbase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The base data object class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test for equivalence, between data objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="n">_equiv_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="props"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.props">[docs]</a><span class="k">class</span> <span class="nc">props</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
@@ -96,6 +109,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base data class, which implements the &#39;props&#39; attribute.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">props</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;__props__&#39;</span><span class="p">):</span>
@@ -103,9 +117,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__props__</span>
 
     <span class="nd">@props.setter</span>
-<div class="viewcode-block" id="Dprops.props"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dprops.props">[docs]</a>    <span class="k">def</span> <span class="nf">props</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">props</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__props__</span> <span class="o">=</span> <span class="n">props</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</div>
+
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="s">&#39;__props__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
@@ -200,12 +214,12 @@
                 <span class="k">yield</span> <span class="n">grpnm</span><span class="p">,</span> <span class="n">dnm</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="groups.data_names"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.groups.data_names">[docs]</a>    <span class="k">def</span> <span class="nf">data_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">data_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">anms</span> <span class="o">=</span> <span class="n">oset</span><span class="p">([])</span>
         <span class="k">for</span> <span class="n">gnms</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">itervalues</span><span class="p">():</span>
             <span class="n">anms</span> <span class="o">|=</span> <span class="n">oset</span><span class="p">(</span><span class="n">gnms</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">anms</span>
-</div>
+
 <div class="viewcode-block" id="groups.remove"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.groups.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">grp</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">:</span>
@@ -255,9 +269,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Dgroups.data_names"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.data_names">[docs]</a>    <span class="k">def</span> <span class="nf">data_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">data_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">data_names</span>
-</div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;__data_groups__&#39;</span><span class="p">):</span>
@@ -266,9 +280,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_groups__</span>
 
     <span class="nd">@groups.setter</span>
-<div class="viewcode-block" id="Dgroups.groups"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.groups">[docs]</a>    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data_groups__</span> <span class="o">=</span> <span class="n">groups</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</div>
+
 <div class="viewcode-block" id="Dgroups.iter"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.iter">[docs]</a>    <span class="k">def</span> <span class="nf">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterate over data objects in self.groups.</span>
@@ -281,8 +295,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">grpnm</span><span class="p">,</span> <span class="n">dnm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">dnm</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnm</span><span class="p">)</span>
-</div>
-    <span class="n">__iter__</span> <span class="o">=</span> <span class="nb">iter</span>
+
+    <span class="c"># This needs to behave like a dict!</span>
+    <span class="c">#__iter__ = iter</span></div>
     <span class="n">iteritems</span> <span class="o">=</span> <span class="nb">iter</span>
 
 <div class="viewcode-block" id="Dgroups.iter_wg"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.iter_wg">[docs]</a>    <span class="k">def</span> <span class="nf">iter_wg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -330,7 +345,11 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Classes must match to join objects.&#39;</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">dat</span><span class="p">),</span> <span class="p">(</span><span class="n">onm</span><span class="p">,</span> <span class="n">odat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-            <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_dim</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_dim</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span>  <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="c"># No dimension with that shape, so skip it.</span>
+                <span class="k">continue</span>
             <span class="k">if</span> <span class="n">nan_joint</span><span class="p">:</span>
                 <span class="n">shp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">shp</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -423,13 +442,13 @@
         <span class="k">return</span> <span class="n">out</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Dgroups.shapes"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.Dgroups.shapes">[docs]</a>    <span class="k">def</span> <span class="nf">shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">dat</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">return</span> <span class="n">out</span>
 
-</div></div>
+</div>
 <div class="viewcode-block" id="TimeBased"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.TimeBased">[docs]</a><span class="k">class</span> <span class="nc">TimeBased</span><span class="p">(</span><span class="n">Dprops</span><span class="p">,</span> <span class="n">Dgroups</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -444,7 +463,7 @@
 <span class="sd">        If *n* is none,</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ma</span><span class="o">.</span><span class="n">valid</span> <span class="ow">and</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">dat</span><span class="o">.</span><span class="n">getdim</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -456,10 +475,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;toff&#39;</span><span class="p">]</span>
 
     <span class="nd">@toff.setter</span>
-<div class="viewcode-block" id="TimeBased.toff"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.TimeBased.toff">[docs]</a>    <span class="k">def</span> <span class="nf">toff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">toff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;toff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
-</div></div>
+</div>
 <div class="viewcode-block" id="config"><a class="viewcode-back" href="../../../api/dolfyn.data.html#dolfyn.data.base.config">[docs]</a><span class="k">class</span> <span class="nc">config</span><span class="p">(</span><span class="n">Dgroups</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -468,7 +487,10 @@
     <span class="n">_lvl_spaces</span> <span class="o">=</span> <span class="mi">3</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_type</span><span class="o">=</span><span class="s">&#39;*UNKNOWN*&#39;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="p">[</span><span class="s">&#39;config_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_type</span> <span class="o">=</span> <span class="n">config_type</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_equiv_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indx</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indx</span><span class="p">)</span>
@@ -479,10 +501,17 @@
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_type</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">copy</span> <span class="o">=</span> <span class="n">__copy__</span>
+
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">nm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="p">(</span><span class="s">&quot;&#39;self.__class__&#39; object has no attribute &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nm</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&quot;{} object has no attribute &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">nm</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
 
     <span class="c"># @property</span>
@@ -495,9 +524,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__repr_level__</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__repr_level__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="n">level</span> <span class="o">*</span> \
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lvl_spaces</span><span class="p">)</span> <span class="o">*</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> Configuration:</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_type</span>
-        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">level</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lvl_spaces</span><span class="p">)</span> <span class="o">*</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> Configuration:</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_type</span>
+        <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;system&#39;</span><span class="p">,</span> <span class="s">&#39;config_type&#39;</span><span class="p">]:</span>
                 <span class="k">pass</span>
             <span class="k">elif</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">dt</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
@@ -511,9 +539,17 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -530,25 +566,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

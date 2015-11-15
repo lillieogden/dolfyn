@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.tools.psd &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.tools.psd &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,33 +23,21 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../../../index.html" />
+    <link rel="up" title="dolfyn.tools" href="../tools.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for dolfyn.tools.psd</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -328,8 +316,8 @@
 <span class="sd">      - step : nfft/2 specifies a 50% overlap.</span>
 <span class="sd">      - step : nfft specifies no overlap.</span>
 <span class="sd">      - step=2*nfft means that half the data will be skipped.</span>
-<span class="sd">      By default, `step` is calculated to maximize data use and have</span>
-<span class="sd">      at least 50% overlap.</span>
+<span class="sd">      By default, `step` is calculated to maximize data use, have</span>
+<span class="sd">      at least 50% overlap and minimize the number of ensembles.</span>
 
 
 <span class="sd">    Returns</span>
@@ -417,11 +405,12 @@
 <span class="sd">                 &#39;hann&#39;               : hanning window.</span>
 <span class="sd">                 a length(nfft) array : use this as the window directly.</span>
 <span class="sd">    step   : Use this to specify the overlap.  For example:</span>
-<span class="sd">               step=nfft/2 specifies a 50% overlap.</span>
-<span class="sd">               step=nfft specifies no overlap.</span>
-<span class="sd">               step=2*nfft means that half the data will be skipped.</span>
-<span class="sd">               By default, `step` is calculated to maximize data use and have</span>
-<span class="sd">               at least 50% overlap.</span>
+<span class="sd">             -  step=nfft/2 specifies a 50% overlap.</span>
+<span class="sd">             -  step=nfft specifies no overlap.</span>
+<span class="sd">             -  step=2*nfft means that half the data will be skipped.</span>
+
+<span class="sd">             By default, `step` is calculated to maximize data use, have</span>
+<span class="sd">             at least 50% overlap and minimize the number of ensembles.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -439,9 +428,19 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../tools.html">dolfyn.tools</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -458,25 +457,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

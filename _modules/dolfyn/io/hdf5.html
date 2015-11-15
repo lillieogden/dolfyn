@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.io.hdf5 &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.io.hdf5 &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,33 +23,21 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for dolfyn.io.hdf5</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -102,16 +90,19 @@
 <span class="sd">    - h5py</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ver</span> <span class="o">=</span> <span class="mf">1.2</span>  <span class="c"># The version number of the save format.</span>
+    <span class="n">ver</span> <span class="o">=</span> <span class="mf">1.3</span>  <span class="c"># The version number of the save format.</span>
+
     <span class="c"># Version 1.0: underscore (&#39;_&#39;) handled inconsistently.</span>
     <span class="c"># Version 1.1: &#39;_&#39; and &#39;#&#39; handled consistently in group naming:</span>
-    <span class="c">#         &#39;_&#39; is for essential groups.</span>
     <span class="c"># &#39;#&#39; is for groups that should be excluded, unless listed explicitly.</span>
     <span class="c"># &#39;##&#39; and ending with &#39;##&#39; is for specially handled groups.</span>
     <span class="c"># Version 1.2: now using time_array.</span>
+    <span class="c">#         &#39;_&#39; is for essential groups.</span>
+    <span class="c"># Version 1.3: Now load/unload is fully symmetric (needed for __eq__ tests).</span>
+    <span class="c">#         Added _config_type to i/o.</span>
     <span class="n">fletcher32</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">complib</span> <span class="o">=</span> <span class="s">&#39;lzf&#39;</span>
-    <span class="n">complevel</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">complib</span> <span class="o">=</span> <span class="s">&#39;gzip&#39;</span>
+    <span class="n">complevel</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span>
 
     <span class="n">split_groups_into_files</span> <span class="o">=</span> <span class="bp">False</span>
@@ -193,6 +184,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">where</span><span class="p">)</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;_object_type&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">config_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s">&#39;*UNKNOWN*&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">where</span><span class="p">)</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;_config_type&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">config_type</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Saver.write_dict"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.hdf5.Saver.write_dict">[docs]</a>    <span class="k">def</span> <span class="nf">write_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dct</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -218,7 +211,7 @@
         <span class="k">for</span> <span class="n">ky</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="n">tmp</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">pkl</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="Saver.write"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.hdf5.Saver.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">nosplit_file</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Saver.write"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.hdf5.Saver.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">nosplit_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write data in object `obj` to the file at location `where`.</span>
 <span class="sd">        `obj` should be a DOLfYN type object; a subclass of the</span>
@@ -257,14 +250,15 @@
                                <span class="n">where</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">grp_nm</span> <span class="o">+</span> <span class="s">&#39;/_&#39;</span> <span class="o">+</span> <span class="n">ky</span><span class="p">,</span>
                                <span class="n">nosplit_file</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-                <span class="k">elif</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">)</span> <span class="ow">or</span>
-                      <span class="p">(</span><span class="n">ma</span> <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">))</span> <span class="ow">and</span> \
-                        <span class="n">val</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">nd</span> <span class="o">=</span> <span class="n">grp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ky</span><span class="p">),</span>
                                             <span class="n">data</span><span class="o">=</span><span class="n">val</span><span class="p">,</span>
                                             <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">complib</span><span class="p">,</span>
                                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">,</span>
                                             <span class="n">fletcher32</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fletcher32</span><span class="p">,)</span>
+                    <span class="k">for</span> <span class="n">kw</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                            <span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kw</span><span class="p">),</span> <span class="n">d</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
 
                     <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">time_array</span><span class="p">:</span>
                         <span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;time_var&#39;</span><span class="p">,</span> <span class="s">&#39;True&#39;</span><span class="p">)</span>
@@ -280,7 +274,7 @@
                 <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
                     <span class="n">grp</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">pkl</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">grp</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+                    <span class="n">grp</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">pkl</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
 
 
 <span class="c"># class UpdateTool(DataFactory):</span>
@@ -553,10 +547,8 @@
                                           <span class="p">)</span>
                         <span class="k">for</span> <span class="n">atnm</span> <span class="ow">in</span> <span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                             <span class="k">if</span> <span class="n">atnm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;_name&#39;</span><span class="p">,</span> <span class="s">&#39;_units&#39;</span><span class="p">,</span> <span class="s">&#39;dim_names&#39;</span><span class="p">]:</span>
-                                <span class="nb">setattr</span><span class="p">(</span>
-                                    <span class="n">meta</span><span class="p">,</span> <span class="n">atnm</span><span class="p">,</span> <span class="n">pkl</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">atnm</span><span class="p">)))</span>
-                        <span class="nb">setattr</span><span class="p">(</span>
-                            <span class="n">out</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">nm</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">))</span>
+                                <span class="nb">setattr</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">atnm</span><span class="p">,</span> <span class="n">pkl</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">atnm</span><span class="p">)))</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">nm</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">__postload__</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">out</span>
@@ -603,6 +595,9 @@
                         <span class="c"># This is a catch for deleted module-specific config</span>
                         <span class="c"># objects</span>
                         <span class="n">out</span> <span class="o">=</span> <span class="n">config</span><span class="p">()</span>
+                        <span class="n">nd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">where</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="s">&#39;_config_type&#39;</span> <span class="ow">in</span> <span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+                            <span class="n">out</span><span class="o">.</span><span class="n">config_type</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_config_type&#39;</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_map</span><span class="p">[</span>
@@ -670,9 +665,17 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -689,25 +692,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.io.nortek &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.io.nortek &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,33 +23,21 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for dolfyn.io.nortek</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -62,12 +50,18 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">adp</span>
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="kn">import</span> <span class="n">misc</span> <span class="k">as</span> <span class="n">tbx</span>
 <span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
-<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">error</span> <span class="k">as</span> <span class="n">str_err</span>
 <span class="kn">from</span> <span class="nn">..data.base</span> <span class="kn">import</span> <span class="n">ma</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">nortek_defs</span>
 <span class="n">time</span> <span class="o">=</span> <span class="n">nortek_defs</span><span class="o">.</span><span class="n">time</span>
 
 
+<div class="viewcode-block" id="int2binarray"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.int2binarray">[docs]</a><span class="k">def</span> <span class="nf">int2binarray</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;bool&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+</div>
 <div class="viewcode-block" id="read_nortek"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.read_nortek">[docs]</a><span class="k">def</span> <span class="nf">read_nortek</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">do_checksum</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read a nortek file.</span>
@@ -131,6 +125,7 @@
 
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flag_lastread_sysdata</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="n">fun_map</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;0x00&#39;</span><span class="p">:</span> <span class="s">&#39;read_user_cfg&#39;</span><span class="p">,</span>
                <span class="s">&#39;0x04&#39;</span><span class="p">:</span> <span class="s">&#39;read_head_cfg&#39;</span><span class="p">,</span>
@@ -148,7 +143,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bufsize</span> <span class="o">=</span> <span class="n">bufsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_checksum</span> <span class="o">=</span> <span class="n">do_checksum</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filesize</span>  <span class="c"># initialize the filesize.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
@@ -156,9 +150,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_dtypes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span> <span class="o">=</span> <span class="n">npings</span>
         <span class="k">if</span> <span class="n">endian</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">unpack</span><span class="p">(</span><span class="s">&#39;&lt;HH&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1445</span><span class="p">,</span> <span class="mi">24</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">unpack</span><span class="p">(</span><span class="s">&#39;&lt;HH&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1445</span><span class="p">,</span> <span class="mi">24</span><span class="p">):</span>
                 <span class="n">endian</span> <span class="o">=</span> <span class="s">&#39;&lt;&#39;</span>
-            <span class="k">elif</span> <span class="n">unpack</span><span class="p">(</span><span class="s">&#39;&gt;HH&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1445</span><span class="p">,</span> <span class="mi">24</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="n">unpack</span><span class="p">(</span><span class="s">&#39;&gt;HH&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1445</span><span class="p">,</span> <span class="mi">24</span><span class="p">):</span>
                 <span class="n">endian</span> <span class="o">=</span> <span class="s">&#39;&gt;&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;I/O error: could not determine the </span><span class="se">\</span>
@@ -198,11 +192,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c"># This has a small buffer, so close it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">)</span>  <span class="c"># This has a large buffer...</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">close</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span>
         <span class="k">if</span> <span class="n">npings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span> <span class="o">=</span> <span class="n">npings</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">pnow</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># Seek to the previous position.</span>
 
+<div class="viewcode-block" id="NortekReader.read"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbyte</span><span class="p">):</span>
+        <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nbyte</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span> <span class="o">==</span> <span class="n">nbyte</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">EOFError</span><span class="p">(</span><span class="s">&#39;Reached the end of the file&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byts</span>
+</div>
     <span class="k">def</span> <span class="nf">_sci_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vardict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert the data to scientific units accordint to vardict.</span>
 
@@ -257,25 +256,29 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_thisid_bytes</span> <span class="o">=</span> <span class="n">bts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;BB&#39;</span><span class="p">,</span> <span class="n">bts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Positon: {}, codes: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">tmp</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">165</span><span class="p">:</span>  <span class="c"># This catches a corrupted data block.</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Corrupted data block sync code. </span><span class="se">\</span>
-<span class="s">            Searching for next valid code...&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Corrupted data block sync code found in ping </span><span class="si">%d</span><span class="s">. &#39;</span>
+                  <span class="s">&#39;Searching for next valid code...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">))</span>
             <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">findnext</span><span class="p">(</span><span class="n">do_cs</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;FOUND {}.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;  at position: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">val</span>
         <span class="c"># if self.debug:</span>
         <span class="c">#    print( tmp[1] )</span>
         <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_user_cfg"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_user_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">read_user_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID: &#39;0x00</span>
+        <span class="c"># ID: &#39;0x00 = 00</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading user configuration (0x00)...&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;USER&#39;</span><span class="p">))</span>
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">508</span><span class="p">)</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x5H13H6s4HI8H2x90H180s6H4xH2x2H2xH30x8H&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
-            <span class="c"># the first two are the size.</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;2x5H13H6s4HI8H2x90H180s6H4xH2x2H2xH30x8H&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
+        <span class="c"># the first two are the size.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
             <span class="s">&#39;Transmit&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;pulse length&#39;</span><span class="p">:</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                          <span class="s">&#39;blank distance&#39;</span><span class="p">:</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -286,8 +289,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Npings&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;AvgInterval&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;NBeams&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;TimCtrlReg&#39;</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">8</span><span class="p">])[</span><span class="mi">2</span><span class="p">:])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;PwrCtrlReg&#39;</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">9</span><span class="p">])[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;TimCtrlReg&#39;</span><span class="p">,</span> <span class="n">int2binarray</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;PwrCtrlReg&#39;</span><span class="p">,</span> <span class="n">int2binarray</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;B0&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span>
@@ -301,17 +304,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;WrapMode&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">19</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;ClockDeploy&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">23</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;DiagInterval&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">23</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Mode0&#39;</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">24</span><span class="p">])[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Mode0&#39;</span><span class="p">,</span> <span class="n">int2binarray</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">24</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;AdjSoundSpeed&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">25</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;NSampDiag&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">26</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;NBeamsCellDiag&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">27</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;NPingsDiag&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">28</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;ModeTest&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">29</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;ModeTest&#39;</span><span class="p">,</span> <span class="n">int2binarray</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">29</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;AnaInAddr&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">30</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;SWVersion&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">31</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;VelAdjTable&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">122</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Comments&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">122</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Mode1&#39;</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">123</span><span class="p">])[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Mode1&#39;</span><span class="p">,</span> <span class="n">int2binarray</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">123</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;DynPercPos&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">124</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;T1w&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">125</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;T2w&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">126</span><span class="p">])</span>
@@ -323,9 +326,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;TiLag2&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">132</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;QualConst&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">133</span><span class="p">:</span><span class="mi">141</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;mode&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;user_sound&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;diagnostics_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;analog_output_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;output_format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Vector&#39;</span><span class="p">,</span> <span class="s">&#39;ADV&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;vel_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">4</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;serial_output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;reserved_EasyQ&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;stage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;output_power&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode0&#39;</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;mode_test_use_DSP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;ModeTest&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;mode_test_filter_output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;total&#39;</span><span class="p">,</span> <span class="s">&#39;correction_only&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;ModeTest&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>  <span class="c"># noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;1hz&#39;</span><span class="p">,</span> <span class="s">&#39;2hz&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;cell_position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;fixed&#39;</span><span class="p">,</span> <span class="s">&#39;dynamic&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode1&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>  <span class="c"># noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;dynamic_pos_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;pct of mean press&#39;</span><span class="p">,</span> <span class="s">&#39;pct of min re&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;Mode1&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>  <span class="c"># noqa</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_head_cfg"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_head_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">read_head_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID: &#39;0x04</span>
+        <span class="c"># ID: &#39;0x04 = 04</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading head configuration (0x04)...&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;HEAD&#39;</span><span class="p">))</span>
@@ -342,7 +360,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_hw_cfg"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_hw_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">read_hw_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID 0x05</span>
+        <span class="c"># ID 0x05 = 05</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading hardware configuration (0x05)...&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;hardware&#39;</span><span class="p">,</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVconfig</span><span class="p">(</span><span class="s">&#39;HARDWARE&#39;</span><span class="p">))</span>
@@ -372,7 +390,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_vec_checkdata"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_vec_checkdata">[docs]</a>    <span class="k">def</span> <span class="nf">read_vec_checkdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID: &#39;0x07</span>
+        <span class="c"># ID: 0x07 = 07</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading vector check data (0x07)...&#39;</span><span class="p">)</span>
         <span class="n">byts0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -413,12 +431,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;toff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c"># I must be able to calculate this here, right? # !!!TODO!!!</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;doppler_noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="c"># Apply velocity scaling (1 or 0.1)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_u</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;mode&#39;</span><span class="p">][</span><span class="s">&#39;vel_scale&#39;</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_vec_data"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_vec_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_vec_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read vector data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># ID: 0x10</span>
+        <span class="c"># ID: 0x10 = 16</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_lastread_sysdata</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Warning: First &quot;vector data&quot; block &#39;</span>
+                  <span class="s">&#39;is before first &quot;vector system data&quot; block.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_lastread_sysdata</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
@@ -486,7 +509,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read vector system data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># ID: 0x11</span>
+        <span class="c"># ID: 0x11 = 17</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flag_lastread_sysdata</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
@@ -542,12 +565,19 @@
                 <span class="s">&#39;accel&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;m&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;s&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">},</span> <span class="n">dim_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;xyz&#39;</span><span class="p">,</span> <span class="s">&#39;time&#39;</span><span class="p">],))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">marray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span><span class="p">,</span> <span class="n">ma</span><span class="o">.</span><span class="n">varMeta</span><span class="p">(</span>
                 <span class="s">&#39;angRt&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;s&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="n">dim_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;xyz&#39;</span><span class="p">,</span> <span class="s">&#39;time&#39;</span><span class="p">],))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ahrsid</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">195</span><span class="p">,</span> <span class="mi">211</span><span class="p">]:</span>
+            <span class="c"># These are DAng and DVel, so we convert them to AngRt, Accel here</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Accel</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fs</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_microstrain"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_microstrain">[docs]</a>    <span class="k">def</span> <span class="nf">read_microstrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read microstrain sensor data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># 0x71</span>
+        <span class="c"># 0x71 = 113</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_lastread_sysdata</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Warning: First &quot;microstrain data&quot; block &#39;</span>
+                  <span class="s">&#39;is before first &quot;vector system data&quot; block.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_lastread_sysdata</span><span class="p">:</span>
             <span class="c"># This handles a bug where the system data gets written between the</span>
             <span class="c"># last &#39;vec_data&#39; and its associated &#39;microstrain&#39; data.</span>
@@ -556,11 +586,34 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading vector microstrain data (0x71)...&#39;</span><span class="p">)</span>
         <span class="n">byts0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-        <span class="n">ahrsid</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;3xB&#39;</span><span class="p">,</span> <span class="n">byts0</span><span class="p">)[</span>
-            <span class="mi">0</span><span class="p">]</span>  <span class="c"># The first 2 are the size, 3rd is count, 4th is the id.</span>
+        <span class="c"># The first 2 are the size, 3rd is count, 4th is the id.</span>
+        <span class="n">ahrsid</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;3xB&#39;</span><span class="p">,</span> <span class="n">byts0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_ahrsid&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ahrsid</span> <span class="o">!=</span> <span class="n">ahrsid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;AHRSID Changes mid-file!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ahrsid</span> <span class="o">=</span> <span class="n">ahrsid</span>
+        <span class="c">#print byts0</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dtypes</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&#39;microstrain&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">195</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Accel&#39;</span><span class="p">,</span> <span class="s">&#39;AngRt&#39;</span><span class="p">,</span> <span class="s">&#39;orientmat&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="s">&#39;Accel&#39;</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                    <span class="s">&#39;orient&#39;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="s">&#39;AngRt&#39;</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                    <span class="s">&#39;orient&#39;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="s">&#39;orientmat&#39;</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span>
+                             <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                    <span class="s">&#39;orient&#39;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;Accel&#39;</span><span class="p">,</span> <span class="s">&#39;AngRt&#39;</span><span class="p">,</span> <span class="p">})</span>
             <span class="k">if</span> <span class="n">ahrsid</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">210</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Accel&#39;</span><span class="p">,</span> <span class="s">&#39;AngRt&#39;</span><span class="p">,</span> <span class="s">&#39;Mag&#39;</span><span class="p">,</span> <span class="s">&#39;orientmat&#39;</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
@@ -583,37 +636,58 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;orientmat&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
                         <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="s">&#39;orient&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">211</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Angle&#39;</span><span class="p">,</span> <span class="s">&#39;Veloc&#39;</span><span class="p">,</span> <span class="s">&#39;MagVe&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;AngRt&#39;</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">,</span> <span class="s">&#39;Mag&#39;</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
-                    <span class="s">&#39;Angle&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;AngRt&#39;</span><span class="p">,</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
                     <span class="s">&#39;orient&#39;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
-                    <span class="s">&#39;Veloc&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;Accel&#39;</span><span class="p">,</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
                     <span class="s">&#39;orient&#39;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
-                    <span class="s">&#39;MagVe&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;Mag&#39;</span><span class="p">,</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
                     <span class="s">&#39;orient&#39;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                    <span class="p">{</span><span class="s">&#39;Angle&#39;</span><span class="p">,</span> <span class="s">&#39;Veloc&#39;</span><span class="p">,</span> <span class="s">&#39;MagVe&#39;</span><span class="p">})</span>
-        <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>  <span class="c"># 0xcc</span>
+                    <span class="p">{</span><span class="s">&#39;AngRt&#39;</span><span class="p">,</span> <span class="s">&#39;Accel&#39;</span><span class="p">,</span> <span class="s">&#39;Mag&#39;</span><span class="p">})</span>
+        <span class="n">byts</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">195</span><span class="p">:</span>  <span class="c"># 0xc3</span>
+            <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;6f9f4x&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Accel</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orientmat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">dt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">15</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>  <span class="c"># 0xcc</span>
             <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">78</span><span class="p">)</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;ffffffffffffffffff6x&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;18f6x&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
                         <span class="c"># This skips the &quot;DWORD&quot; (4 bytes) and the AHRS</span>
                         <span class="c"># checksum (2 bytes)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Accel</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span><span class="p">[</span>
-                <span class="p">:,</span> <span class="n">c</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Mag</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">],)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orientmat</span><span class="p">[:,:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">dt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">18</span><span class="p">]))</span>
-        <span class="c"># Still need to add a reader for the other two ahrsid&#39;s (211,210).</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Accel</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Mag</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">],)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orientmat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">dt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">18</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">211</span><span class="p">:</span>
+            <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;9f6x&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">)</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AngRt</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Accel</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Mag</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">],)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Unrecognized IMU identifier: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ahrsid</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">10</span>
+
+            <span class="c">## print self.f.read(100)</span>
+            <span class="c">## # Still need to add a reader for ahrsid 210.</span>
+            <span class="c">## raise Exception(&#39;This IMU data format is not currently supported by DOLfYN.&#39;)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts0</span> <span class="o">+</span> <span class="n">byts</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_vec_hdr"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_vec_hdr">[docs]</a>    <span class="k">def</span> <span class="nf">read_vec_hdr</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID: &#39;0x12</span>
+        <span class="c"># ID: &#39;0x12 = 18</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading vector header data (0x12)...&#39;</span><span class="p">)</span>
         <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">38</span><span class="p">)</span>
@@ -625,14 +699,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Noise1&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Noise2&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Noise3&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spare0&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spare0&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">[</span><span class="mi">13</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Corr1&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Corr2&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Corr3&#39;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">data_header</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;Spare1&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">[</span><span class="mi">17</span><span class="p">:])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.read_awac_profile"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.read_awac_profile">[docs]</a>    <span class="k">def</span> <span class="nf">read_awac_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="c"># ID: &#39;0x20&#39;</span>
+        <span class="c"># ID: &#39;0x20&#39; = 32</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading AWAC velocity data (0x20)...&#39;</span><span class="p">)</span>
         <span class="n">nbins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">NBins</span>
@@ -662,8 +737,8 @@
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;h&#39;</span> <span class="o">+</span>
                      <span class="nb">str</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="n">byts</span><span class="p">[</span><span class="mi">116</span><span class="p">:</span><span class="mi">116</span> <span class="o">+</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">idx</span><span class="p">,:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">:</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_amp</span><span class="p">[</span><span class="n">idx</span><span class="p">,:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">:</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_amp</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">:</span>
                                             <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbins</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">byts</span><span class="p">)</span>
 </div>
@@ -702,7 +777,9 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iternum</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">findnextid</span><span class="p">(</span><span class="n">searchcode</span><span class="p">)</span>
         <span class="c"># Compute the average of the data size:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">/</span> <span class="n">iternum</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;p0={}, pos={}, i={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NortekReader.init_ADV"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.init_ADV">[docs]</a>    <span class="k">def</span> <span class="nf">init_ADV</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adv_base</span><span class="o">.</span><span class="n">ADVraw</span><span class="p">()</span>
@@ -731,20 +808,20 @@
         <span class="c"># self.n_samp_guess*=self.config.fs</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NortekReader.filesize"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.filesize">[docs]</a>    <span class="k">def</span> <span class="nf">filesize</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">filesize</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_filesz&#39;</span><span class="p">):</span>
             <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-                        <span class="c"># Seek to the end of the file to determine the</span>
-                        <span class="c"># filesize.</span>
+            <span class="c"># Seek to the end of the file to determine the</span>
+            <span class="c"># filesize.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_filesz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># Return to the initial position.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesz</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NortekReader.pos"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.pos">[docs]</a>    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
-</div>
+
 <div class="viewcode-block" id="NortekReader.rd_time"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.rd_time">[docs]</a>    <span class="k">def</span> <span class="nf">rd_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strng</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read the time from the first 6bytes of the input string.</span>
@@ -777,11 +854,7 @@
             <span class="n">func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
             <span class="n">func2</span> <span class="o">=</span> <span class="n">_bitshift8</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="k">break</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">165</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">do_cs</span> <span class="ow">or</span> <span class="n">cs</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">(</span><span class="nb">sum</span><span class="p">)):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="n">func2</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
@@ -791,24 +864,26 @@
 <div class="viewcode-block" id="NortekReader.findnextid"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.findnextid">[docs]</a>    <span class="k">def</span> <span class="nf">findnextid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">id</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">while</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">findnext</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">id</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="n">nowid</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">while</span> <span class="n">nowid</span> <span class="o">!=</span> <span class="nb">id</span><span class="p">:</span>
+            <span class="n">nowid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_id</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">nowid</span> <span class="o">==</span> <span class="mi">16</span><span class="p">:</span>
+                <span class="c"># Vector velocity data doesn&#39;t have a &#39;size&#39; field. !?</span>
+                <span class="c"># sz = 24</span>
+                <span class="c"># We already read(2) for id, so we shift by sz-2</span>
+                <span class="n">shift</span> <span class="o">=</span> <span class="mi">22</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sz</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endian</span> <span class="o">+</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c"># We already read(2) for id, and read(2) for size, so we shift by sz-4</span>
+                <span class="n">shift</span> <span class="o">=</span> <span class="n">sz</span> <span class="o">-</span> <span class="mi">4</span>
+            <span class="c">#print &#39;nowid = {}, size = {}&#39;.format(nowid, sz)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">shift</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
 </div>
 <div class="viewcode-block" id="NortekReader.readnext"><a class="viewcode-back" href="../../../api/dolfyn.io.html#dolfyn.io.nortek.NortekReader.readnext">[docs]</a>    <span class="k">def</span> <span class="nf">readnext</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">id</span> <span class="o">=</span> <span class="s">&#39;0x</span><span class="si">%02x</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_id</span><span class="p">()</span>
-        <span class="k">except</span> <span class="n">str_err</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="s">&#39;0x</span><span class="si">%02x</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_id</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="c"># This can cause some funny behavior if self.f.read throws an</span>
-            <span class="c"># &quot;error&quot;. It is an attempt at finding the eof, but there may be a</span>
-            <span class="c"># better way.</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_map</span><span class="p">[</span><span class="nb">id</span><span class="p">])()</span>
-                <span class="k">return</span>
-            <span class="k">except</span> <span class="n">str_err</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">2</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_map</span><span class="p">[</span><span class="nb">id</span><span class="p">])()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Unrecognized identifier: &#39;</span> <span class="o">+</span> <span class="nb">id</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -819,15 +894,18 @@
         <span class="c"># self.progbar=db.progress_bar(self.filesz)</span>
         <span class="c"># self.progbar.init()</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">while</span> <span class="ow">not</span> <span class="n">retval</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">==</span> <span class="n">nlines</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="n">retval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readnext</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">retval</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">findnext</span><span class="p">()</span>
-                <span class="n">retval</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span><span class="p">:</span>
-                <span class="k">break</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">retval</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">==</span> <span class="n">nlines</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">retval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readnext</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">retval</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">findnext</span><span class="p">()</span>
+                    <span class="n">retval</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="k">if</span> <span class="n">retval</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">dat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
@@ -866,9 +944,17 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -885,25 +971,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.io package &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.io package &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,41 +23,23 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../index.html" />
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../index.html" />
     <link rel="up" title="dolfyn package" href="dolfyn.html" />
     <link rel="next" title="dolfyn.tools package" href="dolfyn.tools.html" />
-    <link rel="prev" title="dolfyn.data package" href="dolfyn.data.html" /> 
+    <link rel="prev" title="dolfyn.data package" href="dolfyn.data.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.tools.html" title="dolfyn.tools package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.data.html" title="dolfyn.data package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="dolfyn-io-package">
 <h1>dolfyn.io package<a class="headerlink" href="#dolfyn-io-package" title="Permalink to this headline">¶</a></h1>
@@ -69,25 +51,25 @@
 <p>The base module for the io package.</p>
 <dl class="class">
 <dt id="dolfyn.io.base.DataFactory">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.base.</tt><tt class="descname">DataFactory</tt><a class="reference internal" href="../_modules/dolfyn/io/base.html#DataFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.DataFactory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>An abstract base class for writing <tt class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></tt> objects.</p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.base.</code><code class="descname">DataFactory</code><a class="reference internal" href="../_modules/dolfyn/io/base.html#DataFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.DataFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An abstract base class for writing <code class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></code> objects.</p>
 <dl class="attribute">
 <dt id="dolfyn.io.base.DataFactory.closefile">
-<tt class="descname">closefile</tt><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.base.DataFactory.closefile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">closefile</code><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.base.DataFactory.closefile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.base.DataFactory.filename">
-<tt class="descname">filename</tt><a class="reference internal" href="../_modules/dolfyn/io/base.html#DataFactory.filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.DataFactory.filename" title="Permalink to this definition">¶</a></dt>
+<code class="descname">filename</code><a class="headerlink" href="#dolfyn.io.base.DataFactory.filename" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="dolfyn.io.base.VarAtts">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.base.</tt><tt class="descname">VarAtts</tt><big>(</big><em>dims=</em>, <span class="optional">[</span><span class="optional">]</span><em>dtype=None</em>, <em>group='main'</em>, <em>view_type=None</em>, <em>default_val=None</em>, <em>offset=0</em>, <em>factor=1</em>, <em>title_name=None</em>, <em>units=None</em>, <em>dim_names=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.base.</code><code class="descname">VarAtts</code><span class="sig-paren">(</span><em>dims=[]</em>, <em>dtype=None</em>, <em>group='main'</em>, <em>view_type=None</em>, <em>default_val=None</em>, <em>offset=0</em>, <em>factor=1</em>, <em>title_name=None</em>, <em>units=None</em>, <em>dim_names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A data variable attributes class.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -131,7 +113,7 @@ scientific units.</p>
 <blockquote>
 <div><p>The name of the variable**.</p>
 </div></blockquote>
-<p><strong>units</strong> : (<tt class="xref py py-class docutils literal"><span class="pre">&lt;ma.unitsDict&gt;</span></tt>, optional)</p>
+<p><strong>units</strong> : (<code class="xref py py-class docutils literal"><span class="pre">&lt;ma.unitsDict&gt;</span></code>, optional)</p>
 <blockquote>
 <div><p>The units of this variable**.</p>
 </div></blockquote>
@@ -148,13 +130,13 @@ scientific units.</p>
 used by DOLfYN (meta-arrays are currently sidelined).</p>
 <dl class="method">
 <dt id="dolfyn.io.base.VarAtts.sci_func">
-<tt class="descname">sci_func</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts.sci_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts.sci_func" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sci_func</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts.sci_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts.sci_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scale the data to scientific units.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : <tt class="xref py py-class docutils literal"><span class="pre">&lt;numpy.ndarray&gt;</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : <code class="xref py py-class docutils literal"><span class="pre">&lt;numpy.ndarray&gt;</span></code></p>
 <blockquote>
 <div><p>The data to scale.</p>
 </div></blockquote>
@@ -173,7 +155,7 @@ otherwise it returns the new data object.</p>
 
 <dl class="method">
 <dt id="dolfyn.io.base.VarAtts.shape">
-<tt class="descname">shape</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts.shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shape</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/base.html#VarAtts.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.base.VarAtts.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -187,12 +169,12 @@ arrays to disk.</p>
 this approach.</p>
 <dl class="class">
 <dt id="dolfyn.io.hdf5.Loader">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.hdf5.</tt><tt class="descname">Loader</tt><big>(</big><em>filename</em>, <em>type_map</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.hdf5.</code><code class="descname">Loader</code><span class="sig-paren">(</span><em>filename</em>, <em>type_map</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><code class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></code></a></p>
 <p>A save data_factory object.  This class saves data in DOLFYN
 classes into DOLFYN format hdf5 files.</p>
 <p>This function should not be used explicitly, instead use the
-<tt class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save()</span></tt> method of the data object.</p>
+<code class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save()</span></code> method of the data object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -212,7 +194,7 @@ the data should be loaded into.</p>
 </table>
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.get_group">
-<tt class="descname">get_group</tt><big>(</big><em>where=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.get_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.get_group" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_group</code><span class="sig-paren">(</span><em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.get_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.get_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>If <cite>where</cite> is:
 - None: return the current node.
 - string: return the node at that address.
@@ -221,13 +203,13 @@ the data should be loaded into.</p>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.get_name">
-<tt class="descname">get_name</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.get_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_name</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.get_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the <cite>node</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.init_object">
-<tt class="descname">init_object</tt><big>(</big><em>out</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.init_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.init_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_object</code><span class="sig-paren">(</span><em>out</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.init_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.init_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Look at the &#8216;object_type&#8217; attribute in the node at <cite>where</cite>.</p>
 <p>Return an attribute of the data type based on type_map.</p>
 <p>If the type_map does not have a key of the type found in the file,
@@ -236,27 +218,27 @@ the basic type is used.</p>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.iter">
-<tt class="descname">iter</tt><big>(</big><em>groups=None</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iter</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over data nodes in <cite>groups</cite>, with the group name returned.</p>
 <p>See iter_groups for more info on how to specify groups.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.iter_attrs">
-<tt class="descname">iter_attrs</tt><big>(</big><em>groups=None</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_attrs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iter_attrs</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_attrs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over the attributes in <cite>groups</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.iter_data">
-<tt class="descname">iter_data</tt><big>(</big><em>groups=None</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iter_data</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over data nodes in <cite>groups</cite>.</p>
 <p>See iter_groups for more info on how to specify groups.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.iter_groups">
-<tt class="descname">iter_groups</tt><big>(</big><em>groups=None</em>, <em>where='/'</em>, <em>no_essential=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_groups" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iter_groups</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em>, <em>no_essential=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.iter_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.iter_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an iterator of the groups in <cite>groups</cite>.
 Here is how <cite>groups</cite> specification works:</p>
 <table border="1" class="docutils">
@@ -289,41 +271,41 @@ starting with &#8216;_&#8217;***).</td>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.load">
-<tt class="descname">load</tt><big>(</big><em>groups=None</em>, <em>where='/'</em>, <em>out=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em>, <em>out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the data in <cite>groups</cite> into memory.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.mmload">
-<tt class="descname">mmload</tt><big>(</big><em>groups=None</em>, <em>where='/'</em>, <em>out=None</em>, <em>add_closemethod=True</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.mmload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.mmload" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mmload</code><span class="sig-paren">(</span><em>groups=None</em>, <em>where='/'</em>, <em>out=None</em>, <em>add_closemethod=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.mmload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.mmload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the data in <cite>groups</cite> as memory-mapped arrays.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><tt class="xref py py-obj docutils literal"><span class="pre">h5py</span></tt></p>
+<p class="last"><code class="xref py py-obj docutils literal"><span class="pre">h5py</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.read_attrs">
-<tt class="descname">read_attrs</tt><big>(</big><em>out</em>, <em>groups=None</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_attrs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_attrs</code><span class="sig-paren">(</span><em>out</em>, <em>groups=None</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_attrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_attrs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the attributes in <cite>groups</cite> and add them to <cite>out</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.read_dict">
-<tt class="descname">read_dict</tt><big>(</big><em>where</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_dict</code><span class="sig-paren">(</span><em>where</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a dictionary object at <cite>where</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.read_props">
-<tt class="descname">read_props</tt><big>(</big><em>out</em>, <em>where</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_props"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_props" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the <cite>props</cite> attribute (<a class="reference internal" href="dolfyn.data.html#dolfyn.data.base.Dprops" title="dolfyn.data.base.Dprops"><tt class="xref py py-class docutils literal"><span class="pre">Dprops</span></tt></a>) class.</p>
+<code class="descname">read_props</code><span class="sig-paren">(</span><em>out</em>, <em>where</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_props"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_props" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the <cite>props</cite> attribute (<a class="reference internal" href="dolfyn.data.html#dolfyn.data.base.Dprops" title="dolfyn.data.base.Dprops"><code class="xref py py-class docutils literal"><span class="pre">Dprops</span></code></a>) class.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Loader.read_type">
-<tt class="descname">read_type</tt><big>(</big><em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_type</code><span class="sig-paren">(</span><em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Loader.read_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Loader.read_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the type of object at <cite>where</cite>.</p>
 </dd></dl>
 
@@ -331,12 +313,12 @@ starting with &#8216;_&#8217;***).</td>
 
 <dl class="class">
 <dt id="dolfyn.io.hdf5.Saver">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.hdf5.</tt><tt class="descname">Saver</tt><big>(</big><em>filename</em>, <em>mode='w'</em>, <em>where='/'</em>, <em>max_file_size_mb=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.hdf5.</code><code class="descname">Saver</code><span class="sig-paren">(</span><em>filename</em>, <em>mode='w'</em>, <em>where='/'</em>, <em>max_file_size_mb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><code class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></code></a></p>
 <p>A save data_factory object.  This class saves data in DOLFYN
 classes into DOLFYN format hdf5 files.</p>
 <p>This function should not be used explicitly, instead use the
-<tt class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save()</span></tt> method of the data object.</p>
+<code class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save()</span></code> method of the data object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -357,31 +339,31 @@ classes into DOLFYN format hdf5 files.</p>
 <blockquote>
 <div><p>option does not currently work.</p>
 </div></blockquote>
-<p><strong>See also:</strong> :</p>
-<p><strong>- file</strong> :</p>
-<p class="last"><strong>- h5py</strong> :</p>
+<p><strong>See also:</strong></p>
+<p><strong>- file</strong></p>
+<p class="last"><strong>- h5py</strong></p>
 </td>
 </tr>
 </tbody>
 </table>
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.complevel">
-<tt class="descname">complevel</tt><em class="property"> = 1</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.complevel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">complevel</code><em class="property"> = 2</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.complevel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.complib">
-<tt class="descname">complib</tt><em class="property"> = 'lzf'</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.complib" title="Permalink to this definition">¶</a></dt>
+<code class="descname">complib</code><em class="property"> = 'gzip'</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.complib" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.fletcher32">
-<tt class="descname">fletcher32</tt><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.fletcher32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fletcher32</code><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.fletcher32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Saver.get_group">
-<tt class="descname">get_group</tt><big>(</big><em>where=None</em>, <em>nosplit=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.get_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.get_group" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_group</code><span class="sig-paren">(</span><em>where=None</em>, <em>nosplit=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.get_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.get_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>An internal function for returning the current, or a specified
 node in the hdf5 file.</p>
 <p>Return the h5py node at location <cite>where</cite>, <cite>where</cite> can be:
@@ -392,22 +374,22 @@ node in the hdf5 file.</p>
 
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.shuffle">
-<tt class="descname">shuffle</tt><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.shuffle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shuffle</code><em class="property"> = True</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.shuffle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.split_groups_into_files">
-<tt class="descname">split_groups_into_files</tt><em class="property"> = False</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.split_groups_into_files" title="Permalink to this definition">¶</a></dt>
+<code class="descname">split_groups_into_files</code><em class="property"> = False</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.split_groups_into_files" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.hdf5.Saver.ver">
-<tt class="descname">ver</tt><em class="property"> = 1.2</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.ver" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ver</code><em class="property"> = 1.3</em><a class="headerlink" href="#dolfyn.io.hdf5.Saver.ver" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Saver.write">
-<tt class="descname">write</tt><big>(</big><em>obj</em>, <em>where='/'</em>, <em>nosplit_file=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write</code><span class="sig-paren">(</span><em>obj</em>, <em>where='/'</em>, <em>nosplit_file=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write data in object <cite>obj</cite> to the file at location <cite>where</cite>.
 <cite>obj</cite> should be a DOLfYN type object; a subclass of the
 Dgroups class.</p>
@@ -415,16 +397,16 @@ Dgroups class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj    - data_boject</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj    - data_boject</strong></p>
 <blockquote>
 <div><p>The object to write to the file.</p>
 </div></blockquote>
-<p><strong>where  - string</strong> :</p>
+<p><strong>where  - string</strong></p>
 <blockquote>
 <div><p>The location in the file to write the data in the object
 (default: &#8216;/&#8217;)</p>
 </div></blockquote>
-<p><strong>nosplit_file  - bool</strong> :</p>
+<p><strong>nosplit_file  - bool</strong></p>
 <blockquote class="last">
 <div><p>Currently non-functional, for writing data to multiple files.</p>
 </div></blockquote>
@@ -436,7 +418,7 @@ Dgroups class.</p>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Saver.write_dict">
-<tt class="descname">write_dict</tt><big>(</big><em>name</em>, <em>dct</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write_dict</code><span class="sig-paren">(</span><em>name</em>, <em>dct</em>, <em>where='/'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a method for writing simple dictionaries.</p>
 <p>It writes the dictionary as attributes in a group.  The keys
 are written as attribute names (only string keys are allowed).
@@ -466,7 +448,7 @@ created at this location).</p>
 
 <dl class="method">
 <dt id="dolfyn.io.hdf5.Saver.write_type">
-<tt class="descname">write_type</tt><big>(</big><em>obj</em>, <em>where=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write_type</code><span class="sig-paren">(</span><em>obj</em>, <em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/hdf5.html#Saver.write_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.hdf5.Saver.write_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the type of the object being saved to the hdf5 file.
 This allows for automatic loading of a file into a specific
 DOLfYN class.</p>
@@ -492,12 +474,12 @@ DOLfYN instance to the file so that it can be loaded later.</p>
 package.</p>
 <dl class="class">
 <dt id="dolfyn.io.main.Saveable">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.main.</tt><tt class="descname">Saveable</tt><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.base.Dgroups" title="dolfyn.data.base.Dgroups"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.Dgroups</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.main.</code><code class="descname">Saveable</code><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dolfyn.data.html#dolfyn.data.base.Dgroups" title="dolfyn.data.base.Dgroups"><code class="xref py py-class docutils literal"><span class="pre">dolfyn.data.base.Dgroups</span></code></a></p>
 <p>An abstract base class for writing objects that are &#8216;Saveable&#8217;.</p>
 <dl class="method">
 <dt id="dolfyn.io.main.Saveable.load">
-<tt class="descname">load</tt><big>(</big><em>groups</em>, <em>where='/'</em>, <em>filename=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>groups</em>, <em>where='/'</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add data from <em>groups</em> in the file <em>filename</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -524,7 +506,7 @@ the file this object was loaded from).</p>
 
 <dl class="method">
 <dt id="dolfyn.io.main.Saveable.save">
-<tt class="descname">save</tt><big>(</big><em>filename</em>, <em>mode='w'</em>, <em>where='/'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename</em>, <em>mode='w'</em>, <em>where='/'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the data in this object to file <cite>filename</cite> in the DOLfYN
 HDF5 format.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -545,7 +527,7 @@ existing file).  See File.open for more info.</p>
 <div><p>The location in the hdf5 file to store the data.  (defaults
 to the root of the file, i.e. &#8216;/&#8217;.)</p>
 </div></blockquote>
-<p><strong>See Also:</strong> :</p>
+<p><strong>See Also:</strong></p>
 <blockquote class="last">
 <div><p>the &#8216;File&#8217; module
 the &#8216;h5py&#8217; module</p>
@@ -558,11 +540,11 @@ the &#8216;h5py&#8217; module</p>
 
 <dl class="method">
 <dt id="dolfyn.io.main.Saveable.save_mat">
-<tt class="descname">save_mat</tt><big>(</big><em>filename</em>, <em>groups=None</em>, <em>appendmat=True</em>, <em>format='5'</em>, <em>do_compression=True</em>, <em>oned_as='row'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.save_mat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.save_mat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_mat</code><span class="sig-paren">(</span><em>filename</em>, <em>groups=None</em>, <em>appendmat=True</em>, <em>format='5'</em>, <em>do_compression=True</em>, <em>oned_as='row'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#Saveable.save_mat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.Saveable.save_mat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save data in the object to a matlab file.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><tt class="xref py py-obj docutils literal"><span class="pre">scipy.io.save_mat</span></tt></p>
+<p class="last"><code class="xref py py-obj docutils literal"><span class="pre">scipy.io.save_mat</span></code></p>
 </div>
 </dd></dl>
 
@@ -570,8 +552,8 @@ the &#8216;h5py&#8217; module</p>
 
 <dl class="function">
 <dt id="dolfyn.io.main.get_typemap">
-<tt class="descclassname">dolfyn.io.main.</tt><tt class="descname">get_typemap</tt><big>(</big><em>space</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#get_typemap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.get_typemap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the classes in the namespace that have <a class="reference internal" href="#dolfyn.io.main.Saveable" title="dolfyn.io.main.Saveable"><tt class="xref py py-class docutils literal"><span class="pre">Saveable</span></tt></a> in
+<code class="descclassname">dolfyn.io.main.</code><code class="descname">get_typemap</code><span class="sig-paren">(</span><em>space</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#get_typemap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.get_typemap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the classes in the namespace that have <a class="reference internal" href="#dolfyn.io.main.Saveable" title="dolfyn.io.main.Saveable"><code class="xref py py-class docutils literal"><span class="pre">Saveable</span></code></a> in
 their class heirarchy.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -599,7 +581,7 @@ namespace are types that can be saved.</p>
 
 <dl class="function">
 <dt id="dolfyn.io.main.load">
-<tt class="descclassname">dolfyn.io.main.</tt><tt class="descname">load</tt><big>(</big><em>fname</em>, <em>type_map</em>, <em>data_groups=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.load" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.io.main.</code><code class="descname">load</code><span class="sig-paren">(</span><em>fname</em>, <em>type_map</em>, <em>data_groups=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load data from <cite>fname</cite> into class <cite>type_map</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -618,7 +600,7 @@ namespace are types that can be saved.</p>
 
 <dl class="function">
 <dt id="dolfyn.io.main.mmload">
-<tt class="descclassname">dolfyn.io.main.</tt><tt class="descname">mmload</tt><big>(</big><em>fname</em>, <em>type_map</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#mmload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.mmload" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.io.main.</code><code class="descname">mmload</code><span class="sig-paren">(</span><em>fname</em>, <em>type_map</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#mmload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.mmload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load data from <cite>fname</cite> into class <cite>type_map</cite> as memory mapped
 arrays.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -646,7 +628,7 @@ memory-mapped arrays.</p>
 
 <dl class="function">
 <dt id="dolfyn.io.main.probeFile">
-<tt class="descclassname">dolfyn.io.main.</tt><tt class="descname">probeFile</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/main.html#probeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.probeFile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.io.main.</code><code class="descname">probeFile</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/main.html#probeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.main.probeFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Probe a file to determine what data it contains.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -677,32 +659,32 @@ memory-mapped arrays.</p>
 <span id="dolfyn-io-mat-module"></span><h2>dolfyn.io.mat module<a class="headerlink" href="#module-dolfyn.io.mat" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dolfyn.io.mat.Saver">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.mat.</tt><tt class="descname">Saver</tt><big>(</big><em>filename</em>, <em>mode='w'</em>, <em>format='5'</em>, <em>do_compression=True</em>, <em>oned_as='row'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><tt class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></tt></a></p>
-<p>The &#8216;matlab&#8217; saver data factory writes <tt class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></tt>
+<em class="property">class </em><code class="descclassname">dolfyn.io.mat.</code><code class="descname">Saver</code><span class="sig-paren">(</span><em>filename</em>, <em>mode='w'</em>, <em>format='5'</em>, <em>do_compression=True</em>, <em>oned_as='row'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dolfyn.io.base.DataFactory" title="dolfyn.io.base.DataFactory"><code class="xref py py-class docutils literal"><span class="pre">dolfyn.io.base.DataFactory</span></code></a></p>
+<p>The &#8216;matlab&#8217; saver data factory writes <code class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></code>
 objects to disk. In general, this should not be used in user
 space. Instead, use a data object&#8217;s
-<tt class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save_mat()</span></tt> method.</p>
+<code class="xref py py-meth docutils literal"><span class="pre">main.Saveable.save_mat()</span></code> method.</p>
 <p>This utilizes scipy&#8217;s save_mat routine; see it for options.</p>
 <dl class="method">
 <dt id="dolfyn.io.mat.Saver.close">
-<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver.close" title="Permalink to this definition">¶</a></dt>
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver.close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.mat.Saver.ver">
-<tt class="descname">ver</tt><em class="property"> = 1.1</em><a class="headerlink" href="#dolfyn.io.mat.Saver.ver" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ver</code><em class="property"> = 1.1</em><a class="headerlink" href="#dolfyn.io.mat.Saver.ver" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.mat.Saver.write">
-<tt class="descname">write</tt><big>(</big><em>obj</em>, <em>groups=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver.write" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write</code><span class="sig-paren">(</span><em>obj</em>, <em>groups=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/mat.html#Saver.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.mat.Saver.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write data in <cite>obj</cite> to disk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : <tt class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : <code class="xref py py-class docutils literal"><span class="pre">main.Saveable</span></code></p>
 <blockquote>
 <div><p>The data object to save</p>
 </div></blockquote>
@@ -726,8 +708,8 @@ space. Instead, use a data object&#8217;s
 files.</p>
 <dl class="class">
 <dt id="dolfyn.io.nortek.NortekReader">
-<em class="property">class </em><tt class="descclassname">dolfyn.io.nortek.</tt><tt class="descname">NortekReader</tt><big>(</big><em>fname</em>, <em>endian=None</em>, <em>debug=False</em>, <em>do_checksum=True</em>, <em>bufsize=100000</em>, <em>npings=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">dolfyn.io.nortek.</code><code class="descname">NortekReader</code><span class="sig-paren">(</span><em>fname</em>, <em>endian=None</em>, <em>debug=False</em>, <em>do_checksum=True</em>, <em>bufsize=100000</em>, <em>npings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A class for reading reading nortek binary files.</p>
 <p>This reader currently only supports AWAC and Vector data formats.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -760,20 +742,20 @@ this.</p>
 <blockquote>
 <div><p>The number of pings to read from the file. By default,</p>
 </div></blockquote>
-<p class="last"><strong>the entire file is read.</strong> :</p>
+<p class="last"><strong>the entire file is read.</strong></p>
 </td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.checksum">
-<tt class="descname">checksum</tt><big>(</big><em>byts</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.checksum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.checksum" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checksum</code><span class="sig-paren">(</span><em>byts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.checksum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.checksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a checksum on <cite>byts</cite> and read the checksum value.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.code_spacing">
-<tt class="descname">code_spacing</tt><big>(</big><em>searchcode</em>, <em>iternum=50</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.code_spacing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.code_spacing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">code_spacing</code><span class="sig-paren">(</span><em>searchcode</em>, <em>iternum=50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.code_spacing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.code_spacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the spacing, in bytes, between a specific hardware code.
 Repeat this * iternum * times(default 50).
 Returns the average spacing, in bytes, between the code.</p>
@@ -781,143 +763,158 @@ Returns the average spacing, in bytes, between the code.</p>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.dat2sci">
-<tt class="descname">dat2sci</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.dat2sci"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.dat2sci" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dat2sci</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.dat2sci"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.dat2sci" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.nortek.NortekReader.filesize">
-<tt class="descname">filesize</tt><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.filesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.filesize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">filesize</code><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.filesize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.findnext">
-<tt class="descname">findnext</tt><big>(</big><em>do_cs=True</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.findnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.findnext" title="Permalink to this definition">¶</a></dt>
+<code class="descname">findnext</code><span class="sig-paren">(</span><em>do_cs=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.findnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.findnext" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the next data block by checking the checksum,
 and the sync byte(0xa5).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.findnextid">
-<tt class="descname">findnextid</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.findnextid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.findnextid" title="Permalink to this definition">¶</a></dt>
+<code class="descname">findnextid</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.findnextid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.findnextid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dolfyn.io.nortek.NortekReader.flag_lastread_sysdata">
+<code class="descname">flag_lastread_sysdata</code><em class="property"> = None</em><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.flag_lastread_sysdata" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.nortek.NortekReader.fun_map">
-<tt class="descname">fun_map</tt><em class="property"> = {'0x71': 'read_microstrain', '0x04': 'read_head_cfg', '0x05': 'read_hw_cfg', '0x20': 'read_awac_profile', '0x07': 'read_vec_checkdata', '0x00': 'read_user_cfg', '0x12': 'read_vec_hdr', '0x11': 'read_vec_sysdata', '0x10': 'read_vec_data'}</em><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.fun_map" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fun_map</code><em class="property"> = {'0x71': 'read_microstrain', '0x04': 'read_head_cfg', '0x05': 'read_hw_cfg', '0x20': 'read_awac_profile', '0x07': 'read_vec_checkdata', '0x00': 'read_user_cfg', '0x12': 'read_vec_hdr', '0x11': 'read_vec_sysdata', '0x10': 'read_vec_data'}</em><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.fun_map" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.init_ADV">
-<tt class="descname">init_ADV</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.init_ADV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.init_ADV" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_ADV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.init_ADV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.init_ADV" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.init_AWAC">
-<tt class="descname">init_AWAC</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.init_AWAC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.init_AWAC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_AWAC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.init_AWAC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.init_AWAC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.io.nortek.NortekReader.pos">
-<tt class="descname">pos</tt><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.pos" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pos</code><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.pos" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.rd_time">
-<tt class="descname">rd_time</tt><big>(</big><em>strng</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.rd_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.rd_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">rd_time</code><span class="sig-paren">(</span><em>strng</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.rd_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.rd_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the time from the first 6bytes of the input string.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="dolfyn.io.nortek.NortekReader.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>nbyte</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_awac_profile">
-<tt class="descname">read_awac_profile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_awac_profile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_awac_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_awac_profile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_head_cfg">
-<tt class="descname">read_head_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_head_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_head_cfg" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_head_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_head_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_head_cfg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_hw_cfg">
-<tt class="descname">read_hw_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_hw_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_hw_cfg" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_hw_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_hw_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_hw_cfg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_id">
-<tt class="descname">read_id</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the next &#8216;ID&#8217; from the file.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_microstrain">
-<tt class="descname">read_microstrain</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_microstrain" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_microstrain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_microstrain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read microstrain sensor data.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_user_cfg">
-<tt class="descname">read_user_cfg</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_user_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_user_cfg" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_user_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_user_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_user_cfg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_vec_checkdata">
-<tt class="descname">read_vec_checkdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_checkdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_checkdata" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_vec_checkdata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_checkdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_checkdata" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_vec_data">
-<tt class="descname">read_vec_data</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_vec_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read vector data.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_vec_hdr">
-<tt class="descname">read_vec_hdr</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_hdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_hdr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_vec_hdr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_hdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_hdr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.read_vec_sysdata">
-<tt class="descname">read_vec_sysdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_sysdata" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_vec_sysdata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.read_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.read_vec_sysdata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read vector system data.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.readfile">
-<tt class="descname">readfile</tt><big>(</big><em>nlines=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.readfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.readfile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readfile</code><span class="sig-paren">(</span><em>nlines=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.readfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.readfile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.readnext">
-<tt class="descname">readnext</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.readnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.readnext" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readnext</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.readnext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.readnext" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.sci_awac_profile">
-<tt class="descname">sci_awac_profile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_awac_profile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sci_awac_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_awac_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_awac_profile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.sci_microstrain">
-<tt class="descname">sci_microstrain</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_microstrain" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sci_microstrain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_microstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_microstrain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate orientation data into ADV coordinate system.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.sci_vec_data">
-<tt class="descname">sci_vec_data</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_vec_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sci_vec_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_vec_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_vec_data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="dolfyn.io.nortek.NortekReader.sci_vec_sysdata">
-<tt class="descname">sci_vec_sysdata</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_vec_sysdata" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sci_vec_sysdata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#NortekReader.sci_vec_sysdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.NortekReader.sci_vec_sysdata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn the data in the vec_sysdata structure into scientific units.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
+<dt id="dolfyn.io.nortek.int2binarray">
+<code class="descclassname">dolfyn.io.nortek.</code><code class="descname">int2binarray</code><span class="sig-paren">(</span><em>val</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#int2binarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.int2binarray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="dolfyn.io.nortek.read_nortek">
-<tt class="descclassname">dolfyn.io.nortek.</tt><tt class="descname">read_nortek</tt><big>(</big><em>filename</em>, <em>do_checksum=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#read_nortek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.read_nortek" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.io.nortek.</code><code class="descname">read_nortek</code><span class="sig-paren">(</span><em>filename</em>, <em>do_checksum=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/io/nortek.html#read_nortek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.io.nortek.read_nortek" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a nortek file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -927,10 +924,10 @@ and the sync byte(0xa5).</p>
 <blockquote>
 <div><p>Filename of Nortek file to read.</p>
 </div></blockquote>
-<p><strong>**kwargs</strong> : keyword arguments to <a class="reference internal" href="#dolfyn.io.nortek.NortekReader" title="dolfyn.io.nortek.NortekReader"><tt class="xref py py-class docutils literal"><span class="pre">NortekReader</span></tt></a></p>
+<p><strong>**kwargs</strong> : keyword arguments to <a class="reference internal" href="#dolfyn.io.nortek.NortekReader" title="dolfyn.io.nortek.NortekReader"><code class="xref py py-class docutils literal"><span class="pre">NortekReader</span></code></a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>adv_data</strong> : <a class="reference internal" href="dolfyn.adv.html#dolfyn.adv.base.ADVraw" title="dolfyn.adv.base.ADVraw"><tt class="xref py py-class docutils literal"><span class="pre">ADVraw</span></tt></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>adv_data</strong> : <a class="reference internal" href="dolfyn.adv.html#dolfyn.adv.base.ADVraw" title="dolfyn.adv.base.ADVraw"><code class="xref py py-class docutils literal"><span class="pre">ADVraw</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -950,7 +947,7 @@ and the sync byte(0xa5).</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -966,19 +963,25 @@ and the sync byte(0xa5).</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dolfyn.data.html"
-                        title="previous chapter">dolfyn.data package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="dolfyn.tools.html"
-                        title="next chapter">dolfyn.tools package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/api/dolfyn.io.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="dolfyn.html">dolfyn package</a><ul>
+      <li>Previous: <a href="dolfyn.data.html" title="previous chapter">dolfyn.data package</a></li>
+      <li>Next: <a href="dolfyn.tools.html" title="next chapter">dolfyn.tools package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dolfyn.io.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -995,31 +998,20 @@ and the sync byte(0xa5).</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.tools.html" title="dolfyn.tools package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.data.html" title="dolfyn.data package"
-             >previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/api/dolfyn.io.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>

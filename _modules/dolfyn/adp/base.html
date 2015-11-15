@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.adp.base &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.adp.base &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,33 +23,21 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for dolfyn.adp.base</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">..data</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">db</span>
@@ -142,36 +130,36 @@
             <span class="c"># return diffz_centered(getattr(self, nm), self.z)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_raw.zd"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.zd">[docs]</a>    <span class="k">def</span> <span class="nf">zd</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">zd</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_style</span> <span class="o">==</span> <span class="s">&#39;first&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_raw.dudz"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.dudz">[docs]</a>    <span class="k">def</span> <span class="nf">dudz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dudz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_raw.dvdz"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.dvdz">[docs]</a>    <span class="k">def</span> <span class="nf">dvdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dvdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="s">&#39;v&#39;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_raw.dwdz"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.dwdz">[docs]</a>    <span class="k">def</span> <span class="nf">dwdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dwdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_raw.S2"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.S2">[docs]</a>    <span class="k">def</span> <span class="nf">S2</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">S2</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dudz</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvdz</span> <span class="o">**</span> <span class="mi">2</span>
-</div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpltime</span><span class="p">[:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">toff</span>
 
     <span class="nd">@time.setter</span>
-<div class="viewcode-block" id="adcp_raw.time"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_raw.time">[docs]</a>    <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="s">&#39;mpltime&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-</div>
+
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indx</span><span class="p">):</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indx</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span>
@@ -203,10 +191,10 @@
     <span class="n">inds</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="adcp_binned.Etke"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.adcp_binned.Etke">[docs]</a>    <span class="k">def</span> <span class="nf">Etke</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">Etke</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upup_</span><span class="p">[:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vpvp_</span><span class="p">[:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wpwp_</span><span class="p">[:]</span>
 
-</div></div>
+</div>
 <div class="viewcode-block" id="binner"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.binner">[docs]</a><span class="k">class</span> <span class="nc">binner</span><span class="p">(</span><span class="n">dbvel</span><span class="o">.</span><span class="n">VelBinnerTke</span><span class="p">):</span>
 
 <div class="viewcode-block" id="binner.__call__"><a class="viewcode-back" href="../../../api/dolfyn.adp.html#dolfyn.adp.base.binner.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indat</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">adcp_binned</span><span class="p">):</span>
@@ -330,9 +318,17 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -349,25 +345,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage - Specific Cases &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>Usage - Specific Cases &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,39 +23,22 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="index.html" />
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="index.html" />
     <link rel="next" title="Plotting Tools" href="plotting-tools.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="prev" title="Usage" href="usage.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plotting-tools.html" title="Plotting Tools"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="usage.html" title="Usage"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <span class="target" id="usage-specific"></span><div class="section" id="usage-specific-cases">
 <h1>Usage - Specific Cases<a class="headerlink" href="#usage-specific-cases" title="Permalink to this headline">¶</a></h1>
@@ -98,9 +81,9 @@ or larger.</li>
 <li>For cable-head ADVs be sure to record the position and orientation
 of the ADV head relative to the ADV body (Figure 1).</li>
 </ol>
-<div class="figure align-center" style="width: 560px">
-<a class="reference internal image-reference" href="_images/adv_coord_sys3_warr.png"><img alt="ADV head and body coordinate systems." src="_images/adv_coord_sys3_warr.png" style="width: 531.0px; height: 466.8px;" /></a>
-<p class="caption">Figure 1) Coordinate systems of the ADV body (magenta) and head
+<div class="figure align-center" id="id5" style="width: 560px">
+<a class="reference internal image-reference" href="_images/adv_coord_sys3_warr.png"><img alt="ADV head and body coordinate systems." src="_images/adv_coord_sys3_warr.png" /></a>
+<p class="caption"><span class="caption-text">Figure 1) Coordinate systems of the ADV body (magenta) and head
 (yellow). The <span class="math">\(\hat{x}^\mathrm{head}\)</span> -direction is known by
 the black-band around the transducer arm, and the
 <span class="math">\(\hat{x}^*\)</span> -direction is marked by a notch on the end-cap
@@ -109,7 +92,7 @@ body-to-head vector, <span class="math">\(\vec{\ell}_{head}^*\)</span> .  The pe
 slightly distorts the fact that <span class="math">\(\hat{x}^\mathrm{head}
 \parallel - \hat{z}^*\)</span> , <span class="math">\(\hat{y}^\mathrm{head} \parallel
 -\hat{y}^*\)</span> , and <span class="math">\(\hat{z}^\mathrm{head} \parallel
--\hat{x}^*\)</span> .</p>
+-\hat{x}^*\)</span> .</span></p>
 </div>
 </div>
 <div class="section" id="data-processing">
@@ -129,7 +112,7 @@ explicitly in Python:</p>
 </pre></div>
 </div>
 <p>Then specify the position and orientation of the ADV head relative
-to the body. These must be specified as entries in the <tt class="docutils literal"><span class="pre">props</span></tt>
+to the body. These must be specified as entries in the <code class="docutils literal"><span class="pre">props</span></code>
 attribute.  For a &#8216;fixed-head&#8217; Nortek Vector ADVs, the rotation
 matrix is the identity matrix and the position is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">dat_raw</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;body2head_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">])</span>  <span class="c"># in meters</span>
@@ -160,10 +143,10 @@ correction of your data object:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">mc</span><span class="p">(</span><span class="n">dat_raw</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Your <tt class="docutils literal"><span class="pre">dat_raw</span></tt> object is now motion corrected and it&#8217;s <tt class="docutils literal"><span class="pre">.u</span></tt>,
-<tt class="docutils literal"><span class="pre">.v</span></tt> and <tt class="docutils literal"><span class="pre">.w</span></tt> attributes are in an East, North and Up (ENU)
+<p>Your <code class="docutils literal"><span class="pre">dat_raw</span></code> object is now motion corrected and it&#8217;s <code class="docutils literal"><span class="pre">.u</span></code>,
+<code class="docutils literal"><span class="pre">.v</span></code> and <code class="docutils literal"><span class="pre">.w</span></code> attributes are in an East, North and Up (ENU)
 coordinate system, respectively.  In fact, all vector quantities
-in <tt class="docutils literal"><span class="pre">dat_raw</span></tt> are now in this ENU coordinate system.</p>
+in <code class="docutils literal"><span class="pre">dat_raw</span></code> are now in this ENU coordinate system.</p>
 </li>
 <li><p class="first">For users who want to perform motion correction with minimal Python
 scripting, the <strong>motcorrect_vector.py</strong> script can be used. So long as
@@ -182,7 +165,7 @@ call, for example<a class="footnote-reference" href="#prfxnote" id="id1">[1]</a>
 <li><p class="first">For cable-head ADVs, you must specify the position and
 orientation of the head in a <em>.orient</em> file (the extension is
 not required).  These files are simply python scripts which
-define <tt class="docutils literal"><span class="pre">ROTMAT</span></tt> and <tt class="docutils literal"><span class="pre">VEC</span></tt> variables, for the head position
+define <code class="docutils literal"><span class="pre">ROTMAT</span></code> and <code class="docutils literal"><span class="pre">VEC</span></code> variables, for the head position
 and orientation in Figure 1 the &#8216;My_Vector.orient&#8217; file could be
 as simple as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">VEC</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.48</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.27</span><span class="p">]</span>  <span class="c"># in meters</span>
@@ -193,17 +176,28 @@ as simple as:</p>
 </pre></div>
 </div>
 <p>Examples of estimating ROTMAT for more complex orientations can
-be found in the <em>.orient</em> files found in the
-&lt;dolfyn_repository&gt;/examples/ directory.</p>
+be found in the <em>.orient</em> files found in the <a class="reference external" href="http://github.com/lkilcher/dolfyn/tree/master/examples/">examples directory</a> of the <a class="reference external" href="http://github.com/lkilcher/dolfyn/">dolfyn repository</a>.</p>
+<p>It is also possible to specify a magnetic declination in the
+<em>.orient</em> file. Magnetic declination (the direction of Magnetic
+North) is specified in degrees clockwise from True North. For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DECLINATION</span> <span class="o">=</span> <span class="mf">16.3</span>
+</pre></div>
+</div>
+<p>By specifying the declination in this way, the data output by
+the motcorrect_vector.py script will be in an ENU coordinate
+system refeferenced to True North, rather than magnetic north
+(when the declination is not specified).  Values for declination
+can be obtained from a number of websites, e.g. <a class="reference external" href="http://www.ngdc.noaa.gov/geomag-web/">http://www.ngdc.noaa.gov/geomag-web/</a>.</p>
 <p>With the orientation file defined, you specify it on the command
-line using the <tt class="docutils literal"><span class="pre">-O</span></tt> flag<a class="footnote-reference" href="#prfxnote" id="id2">[1]</a>:</p>
+line using the <code class="docutils literal"><span class="pre">-O</span></code> flag<a class="footnote-reference" href="#prfxnote" id="id2">[1]</a>:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ python motcorrect_vector.py -O My_Vector.orient vector_data_imu01.vec
 </pre></div>
 </div>
 </li>
 </ol>
 <p>The motcorrect_vector.py script also allows the user to specify the
-<tt class="docutils literal"><span class="pre">accel_filtfreq</span></tt> using the <tt class="docutils literal"><span class="pre">-f</span></tt> flag.  Therefore, to use a
+<code class="docutils literal"><span class="pre">accel_filtfreq</span></code> using the <code class="docutils literal"><span class="pre">-f</span></code> flag.  Therefore, to use a
 filter frequency of 0.1Hz (as opposed to the default 0.033Hz), you
 could do<a class="footnote-reference" href="#prfxnote" id="id3">[1]</a>:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ python motcorrect_vector.py -O My_Vector.orient -f 0.1 vector_data_imu01.vec
@@ -222,7 +216,7 @@ format.  Happy motion-correcting!</p>
 <table class="docutils footnote" frame="void" id="prfxnote" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>)</em> Calling <tt class="docutils literal"><span class="pre">python</span></tt> explicitly in the command line is
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>)</em> Calling <code class="docutils literal"><span class="pre">python</span></code> explicitly in the command line is
 probably only required on Windows platforms.</td></tr>
 </tbody>
 </table>
@@ -234,7 +228,7 @@ probably only required on Windows platforms.</td></tr>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -247,19 +241,23 @@ probably only required on Windows platforms.</td></tr>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="previous chapter">Usage</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="plotting-tools.html"
-                        title="next chapter">Plotting Tools</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/usage-specific.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usage.html" title="previous chapter">Usage</a></li>
+      <li>Next: <a href="plotting-tools.html" title="next chapter">Plotting Tools</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/usage-specific.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -276,30 +274,20 @@ probably only required on Windows platforms.</td></tr>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plotting-tools.html" title="Plotting Tools"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="usage.html" title="Usage"
-             >previous</a> |</li>
-        <li><a href="index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/usage-specific.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dolfyn.tools package &mdash; DOLfYN 0.3.1 documentation</title>
+    <title>dolfyn.tools package &mdash; DOLfYN 0.3.6 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,41 +23,23 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="DOLfYN 0.3.1 documentation" href="../index.html" />
+    <link rel="top" title="DOLfYN 0.3.6 documentation" href="../index.html" />
     <link rel="up" title="dolfyn package" href="dolfyn.html" />
     <link rel="next" title="Glossary" href="../glossary.html" />
-    <link rel="prev" title="dolfyn.io package" href="dolfyn.io.html" /> 
+    <link rel="prev" title="dolfyn.io package" href="dolfyn.io.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../glossary.html" title="Glossary"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.io.html" title="dolfyn.io package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" accesskey="U">dolfyn package</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="dolfyn-tools-package">
 <h1>dolfyn.tools package<a class="headerlink" href="#dolfyn-tools-package" title="Permalink to this headline">¶</a></h1>
@@ -68,15 +50,15 @@
 <span id="dolfyn-tools-misc-module"></span><h2>dolfyn.tools.misc module<a class="headerlink" href="#module-dolfyn.tools.misc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="dolfyn.tools.misc.degN2cartDeg">
-<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">degN2cartDeg</tt><big>(</big><em>angN</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#degN2cartDeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.degN2cartDeg" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.misc.</code><code class="descname">degN2cartDeg</code><span class="sig-paren">(</span><em>angN</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#degN2cartDeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.degN2cartDeg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert degrees True North to &#8216;cartesian Degrees&#8217;
 (counter-clockwise from the East).</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="dolfyn.tools.misc.delta">
-<em class="property">class </em><tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">delta</tt><big>(</big><em>data</em>, <em>delta</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">dolfyn.tools.misc.</code><code class="descname">delta</code><span class="sig-paren">(</span><em>data</em>, <em>delta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>delta objects find indices in an input array of <cite>data</cite> that fall
 within a distance <cite>delta</cite> from a <cite>value</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -97,7 +79,7 @@ within a distance <cite>delta</cite> from a <cite>value</cite></p>
 </table>
 <dl class="method">
 <dt id="dolfyn.tools.misc.delta.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the indices of <cite>data</cite> that fall within <cite>val</cite>- <cite>delta</cite> to
 <cite>val</cite> + <cite>delta</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -116,29 +98,29 @@ within a distance <cite>delta</cite> from a <cite>value</cite></p>
 
 <dl class="method">
 <dt id="dolfyn.tools.misc.delta.abs">
-<tt class="descname">abs</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.abs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.abs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">abs</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.abs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.abs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dolfyn.tools.misc.delta.shape">
-<tt class="descname">shape</tt><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#delta.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.delta.shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shape</code><a class="headerlink" href="#dolfyn.tools.misc.delta.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="dolfyn.tools.misc.fillgaps">
-<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">fillgaps</tt><big>(</big><em>a</em>, <em>maxgap=inf</em>, <em>dim=0</em>, <em>extrapFlg=False</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#fillgaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.fillgaps" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.misc.</code><code class="descname">fillgaps</code><span class="sig-paren">(</span><em>a</em>, <em>maxgap=inf</em>, <em>dim=0</em>, <em>extrapFlg=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#fillgaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.fillgaps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Linearly fill NaN value in an array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The array to be filled.</p>
 </div></blockquote>
-<p><strong>maxgap</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt> (optional: inf)</p>
+<p><strong>maxgap</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (optional: inf)</p>
 <blockquote>
 <div><p>The maximum gap to fill.</p>
 </div></blockquote>
@@ -159,7 +141,7 @@ array.</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.misc.group">
-<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">group</tt><big>(</big><em>bl</em>, <em>min_length=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.group" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.misc.</code><code class="descname">group</code><span class="sig-paren">(</span><em>bl</em>, <em>min_length=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find continuous segments in a boolean array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -192,13 +174,13 @@ return the same two indices for the beginning and end.</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.misc.medfiltnan">
-<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">medfiltnan</tt><big>(</big><em>a</em>, <em>kernel</em>, <em>thresh=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#medfiltnan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.medfiltnan" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.misc.</code><code class="descname">medfiltnan</code><span class="sig-paren">(</span><em>a</em>, <em>kernel</em>, <em>thresh=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#medfiltnan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.medfiltnan" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do a running median filter of the data that fills NaNs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The array to filter.</p>
 </div></blockquote>
@@ -213,7 +195,7 @@ NaN, the value at the center is set to NaN.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote class="last">
 <div><p>The filtered array.</p>
 </div></blockquote>
@@ -225,7 +207,7 @@ NaN, the value at the center is set to NaN.</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.misc.slice1d_along_axis">
-<tt class="descclassname">dolfyn.tools.misc.</tt><tt class="descname">slice1d_along_axis</tt><big>(</big><em>arr_shape</em>, <em>axis=0</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#slice1d_along_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.slice1d_along_axis" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.misc.</code><code class="descname">slice1d_along_axis</code><span class="sig-paren">(</span><em>arr_shape</em>, <em>axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/misc.html#slice1d_along_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.misc.slice1d_along_axis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an iterator object for looping over 1-D slices, along <em>axis</em>, of
 an array of shape arr_shape.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -242,9 +224,9 @@ an array of shape arr_shape.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Iterator object.</strong> :</p>
-<p><strong>The iterator object returns slice objects which slices arrays of</strong> :</p>
-<p class="last"><strong>shape arr_shape into 1-D arrays.</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Iterator object.</p>
+<p>The iterator object returns slice objects which slices arrays of</p>
+<p class="last">shape arr_shape into 1-D arrays.</p>
 </td>
 </tr>
 </tbody>
@@ -252,9 +234,9 @@ an array of shape arr_shape.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><tt class="xref py py-obj docutils literal"><span class="pre">apply_over_axis</span></tt></dt>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">apply_over_axis</span></code></dt>
 <dd>Apply a function to 1-D slices along the given axis.</dd>
-<dt><tt class="xref py py-obj docutils literal"><span class="pre">apply_over_axes</span></tt></dt>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">apply_over_axes</span></code></dt>
 <dd>Apply a function repeatedly over multiple axes.</dd>
 </dl>
 </div>
@@ -271,7 +253,7 @@ an array of shape arr_shape.</p>
 <span id="dolfyn-tools-psd-module"></span><h2>dolfyn.tools.psd module<a class="headerlink" href="#module-dolfyn.tools.psd" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="dolfyn.tools.psd.cohere">
-<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cohere</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>window='hann'</em>, <em>debias=True</em>, <em>noise=(0</em>, <em>0)</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cohere" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.psd.</code><code class="descname">cohere</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>nfft</em>, <em>window='hann'</em>, <em>debias=True</em>, <em>noise=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cohere" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the magnitude-squared coherence of <cite>a</cite> and <cite>b</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -319,7 +301,7 @@ and auto spectral densities of the signal <cite>a</cite> and <cite>b</cite>.</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.psd.cpsd">
-<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cpsd</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.psd.</code><code class="descname">cpsd</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the cross power spectral density (CPSD) of the signals <em>a</em> and <em>b</em>.</p>
 <p>This performs:
 fft(a)*conj(fft(b))</p>
@@ -327,11 +309,11 @@ fft(a)*conj(fft(b))</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The first signal.</p>
 </div></blockquote>
-<p><strong>b</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<p><strong>b</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The second signal.</p>
 </div></blockquote>
@@ -343,7 +325,7 @@ fft(a)*conj(fft(b))</p>
 <blockquote>
 <div><p>The sample rate (e.g. sample/second).</p>
 </div></blockquote>
-<p><strong>window</strong> : {None, 1, &#8216;hann&#8217;, <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt>}</p>
+<p><strong>window</strong> : {None, 1, &#8216;hann&#8217;, <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>}</p>
 <blockquote>
 <div><p>The window to use (default: &#8216;hann&#8217;). Valid entries are:
 - None,1               : uses a &#8216;boxcar&#8217; or ones window.
@@ -356,8 +338,8 @@ fft(a)*conj(fft(b))</p>
 - step : nfft/2 specifies a 50% overlap.
 - step : nfft specifies no overlap.
 - step=2*nfft means that half the data will be skipped.
-By default, <cite>step</cite> is calculated to maximize data use and have
-at least 50% overlap.</p>
+By default, <cite>step</cite> is calculated to maximize data use, have
+at least 50% overlap and minimize the number of ensembles.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -371,7 +353,7 @@ at least 50% overlap.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#dolfyn.tools.psd.psd" title="dolfyn.tools.psd.psd"><tt class="xref py py-func docutils literal"><span class="pre">psd()</span></tt></a>, <a class="reference internal" href="#dolfyn.tools.psd.cohere" title="dolfyn.tools.psd.cohere"><tt class="xref py py-func docutils literal"><span class="pre">cohere()</span></tt></a>, <tt class="xref py py-obj docutils literal"><span class="pre">numpy.fft</span></tt>, <a class="reference internal" href="#dolfyn.tools.psd.cpsd_quasisync" title="dolfyn.tools.psd.cpsd_quasisync"><tt class="xref py py-func docutils literal"><span class="pre">cpsd_quasisync()</span></tt></a></p>
+<p class="last"><a class="reference internal" href="#dolfyn.tools.psd.psd" title="dolfyn.tools.psd.psd"><code class="xref py py-func docutils literal"><span class="pre">psd()</span></code></a>, <a class="reference internal" href="#dolfyn.tools.psd.cohere" title="dolfyn.tools.psd.cohere"><code class="xref py py-func docutils literal"><span class="pre">cohere()</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">numpy.fft</span></code>, <a class="reference internal" href="#dolfyn.tools.psd.cpsd_quasisync" title="dolfyn.tools.psd.cpsd_quasisync"><code class="xref py py-func docutils literal"><span class="pre">cpsd_quasisync()</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>cpsd removes a linear trend from the signals.</p>
@@ -385,17 +367,17 @@ definition of correlation.)</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.psd.cpsd_quasisync">
-<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">cpsd_quasisync</tt><big>(</big><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd_quasisync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd_quasisync" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.psd.</code><code class="descname">cpsd_quasisync</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#cpsd_quasisync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.cpsd_quasisync" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the cross power spectral density (CPSD) of the signals <em>a</em> and <em>b</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The first signal.</p>
 </div></blockquote>
-<p><strong>b</strong> : <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt></p>
+<p><strong>b</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <blockquote>
 <div><p>The second signal.</p>
 </div></blockquote>
@@ -407,7 +389,7 @@ definition of correlation.)</p>
 <blockquote>
 <div><p>The sample rate (e.g. sample/second).</p>
 </div></blockquote>
-<p><strong>window</strong> : {None, 1, &#8216;hann&#8217;, <tt class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></tt>}</p>
+<p><strong>window</strong> : {None, 1, &#8216;hann&#8217;, <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>}</p>
 <blockquote>
 <div><p>The window to use (default: &#8216;hann&#8217;). Valid entries are:
 - None,1               : uses a &#8216;boxcar&#8217; or ones window.
@@ -426,7 +408,7 @@ definition of correlation.)</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#dolfyn.tools.psd.psd" title="dolfyn.tools.psd.psd"><tt class="xref py py-func docutils literal"><span class="pre">psd()</span></tt></a>, <a class="reference internal" href="#dolfyn.tools.psd.cohere" title="dolfyn.tools.psd.cohere"><tt class="xref py py-func docutils literal"><span class="pre">cohere()</span></tt></a>, <a class="reference internal" href="#dolfyn.tools.psd.cpsd" title="dolfyn.tools.psd.cpsd"><tt class="xref py py-func docutils literal"><span class="pre">cpsd()</span></tt></a>, <tt class="xref py py-obj docutils literal"><span class="pre">numpy.fft</span></tt></p>
+<p class="last"><a class="reference internal" href="#dolfyn.tools.psd.psd" title="dolfyn.tools.psd.psd"><code class="xref py py-func docutils literal"><span class="pre">psd()</span></code></a>, <a class="reference internal" href="#dolfyn.tools.psd.cohere" title="dolfyn.tools.psd.cohere"><code class="xref py py-func docutils literal"><span class="pre">cohere()</span></code></a>, <a class="reference internal" href="#dolfyn.tools.psd.cpsd" title="dolfyn.tools.psd.cpsd"><code class="xref py py-func docutils literal"><span class="pre">cpsd()</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">numpy.fft</span></code></p>
 </div>
 <p class="rubric">Notes</p>
 <p><cite>a</cite> and <cite>b</cite> do not need to be &#8216;tightly&#8217; synchronized, and can even
@@ -435,7 +417,7 @@ should be synchronized (to whatever degree you want unbiased
 phases).</p>
 <p>This performs:</p>
 <p>fft(a)*conj(fft(b))</p>
-<p>Note that this is consistent with <tt class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></tt>.</p>
+<p>Note that this is consistent with <code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code>.</p>
 <p>It detrends the data and uses a minimum of 50% overlap for the
 shorter of <cite>a</cite> and <cite>b</cite>. For the longer, the overlap depends on the
 difference in size.  1-(l_short/l_long) data will be underutilized
@@ -447,7 +429,7 @@ series, respectively).</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.psd.psd">
-<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">psd</tt><big>(</big><em>a</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.psd.</code><code class="descname">psd</code><span class="sig-paren">(</span><em>a</em>, <em>nfft</em>, <em>fs</em>, <em>window='hann'</em>, <em>step=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the power spectral density (PSD).</p>
 <p>This function computes the one-dimensional <cite>n</cite>-point PSD.</p>
 <p>The units of the spectra is the product of the units of <cite>a</cite> and
@@ -467,18 +449,20 @@ a length(nfft) array : use this as the window directly.</p>
 </div></blockquote>
 <p><strong>step</strong> : Use this to specify the overlap.  For example:</p>
 <blockquote>
-<div><p>step=nfft/2 specifies a 50% overlap.
-step=nfft specifies no overlap.
-step=2*nfft means that half the data will be skipped.
-By default, <cite>step</cite> is calculated to maximize data use and have
-at least 50% overlap.</p>
+<div><ul class="simple">
+<li>step=nfft/2 specifies a 50% overlap.</li>
+<li>step=nfft specifies no overlap.</li>
+<li>step=2*nfft means that half the data will be skipped.</li>
+</ul>
+<p>By default, <cite>step</cite> is calculated to maximize data use, have
+at least 50% overlap and minimize the number of ensembles.</p>
 </div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pow</strong> : 1d-array</p>
-<p><strong>&#8211;credit: This was copied from JN&#8217;s fast_psd.m routine. &#8211;</strong> :</p>
-<p><strong>See also:</strong> :</p>
-<p class="last"><strong>numpy.fft</strong> :</p>
+<p>&#8211;credit: This was copied from JN&#8217;s fast_psd.m routine. &#8211;</p>
+<p>See also:</p>
+<p class="last">numpy.fft</p>
 </td>
 </tr>
 </tbody>
@@ -487,7 +471,7 @@ at least 50% overlap.</p>
 
 <dl class="function">
 <dt id="dolfyn.tools.psd.psd_freq">
-<tt class="descclassname">dolfyn.tools.psd.</tt><tt class="descname">psd_freq</tt><big>(</big><em>nfft</em>, <em>fs</em><big>)</big><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd_freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd_freq" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dolfyn.tools.psd.</code><code class="descname">psd_freq</code><span class="sig-paren">(</span><em>nfft</em>, <em>fs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools/psd.html#psd_freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.psd.psd_freq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the frequency for vector for a <cite>nfft</cite> and <cite>fs</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -516,6 +500,14 @@ at least 50% overlap.</p>
 </div>
 <div class="section" id="module-dolfyn.tools">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dolfyn.tools" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dolfyn.tools.within">
+<code class="descclassname">dolfyn.tools.</code><code class="descname">within</code><span class="sig-paren">(</span><em>arr</em>, <em>range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dolfyn/tools.html#within"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dolfyn.tools.within" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the values in <cite>arr</cite> that are inside of <cite>range</cite>.</p>
+<p>This is equivalent to range[0] &lt; arr &lt; range[1], but it works on
+arrays.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -523,7 +515,7 @@ at least 50% overlap.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -535,19 +527,25 @@ at least 50% overlap.</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dolfyn.io.html"
-                        title="previous chapter">dolfyn.io package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../glossary.html"
-                        title="next chapter">Glossary</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/api/dolfyn.tools.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="dolfyn.html">dolfyn package</a><ul>
+      <li>Previous: <a href="dolfyn.io.html" title="previous chapter">dolfyn.io package</a></li>
+      <li>Next: <a href="../glossary.html" title="next chapter">Glossary</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dolfyn.tools.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -564,31 +562,20 @@ at least 50% overlap.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="../glossary.html" title="Glossary"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="dolfyn.io.html" title="dolfyn.io package"
-             >previous</a> |</li>
-        <li><a href="../index.html">DOLfYN 0.3.1 documentation</a> &raquo;</li>
-          <li><a href="dolfyn.html" >dolfyn package</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      &copy;2014, Levi Kilcher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/api/dolfyn.tools.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>
