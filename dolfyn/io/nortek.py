@@ -11,6 +11,10 @@ from struct import unpack
 from ..data.base import ma
 from . import nortek_defs
 time = nortek_defs.time
+<<<<<<< HEAD
+=======
+import os.path
+>>>>>>> upstream/master
 import json
 
 
@@ -34,7 +38,7 @@ def int2binarray(val, n):
     return out
 
 
-def read_nortek(filename, do_checksum=False, **kwargs):
+def read_nortek(filename, read_userdata=True, do_checksum=False, **kwargs):
     """
     Read a nortek file.
 
@@ -42,6 +46,8 @@ def read_nortek(filename, do_checksum=False, **kwargs):
     ----------
     filename : string
                Filename of Nortek file to read.
+    read_userdata: True or False (default True)
+                Whether to read the json 'userdata' file.
     **kwargs : keyword arguments to :class:`NortekReader`
 
     Returns
@@ -52,15 +58,29 @@ def read_nortek(filename, do_checksum=False, **kwargs):
     with NortekReader(filename, do_checksum=do_checksum, **kwargs) as rdr:
         rdr.readfile()
     rdr.dat2sci()
+<<<<<<< HEAD
     jsonfile = filename + '.json'
     if file_exists(jsonfile):
+=======
+    jsonfile = filename.replace('.VEC', '.userdata') + '.json'
+
+    if os.path.isfile(jsonfile) and read_userdata:
+>>>>>>> upstream/master
         json_props = _read_vecjson(jsonfile)
         rdr.data.props.update(json_props)
     return rdr.data
 
 
 def _read_vecjson(jsonfname):
+<<<<<<< HEAD
     # read the json file, and return the items as a dictionary
+=======
+    """Reads a json file containing the rotation matrix, the vector and the t_range
+       and return the items as a dictionary"""
+    with open(jsonfname) as data_file:
+        data = json.load(data_file)
+    return data
+>>>>>>> upstream/master
 
 
 def _bcd2char(cBCD):
