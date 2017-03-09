@@ -46,8 +46,10 @@ def read_nortek(filename, read_userdata=True, do_checksum=False, **kwargs):
     ----------
     filename : string
                Filename of Nortek file to read.
-    read_userdata: True or False (default True)
+    read_userdata : True or False (default True)
                 Whether to read the json 'userdata' file.
+    npings : int
+          Number of pings to read from the file
     **kwargs : keyword arguments to :class:`NortekReader`
 
     Returns
@@ -368,7 +370,7 @@ class NortekReader(object):
             print('Reading head configuration (0x04) ping #{} @ {}...'.format(self.c, self.pos))
         self.config.add_data('head', adv_base.ADVconfig('HEAD'))
         byts = self.read(220)
-        tmp = unpack(self.endian + '2x3H12s176s22xH', byts)
+        tmp = unpack(self.endian + '2x3H12s176s22sH', byts)
         self.config.head.add_data('config', tmp[0])
         self.config.head.add_data('freq', tmp[1])
         self.config.head.add_data('type', tmp[2])
@@ -376,7 +378,8 @@ class NortekReader(object):
         self.config.head.add_data('system', tmp[4])
         self.config.head.add_data('TransMatrix', np.array(
             unpack(self.endian + '9h', tmp[4][8:26])).reshape(3, 3) / 4096.)
-        self.config.head.add_data('NBeams', tmp[5])
+        self.config.head.add_data('spare', tmp[5])
+        self.config.head.add_data('NBeams', tmp[6])
         self.checksum(byts)
 
     def read_hw_cfg(self,):
@@ -419,9 +422,9 @@ class NortekReader(object):
         checknow.add_data('Samples', tmp[0])
         n = checknow.Samples
         checknow.add_data('First_samp', tmp[1])
-        # checknow.add_data('Amp1', np.empty(n, dtype=np.uint8) + 8)
-        # checknow.add_data('Amp2', np.empty(n, dtype=np.uint8) + 8)
-        # checknow.add_data('Amp3', np.empty(n, dtype=np.uint8) + 8)
+        # checknow.add_data('Amp1', tbx.nans(n, dtype=np.uint8) + 8)
+        # checknow.add_data('Amp2', tbx.nans(n, dtype=np.uint8) + 8)
+        # checknow.add_data('Amp3', tbx.nans(n, dtype=np.uint8) + 8)
         byts1 = self.read(3 * n)
         tmp = unpack(self.endian + (3 * n * 'B'), byts1)
         for idx, nm in enumerate(['Amp1', 'Amp2', 'Amp3']):
@@ -504,7 +507,7 @@ class NortekReader(object):
         #pdb.set_trace()
         nburst = self.config.user.NBurst
         dat.add_data('orientation_down',
-                     np.empty(len(dat.mpltime), dtype='bool'),
+                     tbx.nans(len(dat.mpltime), dtype='bool'),
                      '_essential')
         if nburst == 0:
             num_bursts = 1
@@ -529,7 +532,7 @@ class NortekReader(object):
                 dat.mpltime[iburst] = (dat.mpltime[iburst][0] +
                                        arng / (fs * 24 * 3600))
 
-            tmpd = np.empty_like(dat.heading[iburst]) + np.NaN
+            tmpd = tbx.nans_like(dat.heading[iburst])
             # The first status bit should be the orientation.
             tmpd[sysi] = dat.status[iburst][sysi] & 1
             tbx.fillgaps(tmpd, extrapFlg=True)
@@ -639,17 +642,17 @@ class NortekReader(object):
                 self._orient_dnames = ['Accel', 'AngRt', 'orientmat']
                 self.data.add_data(
                     'Accel',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.add_data(
                     'AngRt',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.add_data(
                     'orientmat',
-                    np.empty((3, 3, self.n_samp_guess),
+                    tbx.nans((3, 3, self.n_samp_guess),
                              dtype=np.float32),
                     'orient'
                 )
@@ -658,38 +661,38 @@ class NortekReader(object):
                 self._orient_dnames = ['Accel', 'AngRt', 'Mag', 'orientmat']
                 self.data.add_data(
                     'Accel',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.add_data(
                     'AngRt',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient')
                 self.data.add_data(
                     'Mag',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.props['rotate_vars'].update(
                     {'Accel', 'AngRt', 'Mag'})
                 if ahrsid == 204:
-                    self.data.add_data('orientmat', np.empty(
+                    self.data.add_data('orientmat', tbx.nans(
                         (3, 3, self.n_samp_guess), dtype=np.float32), 'orient')
             elif ahrsid == 211:
                 self._orient_dnames = ['AngRt', 'Accel', 'Mag']
                 self.data.add_data(
                     'AngRt',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.add_data(
                     'Accel',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.add_data(
                     'Mag',
-                    np.empty((3, self.n_samp_guess), dtype=np.float32),
+                    tbx.nans((3, self.n_samp_guess), dtype=np.float32),
                     'orient'
                 )
                 self.data.props['rotate_vars'].update(

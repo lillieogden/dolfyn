@@ -2,6 +2,7 @@ import numpy as np
 import copy
 from ..meta import api_dumb as ma
 import numpy.testing as nptest
+from ..tools.misc import nans
 #from ..OrderedSet import OrderedSet as oset
 oset = set
 
@@ -349,7 +350,7 @@ class Dgroups(Dbase):
             if nan_joint:
                 shp = list(dat.shape)
                 shp[dim] = 1
-                dtmp = (dat, np.ones(shp) * np.NaN, odat)
+                dtmp = (dat, nans(shp), odat)
             else:
                 dtmp = (dat, odat)
             setattr(self, nm, cat(dtmp, axis=dim))
@@ -407,7 +408,10 @@ class Dgroups(Dbase):
     def pop_data(self, name,):
         self.groups.remove(name)
         tmp = getattr(self, name)
-        delattr(self, name)
+        try:
+            delattr(self, name)
+        except AttributeError:
+            tmp = self.pop(name)
         return tmp
 
     def __preload__(self,):
